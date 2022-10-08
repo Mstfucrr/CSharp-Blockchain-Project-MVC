@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@{
+    var user = ViewData["User"] as RecycleCoinMvc.Models.User;
+}
+@if (user != null)
+{
+    <div class="jumbotron jumbotron-fluid">
+
+        <h1 class="display-4">Kullanıcı Bilgileri</h1>
+
+
+        <p class="lead">ID : @user.Id</p>
+        <p class="lead">Ad : @user.Name</p>
+        <p class="lead">Eposta : @user.Email</p>
+        <p class="lead">Şifre : @user.Password</p>
+        <p class="lead">
+            Yaş :
+            @{ var yas = user.CreatedDate.Year - 2001;}
+            @yas
+        </p>
+    </div>
+}
+@if (user == null)
+{
+
+    <section class="register-loagin-section bg-light">
+        <div class="form-container" style="background: rgb(241,247,252);border-radius: 70px;box-shadow: 6px 10px 20px 0;">
+            @*<form method="post" style="background: rgb(255, 255, 255);border-top-left-radius: 70px;border-bottom-left-radius: 70px;">
+                    <h2 class="text-center"><strong>Kayıt Ol</strong></h2>
+                    <div class="mb-3">
+                        <input class="form-control" type="text" name="name" placeholder="Ad">
+                    </div>
+                    <div class="mb-3">
+                        <input class="form-control" type="text" name="lastname" placeholder="Soyad">
+                    </div>
+                    <div class="mb-3">
+                        <input class="form-control" type="text" name="username" placeholder="Kullanıcı adı">
+                    </div>
+                    <div class="mb-3">
+                        <input class="form-control" type="email" name="email" placeholder="Eposta">
+                    </div>
+                    <div class="mb-3">
+                        <input class="form-control" type="password" name="password" placeholder="Parola">
+                    </div>
+                    <div class="mb-3">
+                        <input class="form-control" type="password" name="password-repeat" placeholder="Parola (tekrar)"></div>
+                    <div class="d-flex justify-content-center mb-3"><button class="btn btn-primary d-block w-75" data-bss-hover-animate="pulse" type="submit" style="border-radius: 60px;box-shadow: 5px 3px 20px #eb3b60;">KAYIT OL</button></div>
+                </form>
+                <form method="post" style="border-radius: 70px;border-top-left-radius: 0px;border-bottom-left-radius: 0px;">
+                    <h2 class="text-center"><strong>Giriş Yap</strong></h2>
+                    <div class="mb-3"><input class="form-control" type="text" name="username" placeholder="Kullanıcı adı"></div>
+                    <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Parola"></div>
+                    <div class="d-flex justify-content-center mb-3"><button class="btn btn-primary w-75" data-bss-hover-animate="pulse" type="submit" style="border-radius: 60px;box-shadow: 5px 3px 20px #eb3b60;">GİRİŞ YAP</button></div><a class="forgot" href="#">Parolanızı mı unuttunuz ?</a>
+                </form>*@
+            @using (Html.BeginForm("Register", "User", FormMethod.Post, new { style = "background: rgb(255, 255, 255);border-top-left-radius: 70px;border-bottom-left-radius: 70px;" }))
+            {
+                <h2 class="text-center"><strong>Kayıt Ol</strong></h2>
+                <div class="mb-3">
+                    <input class="form-control" type="text" name="name" placeholder="Ad">
+                </div>
+                <div class="mb-3">
+                    <input class="form-control" type="text" name="lastname" placeholder="Soyad">
+                </div>
+                <div class="mb-3">
+                    <input class="form-control" type="text" name="username" placeholder="Kullanıcı adı">
+                </div>
+                <div class="mb-3">
+                    <input class="form-control" type="email" name="email" placeholder="Eposta">
+                </div>
+                <div class="mb-3">
+                    <input class="form-control" type="password" name="password" placeholder="Parola">
+                </div>
+                <div class="mb-3">
+                    <input class="form-control" type="password" name="password-repeat" placeholder="Parola (tekrar)">
+                </div>
+                <div class="d-flex justify-content-center mb-3"><button class="btn btn-primary d-block w-75" data-bss-hover-animate="pulse" type="submit" style="border-radius: 60px;box-shadow: 5px 3px 20px #eb3b60;">KAYIT OL</button></div>
+
+            }
+            @using (Html.BeginForm("Login", "User", FormMethod.Post, new { @style = "border-radius: 70px;border-top-left-radius: 0px;border-bottom-left-radius: 0px;" }))
+            {
+                <h2 class="text-center"><strong>Giriş Yap</strong></h2>
+                <div class="mb-3"><input class="form-control" type="text" name="username" placeholder="Kullanıcı adı"></div>
+                <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Parola"></div>
+                <div class="d-flex justify-content-center mb-3"><button class="btn btn-primary w-75" data-bss-hover-animate="pulse" type="submit" style="border-radius: 60px;box-shadow: 5px 3px 20px #eb3b60;">GİRİŞ YAP</button></div><a class="forgot" href="#">Parolanızı mı unuttunuz ?</a>
+
+            }
+        </div>
+
+    </section>
+}
+
+
+
