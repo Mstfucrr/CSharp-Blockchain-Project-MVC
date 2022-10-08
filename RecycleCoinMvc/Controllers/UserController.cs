@@ -23,13 +23,10 @@ namespace RecycleCoinMvc.Controllers
             var nameValueCollection = Request.Form; //formdan giriş bilgilerini çeker
             var user = new User().Login(nameValueCollection["username"], nameValueCollection["password"]);
             if (user.Id == 0)
-            {
                 Console.WriteLine("Giriş Hatası");
-            }
             else
-            {
                 Session.Add("User", user);
-            }
+
             return RedirectToAction("Index");
 
         }
