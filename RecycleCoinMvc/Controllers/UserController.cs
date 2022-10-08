@@ -20,7 +20,7 @@ namespace RecycleCoinMvc.Controllers
         [HttpPost]
         public ActionResult Login()
         {
-            var nameValueCollection = Request.Form; //formdan giriş bilgilerini çeker.
+            var nameValueCollection = Request.Form; //Login formdan giriş bilgilerini çeker.
             var user = new User().Login(nameValueCollection["username"], nameValueCollection["password"]);
             if (user.Id == 0)
             {
