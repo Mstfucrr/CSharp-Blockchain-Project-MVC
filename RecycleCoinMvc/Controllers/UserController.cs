@@ -17,6 +17,10 @@ namespace RecycleCoinMvc.Controllers
             return View();
         }
 
+        public ActionResult Wallet()
+        {
+            return View();
+        }
 
         public ActionResult Login()
         {
