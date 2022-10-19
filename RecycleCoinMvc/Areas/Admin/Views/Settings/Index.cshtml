@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section style="width: 100%; margin-top: -18px; padding-top: 180px; padding-bottom: 70px;background: linear-gradient(230deg, red, #ff00cb);min-height: 100vh;display: flex;justify-content: center;align-items: center;">
+    <div style="background-color: #fff;width: 1171.8px;height: 628px;box-shadow: 0px 0px 20px 1px;border-radius: 25px;">
+        <div style="text-align: center;margin-top: 23px;">
+            <h2>Ayarlar</h2>
+        </div>
+        <div class="row" style="height: 84%;">
+            <div class="d-flex flex-column align-items-center w-100 col-4">
+                <form class="d-flex flex-column w-75">
+                    <div class="form-group">
+                        <label for="difficulty">Zorluk</label><input class="form-control"
+                                                                     type="number" id="difficulty" min="1" max="8">
+                    </div>
+                    <div class="form-group">
+                        <label for="reward">Kazı Ödülü</label><input class="form-control"
+                                                                     type="text" id="reward">
+                    </div>
+                    <div class="form-group text-center mt-2">
+                        <a id="settingsConfirmBtn" class="btn ConfirmBtn"
+                           href="#" type="submit">Ayarla</a>
+                    </div>
+                </form>
+            </div>
+            <div class="d-flex w-100 col-8 h-100">
+                <!-- Start: 2 Rows 1+3 Columns -->
+                <div class="container">
+                    <div class="row h-100">
+                        <div class="col-4 h-100">
+                            <div class="row h-100" style="overflow: auto;">
+                                <div class="col-12 d-flex align-items-center"
+                                     style="height: 180px;text-align: center;/*background: #2980ef;*/">
+                                    <a href="#">
+                                        <img data-bss-hover-animate="rubberBand" id="papers"
+                                             src="../../../../image/ef2070-kagit-atiklar.jpg"
+                                             style="width: 80%;height: auto;" width="156" height="156">
+                                    </a>
+                                </div>
+                                <div class="col-12 d-flex align-items-center"
+                                     style="height: 180px;text-align: center;">
+                                    <a href="#">
+                                        <img data-bss-hover-animate="rubberBand" id="glasses"
+                                             src="../../../../image/ef2074-cam-atiklar.jpg" style="width: 80%;height: auto;"
+                                             width="131" height="131">
+                                    </a>
+                                </div>
+                                <div class="col-12 d-flex align-items-center"
+                                     style="height: 180px;text-align: center;">
+                                    <a href="#">
+                                        <img data-bss-hover-animate="rubberBand" id="metals"
+                                             src="../../../../image/ef2077-metal-atiklar.jpg"
+                                             style="width: 80%;height: auto;" width="156" height="156">
+                                    </a>
+                                </div>
+                                <div class="col-12 d-flex align-items-center"
+                                     style="height: 180px;text-align: center;/*background: #2980ef;*/">
+                                    <a href="#">
+                                        <img data-bss-hover-animate="rubberBand" id="plastics"
+                                             src="../../../../image/ef2081-plastik-atiklar.jpg"
+                                             style="width: 80%;height: auto;" width="156" height="156">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 h-100">
+                            <div class="row h-100" style="overflow-y: auto;width: 400px;">
+                                <div class="col-6 d-flex flex-column" style="height: 200px;border: 4px solid;">
+                                    <p class="text-center" style="margin-bottom: 0px;">Pet Şişe</p><img class="w-100" src="../../../../image/petsise.jpg" width="146" height="125"
+                                                                                                        style="object-fit: contain;margin-top: 7px;">
+                                    <div class="d-flex justify-content-between position-relative"
+                                         style="bottom: -7px;background: var(--white);height: 25px;width: 100%;">
+                                        <input type="number" class="w-50" min="1" style="font-size: 16px;">
+                                        <p style="font-size: 17px;">(c)</p>
+                                        <div class="btn-group" role="group">
+                                            <button class="btn btn-outline-success"
+                                                    type="button"
+                                                    style="padding-top: 0px;padding-right: 3px;padding-left: 3px;">
+                                                <i class="typcn typcn-tick position-relative"
+                                                   style="color: var(--teal);font-size: 22px;bottom: 6px;"></i>
+                                            </button><button class="btn btn-outline-danger" type="button"
+                                                             style="padding-top: 0px;padding-right: 3px;padding-left: 3px;">
+                                                <i class="icon ion-android-delete position-relative"
+                                                   style="color: var(--teal);padding-left: 3px;padding-right: 3px;font-size: 22px;bottom: 3px;"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- End: 2 Rows 1+3 Columns -->
+            </div>
+        </div>
+    </div>
+</section>
