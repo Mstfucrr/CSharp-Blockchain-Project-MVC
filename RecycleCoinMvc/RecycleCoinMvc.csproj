@@ -143,10 +143,17 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\UserForm.css" />
+    <Content Include="Content\styles.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="image\default.png" />
+    <Content Include="image\ef2070-kagit-atiklar.jpg" />
+    <Content Include="image\ef2074-cam-atiklar.jpg" />
+    <Content Include="image\ef2077-metal-atiklar.jpg" />
+    <Content Include="image\ef2081-plastik-atiklar.jpg" />
+    <Content Include="image\petsise.jpg" />
+    <Content Include="image\transparent.png" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -170,6 +177,29 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="assets\fonts\s\catamaran\v17\o-0IIpQoyXQa2RxT7-5r5TRA.woff2" />
+    <Content Include="assets\fonts\s\catamaran\v17\o-0IIpQoyXQa2RxT7-5r6zRAW_0.woff2" />
+    <Content Include="assets\fonts\s\catamaran\v17\o-0IIpQoyXQa2RxT7-5r8zRAW_0.woff2" />
+    <Content Include="assets\fonts\s\lato\v23\S6u-w4BMUTPHjxsIPx-mPCLQ7A.woff2" />
+    <Content Include="assets\fonts\s\lato\v23\S6u-w4BMUTPHjxsIPx-oPCI.woff2" />
+    <Content Include="assets\fonts\s\lato\v23\S6u8w4BMUTPHh30AUi-qJCY.woff2" />
+    <Content Include="assets\fonts\s\lato\v23\S6u8w4BMUTPHh30AXC-q.woff2" />
+    <Content Include="assets\fonts\s\lato\v23\S6u8w4BMUTPHjxsAUi-qJCY.woff2" />
+    <Content Include="assets\fonts\s\lato\v23\S6u8w4BMUTPHjxsAXC-q.woff2" />
+    <Content Include="assets\fonts\s\lato\v23\S6u9w4BMUTPHh50XSwaPGR_p.woff2" />
+    <Content Include="assets\fonts\s\lato\v23\S6u9w4BMUTPHh50XSwiPGQ.woff2" />
+    <Content Include="assets\fonts\s\lato\v23\S6u9w4BMUTPHh6UVSwaPGR_p.woff2" />
+    <Content Include="assets\fonts\s\lato\v23\S6u9w4BMUTPHh6UVSwiPGQ.woff2" />
+    <Content Include="assets\fonts\s\lato\v23\S6u9w4BMUTPHh7USSwaPGR_p.woff2" />
+    <Content Include="assets\fonts\s\lato\v23\S6u9w4BMUTPHh7USSwiPGQ.woff2" />
+    <Content Include="assets\fonts\s\lato\v23\S6uyw4BMUTPHjx4wXg.woff2" />
+    <Content Include="assets\fonts\s\lato\v23\S6uyw4BMUTPHjxAwXjeu.woff2" />
+    <Content Include="assets\fonts\s\lato\v23\S6u_w4BMUTPHjxsI3wi_FQft1dw.woff2" />
+    <Content Include="assets\fonts\s\lato\v23\S6u_w4BMUTPHjxsI3wi_Gwft.woff2" />
+    <Content Include="assets\fonts\s\lato\v23\S6u_w4BMUTPHjxsI5wq_FQft1dw.woff2" />
+    <Content Include="assets\fonts\s\lato\v23\S6u_w4BMUTPHjxsI5wq_Gwft.woff2" />
+    <Content Include="assets\fonts\s\lato\v23\S6u_w4BMUTPHjxsI9w2_FQft1dw.woff2" />
+    <Content Include="assets\fonts\s\lato\v23\S6u_w4BMUTPHjxsI9w2_Gwft.woff2" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -185,6 +215,7 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\script.min.js" />
     <Content Include="Scripts\src\index.js" />
     <Content Include="Scripts\src\methods\defaults.js" />
     <Content Include="Scripts\src\methods\destroy.js" />
@@ -277,6 +308,8 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\User\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
