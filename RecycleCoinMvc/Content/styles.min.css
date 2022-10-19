@@ -424,23 +424,22 @@
 .ConfirmBtn:hover {
     background-position: right center;
     transform: scale(1.1);
-    color: #fff
 }
 
-#settingsConfirmBtn, .ConfirmBtn {
-    flex: 1 1 auto;
-    margin: 10px;
-    padding: 20px;
-    text-align: center;
-    text-transform: uppercase;
-    transition: .5s;
-    color: #fff;
-    background-size: 200% auto;
-    text-shadow: 0 0 10px rgba(0, 0, 0, .2);
-    box-shadow: 0 0 20px #eee;
-    border-radius: 10px;
-    background-image: linear-gradient(70deg, #ff2c2c 0, #ff8515 51%, #f665f0 100%);
-    width: 10rem
+.ConfirmBtn {
+    flex: 1 1 auto !important;
+    margin: 10px !important;
+    padding: 20px !important;
+    text-align: center !important;
+    text-transform: uppercase !important;
+    transition: .5s !important;
+    color: #fff !important;
+    background-size: 200% auto !important;
+    text-shadow: 0 0 10px rgba(0, 0, 0, .2) !important;
+    box-shadow: 0 0 20px #eee !important;
+    border-radius: 10px !important;
+    background-image: linear-gradient(70deg, #ff2c2c 0, #ff8515 51%, #f665f0 100%) !important;
+    width: 10rem !important
 }
 
 #card:hover {
@@ -477,11 +476,6 @@
         padding-left: 15px;
         padding-right: 15px
     }
-
-#settingsConfirmBtn:hover {
-    background-position: right center;
-    transform: scale(1.1)
-}
 
 #PendingTransactionViewer {
     position: absolute;
