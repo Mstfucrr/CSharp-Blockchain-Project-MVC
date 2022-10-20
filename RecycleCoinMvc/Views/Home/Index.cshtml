@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "Home Page";
     var chain = ViewBag.blockchain["chain"];
+
 }
 
 <header class="text-center text-white masthead" style="padding-top: 252px;margin-top: -18px;padding-bottom: 185px;">
@@ -20,13 +21,16 @@
             <div class="col d-lg-flex align-items-lg-center" id="blocks" style="overflow-x: auto;">
 
                 @* Block 1 *@
-                @for (var i=0;i< chain.Count;i++)
+                @for (var i = 0; i < chain.Count; i++)
                 {
-	                var block = chain[i];
+                    var block = chain[i];
                     <div class="card block" data-aos="zoom-in-down" data-aos-duration="600"
                          style="margin: 25px; min-width: 300px; max-width: 300px;" data-hash="@block["hash"]">
                         <div class="card-header">
-                            <h4>Block @i</h4>
+                            <h4>
+                                Block @{ var d = i + 1;
+                                }@d
+                            </h4>
                         </div>
                         <ul class="list-group list-group-flush list-group-flush">
                             <li class="list-group-item"
@@ -73,14 +77,26 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr style="background-color: #F42951;">
-                                    <td>Cell 1</td>
-                                    <td>Cell 2</td>
-                                    <td>Cell 2</td>
-                                    <td>Cell 2</td>
-                                    <td>Cell 2</td>
-                                    <td>Cell 2</td>
-                                </tr>
+                                @{var blockByHash = ViewBag.blockByHash;}
+                                @if (blockByHash != null)
+                                {
+                                    for (int i = 0; i < blockByHash["transactions"].Count; i++)
+                                    {
+
+	                                    var fromAddress = blockByHash["transactions"][i]["fromAddress"];
+	                                    var toAddress = blockByHash["transactions"][i]["toAddress"];
+	                                    var amount = blockByHash["transactions"][i]["amount"];
+
+                                        <tr style="background-color: #F42951;">
+                                            <td>@i</td>
+                                            <td>@fromAddress</td>
+                                            <td>@toAddress</td>
+                                            <td>@amount</td>
+                                            <td>@blockByHash["timestamp"]</td>
+                                        </tr>
+                                    }
+
+                                }
                             </tbody>
                         </table>
                     </div>

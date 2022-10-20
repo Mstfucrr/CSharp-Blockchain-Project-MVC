@@ -23,11 +23,15 @@ namespace RecycleCoinMvc.Controllers
 
         public ActionResult Index()
         {
-            var deneme = httpClient.GetAsync("api/getBlockchain");
-            deneme.Result.EnsureSuccessStatusCode();
-            var res = deneme.Result.Content.ReadAsStringAsync().Result;
+            var getBlockchain = httpClient.GetAsync("api/getBlockchain");
+            getBlockchain.Result.EnsureSuccessStatusCode();
+            var res = getBlockchain.Result.Content.ReadAsStringAsync().Result;
             var j_res = JsonConvert.DeserializeObject(res);
             ViewBag.blockchain = j_res;
+            if (Session["blockByHash"] != null)
+            {
+                ViewBag.blockByHash = Session["blockByHash"];
+            }
             return View();
         }
 
