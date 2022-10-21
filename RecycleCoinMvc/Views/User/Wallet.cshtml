@@ -2,6 +2,10 @@
 @{
     ViewBag.Title = "Wallet";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var Rc = ViewBag.balance;
+    var address = ViewBag.address;
+    var transactions = ViewBag.transactions;
+
 }
 
 
@@ -12,26 +16,32 @@
         </div>
         <div class="d-flex align-items-start h-50" style="border-color: var(--indigo);width: 85%;">
             <div>
-                <img src="assets/img/default.png" style="width: 135px;">
+                <img src="../../image/default.png" style="width: 135px;">
                 <p class="text-center">Username</p>
             </div>
             <div style="margin-left: 40px;overflow-x: auto;">
                 <h5></h5>
-                <form>
-                    <div class="form-group" style="width: 20rem;"><label for="reward"><strong>Adres</strong><br></label><input class="form-control" type="text" id="reward-1"></div>
-                    <div class="form-group text-center"><a id="sendBtn" class="btn ConfirmBtn" href="#" type="submit" style="width: 16rem;padding: 12px;">Adresin bilgilerine bak</a></div>
-                </form>
+                @using (Html.BeginForm("Wallet", "User", FormMethod.Post))
+                {
+                    <div class="form-group" style="width: 20rem;">
+                        <label for="reward"><strong>Adres</strong><br></label>
+                        <input class="form-control" type="text" name="address" id="address" value="@address">
+                    </div>
+                    <div class="form-group text-center">
+                        <button id="sendBtn" class="btn ConfirmBtn" href="#" type="submit" style="width: 16rem !important; padding: 12px;">Adresin bilgilerine bak</button>
+                    </div>
+                }
                 <div class="d-flex justify-content-around">
                     <div>
                         <h5>Recycle Coin</h5>
-                        <p style="overflow-x: auto;">2323</p>
+                        <p style="overflow-x: auto;">@Rc</p>
                     </div>
                     <div>
                         <h5>Carbon</h5>
                         <p style="overflow-x: auto;">2323</p>
                     </div>
                 </div>
-            </div><a class="float-right btn ConfirmBtn" id="sendBtn-1" href="#" type="submit" style="width: 7rem;margin-left: 17px;margin-bottom: 17px;margin-top: 90px;padding: 12px;">Rc gönder</a>
+            </div><a class="float-right btn ConfirmBtn" id="sendRC" href="/Transaction/CreateTransaction" style="width: 7rem !important;margin-left: 17px !important;margin-bottom: 17px !important;margin-top: 90px!important;padding: 12px!important;">Rc gönder</a>
         </div>
         <div class="d-flex flex-column align-items-center h-75 w-100" style="overflow-y: auto;">
             <div class="table-responsive" data-aos="zoom-in" data-aos-delay="350">
@@ -42,35 +52,21 @@
                             <th>Gönderen Adres</th>
                             <th>Alıcı Adres</th>
                             <th>Tutar</th>
-                            <th>Timestamp</th>
-                            <th>Geçerlilik Durumu</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr style="background-color: #F42951;">
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 2</td>
-                            <td>Cell 2</td>
-                            <td>Cell 2</td>
-                            <td>Cell 2</td>
-                        </tr>
-                        <tr style="background-color: #F42951;">
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 2</td>
-                            <td>Cell 2</td>
-                            <td>Cell 2</td>
-                            <td>Cell 2</td>
-                        </tr>
-                        <tr style="background-color: #F42951;">
-                            <td>Cell 1</td>
-                            <td>Cell 2</td>
-                            <td>Cell 2</td>
-                            <td>Cell 2</td>
-                            <td>Cell 2</td>
-                            <td>Cell 2</td>
-                        </tr>
+                    <tbody style="font-size: 14px;">
+                    @for (int i = 0; i < transactions.Count; i++)
+                    {
+	                    
+		                    var fromAddress = transactions[i]["fromAddress"] == null ? "System" : transactions[i]["fromAddress"];
+
+	                    <tr style="background-color: #F42951;">
+		                    <td>@i"</td>
+		                    <td style="word-break: break-all">@fromAddress</td>
+		                    <td style="word-break:break-all ">@transactions[i]["toAddress"]</td>
+		                    <td>@transactions[i]["amount"]</td>
+	                    </tr>
+                    }
                     </tbody>
                 </table>
             </div>
