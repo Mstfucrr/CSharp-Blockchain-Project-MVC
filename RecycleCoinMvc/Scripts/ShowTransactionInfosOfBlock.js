@@ -9,9 +9,9 @@ $(document).ready(function () {
         .mouseenter(function () { var elem = $(this); elem.addClass(`animated ${elem.attr("data-bss-hover-animate")}`) })
         .mouseleave(function () { var elem = $(this); elem.removeClass(`animated ${elem.attr("data-bss-hover-animate")}`) });
 });
-//$(document).ready(function () {
-//    $("#TransactionViewer").slideUp(1);
-//});
+$(document).ready(function () {
+    $("#TransactionViewer").slideUp(1);
+});
 
 $(window).click(function () {
     if ($("#TransactionViewer.show")[0] == undefined) {
