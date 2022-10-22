@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using Newtonsoft.Json.Linq;
+using System.Security.Policy;
 
 namespace RecycleCoinMvc.Controllers
 {
@@ -48,8 +49,11 @@ namespace RecycleCoinMvc.Controllers
 
         public ActionResult PendingTransaction()
         {
-
-
+            var getBlockchain = httpClient.GetAsync("api/Transaction/getPendingTransactions");
+            getBlockchain.Result.EnsureSuccessStatusCode();
+            var res = getBlockchain.Result.Content.ReadAsStringAsync().Result;
+            var j_res = JsonConvert.DeserializeObject(res);
+            ViewBag.PendingTransactions = j_res;
 
             return View();
         }
@@ -64,7 +68,8 @@ namespace RecycleCoinMvc.Controllers
             var res = getBlockchain.Result.Content.ReadAsStringAsync().Result;
             var j_res = JsonConvert.DeserializeObject(res);
             Session["blockByHash"] = j_res;
-            return RedirectToAction("Index", "Home");
+            return Json(new { success = true, j_res }, JsonRequestBehavior.AllowGet);
+            //return RedirectToAction("Index", "Home");
 
         }
 
