@@ -68,7 +68,7 @@ namespace RecycleCoinMvc.Controllers
             var res = getBlockchain.Result.Content.ReadAsStringAsync().Result;
             var j_res = JsonConvert.DeserializeObject(res);
             Session["blockByHash"] = j_res;
-            return Json(new { success = true, j_res }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, data = j_res }, JsonRequestBehavior.AllowGet);
             //return RedirectToAction("Index", "Home");
 
         }

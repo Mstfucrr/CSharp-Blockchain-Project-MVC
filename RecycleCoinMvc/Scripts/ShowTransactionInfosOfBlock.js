@@ -23,18 +23,33 @@ $(window).click(function () {
 });
 $(".block").click(function () {
 
-    
+
     $("#blocks").css("filter", "blur(2px)");
     $("#TransactionViewer")
         .slideDown(300)
         .addClass("show");
     const hash = this.dataset["hash"];
+    $("#TransactionViewer tbody").empty();
     $.ajax({
-        type: "POST",
+        type: "GET",
         dataType: "Json",
         data: { hash: hash },
-        url: "/Transaction/GetTransactionByBlock"
+        url: `http://localhost:5000/api/Blockchain/getBlockByHash/${hash}`,
+        success: function (data) {
+            for (var [value, transaction] of data["transactions"].entries()) {
+                $("#TransactionViewer tbody").append(`
+         <tr style="background-color:transparent;">
+            <td>${value+1}</td>
+            <td style="word-break: break-all">${transaction["fromAddress"] == null ? "System" : transaction["fromAddress"]}</td>
+            <td style="word-break: break-all">${transaction["toAddress"]}</td>
+            <td>${transaction["amount"]}</td>
+            <td>${transaction["timestamp"]}</td>
+            <td>${transaction["TransactionisValid"]}</td>
+        </tr>`);
+            }
+        }
     });
+    console.log($("#TransactionViewer"));
 });
 
 $("#TransactionTable").click(function () {
