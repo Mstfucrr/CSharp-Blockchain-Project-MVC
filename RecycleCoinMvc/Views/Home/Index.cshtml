@@ -82,17 +82,13 @@
                                 {
                                     for (int i = 0; i < blockByHash["transactions"].Count; i++)
                                     {
-
-	                                    var fromAddress = blockByHash["transactions"][i]["fromAddress"];
-	                                    var toAddress = blockByHash["transactions"][i]["toAddress"];
-	                                    var amount = blockByHash["transactions"][i]["amount"];
-
                                         <tr style="background-color: #F42951;">
                                             <td>@i</td>
-                                            <td>@fromAddress</td>
-                                            <td>@toAddress</td>
-                                            <td>@amount</td>
-                                            <td>@blockByHash["timestamp"]</td>
+                                            <td style="word-break: break-all">@blockByHash["transactions"][i]["fromAddress"]</td>
+                                            <td style="word-break: break-all">@blockByHash["transactions"][i]["toAddress"]</td>
+                                            <td>@blockByHash["transactions"][i]["amount"]</td>
+                                            <td>@blockByHash["transactions"][i]["timestamp"]</td>
+                                            <td>@blockByHash["transactions"][i]["TransactionisValid"]</td>
                                         </tr>
                                     }
 
