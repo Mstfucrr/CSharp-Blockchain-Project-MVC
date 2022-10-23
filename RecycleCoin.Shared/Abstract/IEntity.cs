@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RecycleCoin.Entities.Abstract
+namespace RecycleCoin.Shared.Abstract
 {
     public interface IEntity
     {

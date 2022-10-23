@@ -5,9 +5,12 @@
 
 <!-- Start: login form - Ambrodu -->
 <div class="body" style="padding-top: 150px; margin-top: -18px;">
+    @Html.ValidationSummary()
     <div class="border rounded shadow login-center" style="width: 547.275px;margin-right: auto;margin-left: auto;">
         @using (Html.BeginForm("Login", "User", FormMethod.Post, new { @style = "padding-top: 54px;" }))
         {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl"/>
             <div class="form-group text-center">
                 <!-- Start: default image -->
                 <img class="img-fluid" style="width: 100px;"

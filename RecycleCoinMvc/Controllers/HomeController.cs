@@ -23,6 +23,7 @@ namespace RecycleCoinMvc.Controllers
 
         public ActionResult Index()
         {
+
             var getBlockchain = httpClient.GetAsync("api/Blockchain/getBlockchain");
             getBlockchain.Result.EnsureSuccessStatusCode();
             var res = getBlockchain.Result.Content.ReadAsStringAsync().Result;
@@ -34,7 +35,7 @@ namespace RecycleCoinMvc.Controllers
             }
             return View();
         }
-
+        
         public ActionResult About()
         {
             var deneme = httpClient.GetAsync("api/getBlockchain");

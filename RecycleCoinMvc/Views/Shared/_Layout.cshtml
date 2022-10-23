@@ -70,11 +70,21 @@
                                aria-expanded="false" data-toggle="dropdown" href="#">
                                 <i class="fas fa-user fa-fw"></i>&nbsp; Hesap
                             </a>
-	                        <div class="dropdown-menu">
-                                
-		                        <a class="dropdown-item" href="/User/Login">Giriş Yap</a><a class="dropdown-item" href="/User/Register">Kayıt Ol</a>
-		                        <a class="dropdown-item" href="/User/Wallet?address=public key goes here">Cüzdan</a>
-	                        </div>
+                            <div class="dropdown-menu">
+
+
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <a class="dropdown-item" href="/User/Logout">Çıkış Yap</a>
+                                }
+                                else
+                                {
+                                    <a class="dropdown-item" href="/User/Login">Giriş Yap</a>
+                                    <a class="dropdown-item" href="/User/Register">Kayıt Ol</a>
+                                }
+                                @{ var address = User.Identity.IsAuthenticated ? "UserAddress" : null;}
+                                <a class="dropdown-item" href="/User/Wallet?address=@address">Rc Bilgileri </a>
+                            </div>
                         </div>
                     </li>
                 </ul>

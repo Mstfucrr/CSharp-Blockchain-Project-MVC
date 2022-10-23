@@ -4,8 +4,13 @@ using System.Linq;
 using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RecycleCoin.DataAccess.Concrete.EntityFramework.Contexts;
+using RecycleCoin.Entities.Concrete;
 using RecycleCoinMvc.Models;
 
 namespace RecycleCoinMvc.Controllers
@@ -15,11 +20,15 @@ namespace RecycleCoinMvc.Controllers
 
         private readonly HttpClient httpClient;
 
+        private UserManager<AppUser> userManager;
 
         public UserController()
         {
             httpClient = new HttpClient();
             httpClient.BaseAddress = new Uri("http://localhost:5000");
+
+            var userStore = new UserStore<AppUser>(new RecycleCoinDbContext());
+            userManager = new UserManager<AppUser>(userStore);
         }
 
 
@@ -58,44 +67,89 @@ namespace RecycleCoinMvc.Controllers
             return View();
         }
 
-        public ActionResult Login()
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Login(string returnUrl)
         {
-            var method = Request.HttpMethod;
-            if (method == "POST")
-            {
-                return RedirectToAction("Index");
-            }
-            Session.Clear();
+            ViewBag.returnUrl = returnUrl; //gitmek istediği url
             return View();
-
-
-
         }
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(UserLoginViewModel userLoginViewModel, string returnUrl)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = userManager.Find(userLoginViewModel.Username, userLoginViewModel.Password);
 
+                if (user == null)
+                {
+                    ModelState.AddModelError("", "Yanlış kullanıcı adı veya parola.");
+                }
+                else
+                {
+                    var authManager = HttpContext.GetOwinContext().Authentication; //login işlemini yerine getiren nesne.
+                    var identity = userManager.CreateIdentity(user, "ApplicationCookie"); //cookie oluşturup authManager aracılığıyla kullanıcıya göndericez.
+
+                    var authProperties = new AuthenticationProperties()
+                    {
+                        IsPersistent = true, //beni hatırla
+                    }; //gönderilirken bir kaç özellikle beraber cookie'nin gönderilmesini sağlar.
+
+                    authManager.SignOut(); //kullanıcı varsa sistemde önce sil sisteme dahil et.
+                    authManager.SignIn(authProperties, identity);
+
+                    return Redirect(string.IsNullOrEmpty(returnUrl) ? "/" : returnUrl);
+                }
+            }
+            ViewBag.returnUrl = returnUrl;
+            return View();
+        }
+        [HttpGet]
+        [AllowAnonymous]
         public ActionResult Register()
         {
-            if (Request.HttpMethod == "POST")
-            {
-                var nameValueCollection = Request.Form;
-                var user = new User
-                {
-                    Name = nameValueCollection["regName"],
-                    Lastname = nameValueCollection["regLastname"],
-                    Username = nameValueCollection["regUsername"],
-                    Password = nameValueCollection["regPassword"]
-                };
-
-                return RedirectToAction("Index");
-            }
-            
             return View();
-
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public ActionResult Register(UserRegisterViewModel userRegisterViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new AppUser();
+                user.UserName = userRegisterViewModel.Username;
+                user.Name = userRegisterViewModel.Name;
+                user.Lastname = userRegisterViewModel.Lastname;
+                user.Email = userRegisterViewModel.Email;
+
+                var result = userManager.Create(user, userRegisterViewModel.Password);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Login");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
+            }
+            return View();
+        }
+        [Authorize]
         public ActionResult Logout()
         {
-            Session.Remove("User");
-            return RedirectToAction("Index", "Home");
+            var authManager = HttpContext.GetOwinContext().Authentication;
+
+            authManager.SignOut();
+
+            return RedirectToAction("Index","Home");
         }
     }
 }
