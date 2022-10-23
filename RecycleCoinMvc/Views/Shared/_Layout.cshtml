@@ -1,5 +1,7 @@
 ﻿@using System.Web.Mvc.Html
 @using RecycleCoinMvc.Models
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,8 +18,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/typicons/2.0.9/typicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
-   
-    
+
+
 
     @*@Styles.Render("~/Content/css")*@
     @*@Scripts.Render("~/bundles/modernizr")*@
@@ -68,10 +70,11 @@
                                aria-expanded="false" data-toggle="dropdown" href="#">
                                 <i class="fas fa-user fa-fw"></i>&nbsp; Hesap
                             </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="/User/Login">Giriş Yap</a><a class="dropdown-item" href="/User/Register">Kayıt Ol</a>
-                                <a class="dropdown-item" href="/User/Wallet">Cüzdan</a>
-                            </div>
+	                        <div class="dropdown-menu">
+                                
+		                        <a class="dropdown-item" href="/User/Login">Giriş Yap</a><a class="dropdown-item" href="/User/Register">Kayıt Ol</a>
+		                        <a class="dropdown-item" href="/User/Wallet?address=public key goes here">Cüzdan</a>
+	                        </div>
                         </div>
                     </li>
                 </ul>
@@ -127,23 +130,32 @@
             <p class="text-center text-white m-0 small">Tüm Telif Hakları Saklıdır © RecycleCoin 2022</p>
         </div>
     </footer>
-    <div class="float-right" aria-live="polite" aria-atomic="true" style="top:100px;">
-        <div class="toast fade rubberBand animated position-fixed hide" role="alert" id="toast-1"
-             style="position: absolute;top: 115px;right: 15px;z-index: 10;">
-            <div class="toast-header bg-light">
-                <img class="mr-2"><strong class="mr-auto">Title</strong><small>
-                    10 min
-                    ago
-                </small><button class="close ml-2 mb-1 close" data-dismiss="toast">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="toast-body bg-success text-light" role="alert">
-                <p>Recycle Coin mine is successed!</p>
+
+    @if (ViewBag.toast != null)
+    {
+        var toast = ViewBag.toast;
+
+        <div class="float-right" aria-live="polite" aria-atomic="true" style="top:100px;">
+            <div class="toast fade rubberBand animated position-fixed show" role="alert" id="Mytoast"
+                 style="position: absolute;top: 115px;right: 15px;z-index: 10;" data-autohide="true" data-delay="10">
+                <div class="toast-header bg-light">
+                    <img class="mr-2">
+                    <strong class="mr-auto">@toast.Title</strong>
+                    @* title *@
+                    <button class="close ml-2 mb-1 close" data-dismiss="toast">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="toast-body bg-@toast.MessageType text-light" role="alert">
+                    @* success / danger *@
+                    <p>@toast.Message</p>
+                    @* message *@
+                </div>
             </div>
         </div>
-    </div>
 
+    }
+    
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
@@ -153,6 +165,12 @@
     <script type="text/javascript" src="../../Scripts/cart.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <script src="https://kit.fontawesome.com/8d11be13db.js"></script>
+<script src="https://kit.fontawesome.com/8d11be13db.js"></script>
+<script type="text/javascript">
+
+    $("#Mytoast").toast({
+		delay:10000
+	})
+</script>
 </body>
 </html>
