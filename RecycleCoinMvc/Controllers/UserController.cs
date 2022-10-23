@@ -31,9 +31,9 @@ namespace RecycleCoinMvc.Controllers
             return View();
         }
 
-        public ActionResult Wallet()
+        public ActionResult Wallet(string address)
         {
-            var address = "";
+            
             if (Request.HttpMethod == "POST")
             {
                 address = Request.Form["address"];
