@@ -106,6 +106,10 @@
     <Compile Include="Migrations\202210232131381_mig_identityDb_add.designer.cs">
       <DependentUpon>202210232131381_mig_identityDb_add.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202210241232318_mig_keyPair.cs" />
+    <Compile Include="Migrations\202210241232318_mig_keyPair.designer.cs">
+      <DependentUpon>202210241232318_mig_keyPair.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -130,6 +134,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202210232131381_mig_identityDb_add.resx">
       <DependentUpon>202210232131381_mig_identityDb_add.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210241232318_mig_keyPair.resx">
+      <DependentUpon>202210241232318_mig_keyPair.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
