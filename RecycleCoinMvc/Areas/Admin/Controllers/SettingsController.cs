@@ -41,12 +41,12 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
 
                     var setSettings = httpClient.PostAsync("api/Blockchain/setDifficultyAndminingReward", s_content);
                     setSettings.Result.EnsureSuccessStatusCode();
-                    ViewBag.toast = new Toastr("Ayarlar", "Ayarlama işlemi başarıyla gerçekleştirildi", "success");
+                    Session["toast"] = new Toastr("Ayarlar", "Ayarlama işlemi başarıyla gerçekleştirildi", "success");
 
                 }
                 catch (Exception e)
                 {
-                    ViewBag.toast = new Toastr("Ayarlar", "Ayarlama işlemi Başarısız !", "danger");
+                    Session["toast"] = new Toastr("Ayarlar", "Ayarlama işlemi Başarısız !", "danger");
 
                 }
 

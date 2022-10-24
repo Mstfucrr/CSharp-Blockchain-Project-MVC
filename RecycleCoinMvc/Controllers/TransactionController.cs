@@ -42,11 +42,11 @@ namespace RecycleCoinMvc.Controllers
                     var pushTransaction = httpClient.PostAsync("api/Transaction/AddTransaction", content);
                     pushTransaction.Result.EnsureSuccessStatusCode();
 
-                    ViewBag.toast = new Toastr("İşlem", "İşleminiz başarıyla gerçekleştirildi", "success");
+                    Session["toast"] = new Toastr("İşlem", "İşleminiz başarıyla gerçekleştirildi", "success");
                 }
                 catch (Exception e)
                 {
-                    ViewBag.toast = new Toastr("İşlem", "İşleminiz Başarısız!", "danger");
+                    Session["toast"] = new Toastr("İşlem", "İşleminiz Başarısız!", "danger");
                 }
 
             }
@@ -64,6 +64,33 @@ namespace RecycleCoinMvc.Controllers
             ViewBag.PendingTransactions = j_res;
 
             return View();
+        }
+
+        public ActionResult MinePendingTransaction(string minerRewardAddress)
+        {
+            try
+            {
+                var transactionContent = new JObject(new JProperty("minerRewardAddress", minerRewardAddress)).ToString();
+
+                var content = new StringContent(transactionContent, System.Text.Encoding.UTF8, "application/json");
+
+                var pushTransaction = httpClient.PostAsync("api/Transaction/minerPendingTransactions", content);
+                pushTransaction.Result.EnsureSuccessStatusCode();
+
+                Session["toast"] = new Toastr("Kazı", "Kazı işleminiz başarıyla gerçekleştirildi.", "success");
+
+            }
+            catch (Exception e)
+            {
+
+                Session["toast"] = new Toastr("Kazı", "Kazı işleminiz başarısız.", "danger");
+                return RedirectToAction("PendingTransaction");
+
+            }
+
+
+
+            return RedirectToAction("Index", "Home");
         }
 
     }
