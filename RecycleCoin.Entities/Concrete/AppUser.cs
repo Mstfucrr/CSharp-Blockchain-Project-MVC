@@ -6,6 +6,9 @@ namespace RecycleCoin.Entities.Concrete
     {
         public string Name { get; set; }
         public string Lastname { get; set; }
+        public string PublicKey { get; set; }
+        public string PrivateKey { get; set; }
 
+         
     }
 }

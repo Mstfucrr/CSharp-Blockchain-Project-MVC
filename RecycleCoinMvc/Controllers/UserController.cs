@@ -35,14 +35,13 @@ namespace RecycleCoinMvc.Controllers
         // GET: User
         public ActionResult Index()
         {
-            Console.WriteLine(Session["User"]);
-            ViewData["User"] = Session["User"];
+
             return View();
         }
 
-        public ActionResult Wallet(string address)
+        public ActionResult Wallet()
         {
-            
+            var address = HttpContext.User.Identity.IsAuthenticated ? userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId()).Result.PublicKey : "" ;
             if (Request.HttpMethod == "POST")
             {
                 address = Request.Form["address"];
@@ -85,7 +84,7 @@ namespace RecycleCoinMvc.Controllers
 
                 if (user == null)
                 {
-                    ModelState.AddModelError("", "Yanlış kullanıcı adı veya parola.");
+                    Session["toast"] = new Toastr("Giriş Yap", "Yanlış kullanıcı adı veya parola.", "warning");
                 }
                 else
                 {
@@ -99,11 +98,16 @@ namespace RecycleCoinMvc.Controllers
 
                     authManager.SignOut(); //kullanıcı varsa sistemde önce sil sisteme dahil et.
                     authManager.SignIn(authProperties, identity);
+                    Session["publicKey"] = user.PublicKey;
+                    Session["privateKey"] = user.PrivateKey;
+                    Session["toast"] = new Toastr("Giriş Yap", "Başarıyla giriş yaptınız.", "success");
+
 
                     return Redirect(string.IsNullOrEmpty(returnUrl) ? "/" : returnUrl);
                 }
             }
             ViewBag.returnUrl = returnUrl;
+
             return View();
         }
         [HttpGet]
@@ -126,11 +130,21 @@ namespace RecycleCoinMvc.Controllers
                 user.Lastname = userRegisterViewModel.Lastname;
                 user.Email = userRegisterViewModel.Email;
 
+                var getKeyPair = httpClient.GetAsync("api/User/generateKeyPair");
+                getKeyPair.Result.EnsureSuccessStatusCode();
+                var res = getKeyPair.Result.Content.ReadAsStringAsync().Result;
+                var j_res = JsonConvert.DeserializeObject(res);
+                ViewBag.data = j_res;
+                user.PublicKey = ViewBag.data["publicKey"];
+                user.PrivateKey = ViewBag.data["privateKey"];
                 var result = userManager.Create(user, userRegisterViewModel.Password);
 
                 if (result.Succeeded)
                 {
+                    Session["toast"] = new Toastr("Kayıt", "Kayıt İşleminiz başarıyla gerçekleştirildi", "success");
+
                     return RedirectToAction("Login");
+
                 }
                 else
                 {
@@ -148,6 +162,9 @@ namespace RecycleCoinMvc.Controllers
             var authManager = HttpContext.GetOwinContext().Authentication;
 
             authManager.SignOut();
+            Session.Remove("publicKey");
+            Session.Remove("privateKey");
+            Session["toast"] = new Toastr("Çıkış", "Başarıyla çıkış yaptınız.", "success");
 
             return RedirectToAction("Index","Home");
         }

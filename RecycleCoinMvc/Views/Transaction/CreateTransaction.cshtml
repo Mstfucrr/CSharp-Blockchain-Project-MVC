@@ -2,6 +2,9 @@
 @{
     ViewBag.Title = "CreateTransaction";
     Layout = "~/Views/Shared/_Layout.cshtml";
+	var publicKey = Session["publicKey"];
+	var privateKey = Session["privateKey"];
+
 }
 
 <section style="width: 100%; margin-top: -18px; padding-top: 180px; padding-bottom: 70px; background: linear-gradient(230deg, red, #ff00cb); min-height: 100vh; display: flex; justify-content: center; align-items: center;">
@@ -15,7 +18,7 @@
 
                 <div class="form-group">
                     <label for="fromAddress">Gönderici Adres</label>
-                    <input class="form-control" type="text" value="myKey" id="fromAddress" name="fromAddress" readonly>
+                    <input class="form-control" type="text" value="@privateKey" id="fromAddress" name="fromAddress" readonly>
                 </div>
                 <div class="form-group">
                     <label for="toAddress">Alıcı Adres</label>
