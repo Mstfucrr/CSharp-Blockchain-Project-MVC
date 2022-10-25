@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using RecycleCoin.Shared.Abstract;
 
-namespace RecycleCoin.DataAccess.Concrete.EntityFramework.Repositories.Abstract
+namespace RecycleCoin.DataAccess.Abstract
 {
     public interface IEntityRepositoryBase<T> where T : class, IEntity, new()
     {

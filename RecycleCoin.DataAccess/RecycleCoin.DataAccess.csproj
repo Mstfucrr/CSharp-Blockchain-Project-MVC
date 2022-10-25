@@ -99,8 +99,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\ICategoryDal.cs" />
+    <Compile Include="Abstract\IProductDal.cs" />
     <Compile Include="Concrete\EntityFramework\Contexts\RecycleCoinDbContext.cs" />
-    <Compile Include="Concrete\EntityFramework\Repositories\Abstract\IEntityRepositoryBase.cs" />
+    <Compile Include="Abstract\IEntityRepositoryBase.cs" />
+    <Compile Include="Concrete\EntityFramework\EfCategoryDal.cs" />
+    <Compile Include="Concrete\EntityFramework\EfProductDal.cs" />
     <Compile Include="Concrete\EntityFramework\Repositories\Concrete\EfEntityRepositoryBase.cs" />
     <Compile Include="Migrations\202210232131381_mig_identityDb_add.cs" />
     <Compile Include="Migrations\202210232131381_mig_identityDb_add.designer.cs">
@@ -110,11 +114,14 @@
     <Compile Include="Migrations\202210241232318_mig_keyPair.designer.cs">
       <DependentUpon>202210241232318_mig_keyPair.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202210251913142_mig_add_Category_and_Product.cs" />
+    <Compile Include="Migrations\202210251913142_mig_add_Category_and_Product.designer.cs">
+      <DependentUpon>202210251913142_mig_add_Category_and_Product.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Abstract\" />
     <Folder Include="Concrete\EntityFramework\Mappings\" />
   </ItemGroup>
   <ItemGroup>
@@ -137,6 +144,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202210241232318_mig_keyPair.resx">
       <DependentUpon>202210241232318_mig_keyPair.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210251913142_mig_add_Category_and_Product.resx">
+      <DependentUpon>202210251913142_mig_add_Category_and_Product.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

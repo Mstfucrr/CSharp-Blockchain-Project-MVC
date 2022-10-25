@@ -58,12 +58,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RecycleCoin.Entities\RecycleCoin.Entities.csproj">
-      <Project>{15825713-87EE-4E9D-A851-D59732C35221}</Project>
-      <Name>RecycleCoin.Entities</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

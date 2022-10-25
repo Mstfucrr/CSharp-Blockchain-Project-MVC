@@ -1,11 +1,11 @@
 ﻿using RecycleCoin.DataAccess.Concrete.EntityFramework.Contexts;
-using RecycleCoin.DataAccess.Concrete.EntityFramework.Repositories.Abstract;
 using RecycleCoin.Shared.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using RecycleCoin.DataAccess.Abstract;
 
 namespace RecycleCoin.DataAccess.Concrete.EntityFramework.Repositories.Concrete
 {
@@ -29,7 +29,9 @@ namespace RecycleCoin.DataAccess.Concrete.EntityFramework.Repositories.Concrete
 
         public List<TEntity> GetList(Expression<Func<TEntity, bool>> filter = null)
         {
-            return recycleCoinDbContext.Set<TEntity>().Where(filter).ToList();
+            return filter != null
+                ? recycleCoinDbContext.Set<TEntity>().Where(filter).ToList()
+                : recycleCoinDbContext.Set<TEntity>().ToList();
         }
 
         public void Update(TEntity entity)

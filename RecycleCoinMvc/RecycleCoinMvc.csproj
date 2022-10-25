@@ -190,6 +190,7 @@
     <Content Include="image\ef2081-plastik-atiklar.jpg" />
     <Content Include="image\petsise.jpg" />
     <Content Include="image\transparent.png" />
+    <Content Include="Scripts\addProductAndCategory.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -324,6 +325,7 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Scripts\UpdateProduct.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -372,6 +374,10 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RecycleCoin.Business\RecycleCoin.Business.csproj">
+      <Project>{E3BCED85-ED90-4A4A-9043-53172CBE8197}</Project>
+      <Name>RecycleCoin.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RecycleCoin.DataAccess\RecycleCoin.DataAccess.csproj">
       <Project>{48ECA61F-AADD-4DF7-AA32-7D2D1628CEFE}</Project>
       <Name>RecycleCoin.DataAccess</Name>

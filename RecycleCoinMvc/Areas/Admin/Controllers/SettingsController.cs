@@ -1,25 +1,30 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Net.Http;
-using System.Security.Policy;
-using System.Web;
+using System.Net.Http.Headers;
 using System.Web.Mvc;
 using Newtonsoft.Json.Linq;
 using RecycleCoinMvc.Models;
+using RecycleCoin.Business.Concrete;
+using RecycleCoin.DataAccess.Concrete.EntityFramework;
+using RecycleCoin.Entities.Concrete;
 
 namespace RecycleCoinMvc.Areas.Admin.Controllers
 {
     public class SettingsController : Controller
     {
         private readonly HttpClient httpClient;
-
+        private readonly CategoryManager categoryManager;
+        private readonly ProductManager productManager;
 
         public SettingsController()
         {
             httpClient = new HttpClient();
             httpClient.BaseAddress = new Uri("http://localhost:5000");
+            categoryManager = new CategoryManager(new EfCategoryDal());
+            productManager = new ProductManager(new EfProductDal());
         }
 
 
@@ -58,8 +63,73 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
             var res = getSettings.Result.Content.ReadAsStringAsync().Result;
             var j_res = JsonConvert.DeserializeObject(res);
             ViewBag.settings = j_res;
-            
+            ViewBag.categories = categoryManager.GetList();
+
             return View();
         }
+
+
+        public ActionResult AddCategory()
+        {
+
+            var category = new Category
+            {
+                Name = Request.Form["name"]
+            };
+            categoryManager.Add(category);
+
+
+            var uzanti = Path.GetExtension(Request.Files[0].FileName);
+            var yol = $"~/image/Image_Category_{category.Id}{uzanti}";
+
+            var ser = Server.MapPath(yol);
+
+            Request.Files[0].SaveAs(ser);
+
+            category.Image = $"Image_Category_{category.Id}{uzanti}";
+
+            categoryManager.Update(category);
+
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult AddProduct()
+        {
+            var product = new Product
+            {
+                Name = Request.Form["name"],
+                CategoryId = Convert.ToInt32(Request.Form["categoryId"]),
+                Carbon = Convert.ToInt32(Request.Form["carbon"])
+            };
+            productManager.Add(product);
+
+
+            var uzanti = Path.GetExtension(Request.Files[0].FileName);
+            var yol = $"~/image/Image_Product_{product.Id}{uzanti}";
+
+            var ser = Server.MapPath(yol);
+
+            Request.Files[0].SaveAs(ser);
+
+            product.Image = $"Image_Product_{product.Id}{uzanti}";
+
+            productManager.Update(product);
+
+
+            return RedirectToAction("Index");
+
+        }
+
+
+        public ActionResult GetProductsByCategory(int categoryId)
+        {
+            Session["products"] = productManager.GetListByCategory(categoryId);
+            Session["categoryId"] = categoryId;
+            return RedirectToAction("Index");
+            //return productManager.GetListByCategory(categoryId);
+        }
+
+
     }
 }

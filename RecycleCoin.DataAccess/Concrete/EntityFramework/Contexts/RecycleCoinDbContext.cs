@@ -12,6 +12,11 @@ namespace RecycleCoin.DataAccess.Concrete.EntityFramework.Contexts
         public RecycleCoinDbContext():base("RecycleCoinDbConnection")
         {
             
-        }   
+        }
+        
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Product> Products { get; set; }
+        
     }
 }

@@ -59,11 +59,22 @@
   <ItemGroup>
     <Compile Include="Concrete\AppRole.cs" />
     <Compile Include="Concrete\AppUser.cs" />
+    <Compile Include="Concrete\Category.cs" />
+    <Compile Include="Concrete\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RecycleCoin.Shared\RecycleCoin.Shared.csproj">
+      <Project>{CEFD614A-8741-4E2D-A6A4-D6BDA7C2D627}</Project>
+      <Name>RecycleCoin.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
