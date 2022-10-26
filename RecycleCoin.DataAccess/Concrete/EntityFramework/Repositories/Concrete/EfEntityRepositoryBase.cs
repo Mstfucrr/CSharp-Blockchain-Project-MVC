@@ -13,6 +13,11 @@ namespace RecycleCoin.DataAccess.Concrete.EntityFramework.Repositories.Concrete
     {
         private RecycleCoinDbContext recycleCoinDbContext = new RecycleCoinDbContext();
 
+        public TEntity Get(Expression<Func<TEntity, bool>> filter = null)
+        {
+            return recycleCoinDbContext.Set<TEntity>().SingleOrDefault(filter);
+        }
+
         public void Add(TEntity entity)
         {
             var addedEntity = recycleCoinDbContext.Entry(entity);
