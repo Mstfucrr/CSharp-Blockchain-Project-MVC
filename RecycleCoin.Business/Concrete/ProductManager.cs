@@ -8,6 +8,7 @@ namespace RecycleCoin.Business.Concrete
     public class ProductManager:IProductService
     {
         private IProductDal _productDal;
+        
 
         public ProductManager(IProductDal productDal)
         {
@@ -22,6 +23,12 @@ namespace RecycleCoin.Business.Concrete
         {
             return _productDal.GetListByCategory(categoryId);
         }
+
+        public Product GetById(int productId)
+        {
+            return _productDal.Get(p => p.Id == productId);
+        }
+        
 
         public void Add(Product product)
         {
