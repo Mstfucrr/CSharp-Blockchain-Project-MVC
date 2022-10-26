@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
@@ -62,6 +60,10 @@ namespace RecycleCoinMvc.Controllers
 
             ViewBag.address = address;
             ViewBag.balance = balance_j_res;
+
+            ViewBag.carbon = userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId()).Result != null 
+                ? userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId()).Result.Carbon 
+                : 0;
             ViewBag.transactions = res_transactions_j;
             return View();
         }
