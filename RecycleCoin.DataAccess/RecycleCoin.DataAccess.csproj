@@ -118,6 +118,10 @@
     <Compile Include="Migrations\202210251913142_mig_add_Category_and_Product.designer.cs">
       <DependentUpon>202210251913142_mig_add_Category_and_Product.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202210261558089_mig_add_carbon_column_to_user.cs" />
+    <Compile Include="Migrations\202210261558089_mig_add_carbon_column_to_user.designer.cs">
+      <DependentUpon>202210261558089_mig_add_carbon_column_to_user.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -147,6 +151,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202210251913142_mig_add_Category_and_Product.resx">
       <DependentUpon>202210251913142_mig_add_Category_and_Product.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210261558089_mig_add_carbon_column_to_user.resx">
+      <DependentUpon>202210261558089_mig_add_carbon_column_to_user.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
