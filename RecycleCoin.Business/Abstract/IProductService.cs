@@ -7,6 +7,7 @@ namespace RecycleCoin.Business.Abstract
     {
         List<Product> GetList();
         List<Product> GetListByCategory(int categoryId);
+        Product GetById(int productId);
         void Add(Product product);
         void Delete(Product product);
         void Update(Product product);
