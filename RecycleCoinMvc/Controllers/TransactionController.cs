@@ -1,13 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Web;
-using System.Web.Helpers;
 using System.Web.Mvc;
 using Newtonsoft.Json.Linq;
-using System.Security.Policy;
 using RecycleCoinMvc.Models;
 
 namespace RecycleCoinMvc.Controllers
@@ -32,7 +27,22 @@ namespace RecycleCoinMvc.Controllers
                 {
                     var fromAddress = Request.Form["fromAddress"];
                     var toAddress = Request.Form["toAddress"];
+
+
+                    var contentCheck = new StringContent(new JObject(new JProperty("Address", toAddress)).ToString(), System.Text.Encoding.UTF8, "application/json");
+                    // Bakiye kısmı
+                    var getWallet = httpClient.PostAsync("api/User/getBalanceOfAddress", contentCheck);
+                    getWallet.Result.EnsureSuccessStatusCode();
+                    var res_balance = getWallet.Result.Content.ReadAsStringAsync().Result;
+                    var balance_of_toAddress = Convert.ToInt32(JsonConvert.DeserializeObject(res_balance));
                     var amount = Request.Form["amount"];
+
+                    if ((balance_of_toAddress + Convert.ToInt32(amount)) >= 100000000) //RC miktarı 100M ile sınırlandırıldı.
+                    {
+                        Session["toast"] = new Toastr("İşlem", "İşleminiz başarısız RC sınırı aşıldı!", "danger");
+                        return View();
+                    }
+
                     var transactionContent = new JObject(new JProperty("fromAddress", fromAddress),
                         new JProperty("toAddress", toAddress),
                         new JProperty("amount", amount)).ToString();
@@ -57,11 +67,13 @@ namespace RecycleCoinMvc.Controllers
 
         public ActionResult PendingTransaction()
         {
+
             var getBlockchain = httpClient.GetAsync("api/Transaction/getPendingTransactions");
             getBlockchain.Result.EnsureSuccessStatusCode();
             var res = getBlockchain.Result.Content.ReadAsStringAsync().Result;
             var j_res = JsonConvert.DeserializeObject(res);
             ViewBag.PendingTransactions = j_res;
+
 
             return View();
         }
@@ -70,6 +82,30 @@ namespace RecycleCoinMvc.Controllers
         {
             try
             {
+
+                var contentCheck = new StringContent(new JObject(new JProperty("Address", minerRewardAddress)).ToString(), System.Text.Encoding.UTF8, "application/json");
+                // Bakiye kısmı
+                var getWallet = httpClient.PostAsync("api/User/getBalanceOfAddress", contentCheck);
+                getWallet.Result.EnsureSuccessStatusCode();
+                var res_balance = getWallet.Result.Content.ReadAsStringAsync().Result;
+                var balance_of_toAddress = Convert.ToInt32(JsonConvert.DeserializeObject(res_balance));
+
+                var getSettings = httpClient.GetAsync("api/Blockchain/getDifficultyAndminingReward");
+                getSettings.Result.EnsureSuccessStatusCode();
+                var res = getSettings.Result.Content.ReadAsStringAsync().Result;
+                dynamic j_res = JsonConvert.DeserializeObject(res);
+                dynamic miningReward = Convert.ToInt32(j_res["miningReward"]);
+
+
+                if ((balance_of_toAddress + miningReward) >= 100000000) //RC miktarı 100M ile sınırlandırıldı.
+                {
+                    Session["toast"] = new Toastr("Kazı", "Kazı işleminiz başarısız RC sınırı aşıldı!", "danger");
+                    return RedirectToAction("PendingTransaction");
+                }
+
+
+
+
                 var transactionContent = new JObject(new JProperty("minerRewardAddress", minerRewardAddress)).ToString();
 
                 var content = new StringContent(transactionContent, System.Text.Encoding.UTF8, "application/json");
