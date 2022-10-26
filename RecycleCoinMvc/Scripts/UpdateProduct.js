@@ -7,7 +7,7 @@
 
     $.ajax({
         type: "POST",
-        url: "/Admin/Setting/UpdateProduct",
+        url: "/Admin/Settings/UpdateProduct",
         data: { productId: productId, inputValue: inputValue },
         success: function (response) {
             console.log(response);
