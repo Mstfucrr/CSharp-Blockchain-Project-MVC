@@ -5,6 +5,7 @@
     var Rc = ViewBag.balance;
     var address = ViewBag.address;
     var transactions = ViewBag.transactions;
+	var carbon = ViewBag.carbon;
 
 }
 
@@ -38,7 +39,7 @@
                     </div>
                     <div>
                         <h5>Carbon</h5>
-                        <p style="overflow-x: auto;">2323</p>
+                        <p style="overflow-x: auto;">@carbon</p>
                     </div>
                 </div>
             </div><a class="float-right btn ConfirmBtn" id="sendRC" href="/Transaction/CreateTransaction" style="width: 7rem !important;margin-left: 17px !important;margin-bottom: 17px !important;margin-top: 90px!important;padding: 12px!important;">Rc gönder</a>
