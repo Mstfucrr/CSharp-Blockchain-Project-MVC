@@ -1,6 +1,5 @@
 ﻿@{
     ViewBag.Title = "Home Page";
-    var chain = ViewBag.blockchain["chain"];
 
 }
 
@@ -21,7 +20,7 @@
 			<div class="col d-lg-flex align-items-lg-center" id="blocks" style="overflow-x: auto;">
 
 				@* Block 1 *@
-				@for (var i = 0; i < chain.Count; i++)
+				@*@for (var i = 0; i < chain.Count; i++)
 				{
 					var block = chain[i];
 					<div class="card block" data-aos="zoom-in-down" data-aos-duration="600"
@@ -57,9 +56,12 @@
 							</li>
 						</ul>
 					</div>
-				}
+				}*@
 				@* Block 1 son *@
 
+				@{ 
+					Html.RenderAction("Listener", "Home");
+				}
 			</div>
 			<div class="col" id="TransactionViewer"
 			     style="position: absolute;width: 100%;height: 100%;overflow-y: auto;">

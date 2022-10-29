@@ -23,16 +23,6 @@ namespace RecycleCoinMvc.Controllers
 
         public ActionResult Index()
         {
-
-            var getBlockchain = httpClient.GetAsync("api/Blockchain/getBlockchain");
-            getBlockchain.Result.EnsureSuccessStatusCode();
-            var res = getBlockchain.Result.Content.ReadAsStringAsync().Result;
-            var j_res = JsonConvert.DeserializeObject(res);
-            ViewBag.blockchain = j_res;
-            if (Session["blockByHash"] != null)
-            {
-                ViewBag.blockByHash = Session["blockByHash"];
-            }
             return View();
         }
         
@@ -51,6 +41,30 @@ namespace RecycleCoinMvc.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult Listener()
+        {
+            try
+            {
+
+                var getBlockchain = httpClient.GetAsync("api/Blockchain/getBlockchain");
+                getBlockchain.Result.EnsureSuccessStatusCode();
+                var res = getBlockchain.Result.Content.ReadAsStringAsync().Result;
+                var j_res = JsonConvert.DeserializeObject(res);
+                ViewBag.blockchain = j_res;
+                if (Session["blockByHash"] != null)
+                {
+                    ViewBag.blockByHash = Session["blockByHash"];
+                }
+            }
+            catch (Exception)
+            {
+                ViewBag.blockchain = null;
+
+            }
+
+            return PartialView("_blcoksListenerPartial");
         }
     }
 }
