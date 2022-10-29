@@ -570,7 +570,7 @@
     .login-dark form .btn-primary:active, .register-photo form .btn-primary:active {
         transform: translateY(1px)
     }
-    
+
 .register-photo {
     background: #f1f7fc;
     padding: 80px 0
@@ -641,3 +641,38 @@
     .register-photo form .btn-primary:active, .register-photo form .btn-primary:hover {
         background: #eb3b60
     }
+
+
+.card.block::before {
+    width: 106%;
+    height: 520px;
+    content: "";
+    background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #ff932c, #f79533, #f37055, #ef4e7b, #f79533);
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    z-index: -1;
+    filter: blur(3px);
+    transition: 0.6s;
+    background-size: 400% 400%;
+    animation: gradient 6s ease alternate infinite;
+    border-radius: 5px;
+}
+    .card.block span {
+
+
+    }
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
