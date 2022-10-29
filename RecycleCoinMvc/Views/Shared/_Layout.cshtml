@@ -1,10 +1,4 @@
-﻿@using Microsoft.AspNet.Identity
-@using Microsoft.AspNet.Identity.EntityFramework
-@using RecycleCoin.DataAccess.Concrete.EntityFramework.Contexts
-@using RecycleCoin.Entities.Concrete
-
-@{ UserManager<AppUser> userManager = null; }
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -21,6 +15,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
 
 
     @*@Styles.Render("~/Content/css")*@
@@ -28,216 +24,13 @@
 
 </head>
 <body>
-    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark navbar-custom">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <img class="bounce animated"
-                     src="../../image/transparent.png" width="50" height="50">&nbsp; RecycleCoin
-            </a><button data-toggle="collapse" class="navbar-toggler" data-target="#navbarResponsive">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-
-                    @{
-                        if (User.Identity.IsAuthenticated)
-                        {
-
-                            var userStore = new UserStore<AppUser>(new RecycleCoinDbContext());
-                            userManager = new UserManager<AppUser>(userStore);
-                            var user = userManager.FindByIdAsync(User.Identity.GetUserId()).Result;
-                            var roles = user.Roles;
-                            foreach (var role in roles)
-                            {
-                                if (role.RoleId == "1")
-                                {
-                                    <li class="nav-item"><a class="nav-link" href="/Admin/Settings/">Ayarlar</a></li>
-
-                                }
-                            }
-                        }
-                    }
-                    <li class="nav-item">
-                        <div class="nav-item dropdown">
-                            <a class="dropdown-toggle nav-link" aria-expanded="false"
-                               data-toggle="dropdown" href="#">işlemler</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="/Transaction/CreateTransaction">İşlem Yap</a>
-	                            <a class="dropdown-item" id="pendingTransactionBtn" href="/Transaction/PendingTransaction">
-		                            Bekleyen
-		                            İşlemler&nbsp;&nbsp;<span class="badge badge-primary" id="pendingTransactionCount"></span>
-	                            </a>
-	                            @{
-		                            if (User.Identity.IsAuthenticated)
-		                            {
-
-			                            var userStore = new UserStore<AppUser>(new RecycleCoinDbContext());
-			                            userManager = new UserManager<AppUser>(userStore);
-			                            var user = userManager.FindByIdAsync(User.Identity.GetUserId()).Result;
-			                            var roles = user.Roles;
-			                            foreach (var role in roles)
-			                            {
-				                            if (role.RoleId == "1")
-				                            {
-					                            <a class="dropdown-item" href="/Admin/RecycleCenter/">
-						                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1em" height="1em"
-						                                 fill="currentColor">
-							                            <path d="M180.2 243.1C185 263.9 162.2 280.2 144.1 268.8L119.8 253.6l-50.9 81.43c-13.33 21.32 2.004 48.98 27.15 48.98h32.02c17.64 0 31.98 14.32 31.98 31.96c0 17.64-14.34 32.05-31.98 32.05H96.15c-75.36 0-121.3-82.84-81.47-146.8L65.51 219.8L41.15 204.5C23.04 193.1 27.66 165.5 48.48 160.7l91.43-21.15C148.5 137.7 157.2 142.9 159.2 151.6L180.2 243.1zM283.1 78.96l41.25 66.14l-24.25 15.08c-18.16 11.31-13.57 38.94 7.278 43.77l91.4 21.15c8.622 1.995 17.23-3.387 19.21-12.01l21.04-91.43c4.789-20.81-17.95-37.05-36.07-25.76l-24.36 15.2L337.4 45.14c-37.58-60.14-125.2-60.18-162.8-.0617L167.2 56.9C157.9 71.75 162.5 91.58 177.3 100.9c14.92 9.359 34.77 4.886 44.11-10.04l7.442-11.89C241.6 58.58 270.9 59.33 283.1 78.96zM497.3 301.3l-16.99-27.26c-9.336-14.98-29.06-19.56-44.04-10.21c-14.94 9.318-19.52 29.15-10.18 44.08l16.99 27.15c13.35 21.32-1.984 49-27.14 49h-95.99l.0234-28.74c0-21.38-25.85-32.09-40.97-16.97l-66.41 66.43c-6.222 6.223-6.222 16.41 .0044 22.63l66.42 66.34c15.12 15.1 40.95 4.386 40.95-16.98l-.0234-28.68h95.86C491.2 448.1 537.2 365.2 497.3 301.3z">
-							                            </path>
-						                            </svg>  Geri Dönüşüm Merkezi
-					                            </a>
-
-				                            }
-			                            }
-		                            }
-	                            }
-                                
-
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" id="showExchangeBtn"
-                                   href="#">Döviz Çevirici</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="nav-item"></li>
-                    <li class="nav-item">
-                        <div class="nav-item dropdown">
-                            <a class="dropdown-toggle nav-link btn btn-outline-warning"
-                               aria-expanded="false" data-toggle="dropdown" href="#">
-                                <i class="fas fa-user fa-fw"></i>&nbsp;
-                                @if (User.Identity.IsAuthenticated)
-                                {
-                                    <div style="display: inline">@User.Identity.Name</div>
-                                }
-                                else
-                                {
-                                    <div style="display: inline">Hesap</div>
-                                }
-                            </a>
-                            <div class="dropdown-menu">
 
 
-                                @if (User.Identity.IsAuthenticated)
-                                {
-                                    <a class="dropdown-item" href="/User/Logout">Çıkış Yap</a>
-                                }
-                                else
-                                {
-                                    <a class="dropdown-item" href="/User/Login">Giriş Yap</a>
-                                    <a class="dropdown-item" href="/User/Register">Kayıt Ol</a>
-                                }
-                                <a class="dropdown-item" href="/User/Wallet">Rc Bilgileri </a>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div class="container" id="Exchange-rate" style="display: none;">
-        <p>Döviz çevirici</p>
-        <div class="justify-content-between d-flex h-75 align-items-center" id="Exchange-Select-Area">
-            <div class="input-group" style="max-width: 16rem;padding-right: 29px;">
-                <div class="input-group-prepend"></div><input class="form-control" type="text" id="fromInput"
-                                                              style="border-top-left-radius: 20px;width: 83px;border-bottom-left-radius: 20px;"><select class="form-control" id="From"
-                                                                                                                                                        style="border-top-right-radius: 20px;border-bottom-right-radius: 20px;" name="From">
-                    <optgroup label="From">
-	                    <option>TRY</option>
-	                    <option>USD</option>
-	                    <option>EUR</option>
-	                    <option>SAR</option>
-	                    <option>JPY</option>
-	                    <option>BGN</option>
-	                    <option>CZK</option>
-	                    <option>DKK</option>
-	                    <option>GBP</option>
-	                    <option>HUF</option>
-	                    <option>PLN</option>
-	                    <option>RON</option>
-	                    <option>SEK</option>
-	                    <option>CHF</option>
-	                    <option>ISK</option>
-	                    <option>NOK</option>
-	                    <option>HRK</option>
-	                    <option>RUB</option>
-	                    <option>AUD</option>
-	                    <option>BRL</option>
-	                    <option>CAD</option>
-	                    <option>CNY</option>
-	                    <option>HKD</option>
-	                    <option>IDR</option>
-	                    <option>ILS</option>
-	                    <option>INR</option>
-	                    <option>KRW</option>
-	                    <option>MXN</option>
-	                    <option>MYR</option>
-	                    <option>NZD</option>
-	                    <option>PHP</option>
-	                    <option>SGD</option>
-	                    <option>THB</option>
-	                    <option>ZAR</option>
-                    </optgroup>
-                </select>
-                <div class="input-group-append"></div>
-            </div>
-            <div class="d-lg-flex flex-column justify-content-lg-center align-items-lg-center d-flex"
-                 style="margin-right: 27px;">
-                <div style="width: 14px;height: 4px;background-color: var(--red);border-color: #F73D38;"></div>
-                <div style="width: 14px;height: 4px;background-color: var(--red);margin: 3px;border-color: #F73D38;">
-                </div>
-            </div>
-            <div class="input-group" style="max-width: 16rem;padding-right: 29px;">
-                <div class="input-group-prepend"></div><input class="form-control" type="text" id="toInput"
-                                                              style="border-top-left-radius: 20px;width: 83px;border-bottom-left-radius: 20px;"
-                                                              readonly=""><select class="form-control" id="To"
-                                                                                  style="border-top-right-radius: 20px;border-bottom-right-radius: 20px;" name="To">
-                    <optgroup label="From">
-	                    <option>TRY</option>
-	                    <option>USD</option>
-	                    <option>EUR</option>
-	                    <option>SAR</option>
-	                    <option>JPY</option>
-	                    <option>BGN</option>
-	                    <option>CZK</option>
-	                    <option>DKK</option>
-	                    <option>GBP</option>
-	                    <option>HUF</option>
-	                    <option>PLN</option>
-	                    <option>RON</option>
-	                    <option>SEK</option>
-	                    <option>CHF</option>
-	                    <option>ISK</option>
-	                    <option>NOK</option>
-	                    <option>HRK</option>
-	                    <option>RUB</option>
-	                    <option>AUD</option>
-	                    <option>BRL</option>
-	                    <option>CAD</option>
-	                    <option>CNY</option>
-	                    <option>HKD</option>
-	                    <option>IDR</option>
-	                    <option>ILS</option>
-	                    <option>INR</option>
-	                    <option>KRW</option>
-	                    <option>MXN</option>
-	                    <option>MYR</option>
-	                    <option>NZD</option>
-	                    <option>PHP</option>
-	                    <option>SGD</option>
-	                    <option>THB</option>
-	                    <option>ZAR</option>
-                    </optgroup>
-                </select>
-                <div class="input-group-append"></div>
-            </div><button class="btn btn-primary" data-bss-disabled-mobile="true" data-bss-hover-animate="rubberBand"
-                          id="Exchange-rate-closeBtn" type="button">
-                Çıkış
-            </button>
-        </div>
-
-
-
-    </div>
+	
+@{
+		Html.RenderPartial("_navbar");
+        Html.RenderPartial("_exchangeRatePartial");
+    }
 
     @RenderBody()
     <footer class="py-5 bg-black">
@@ -246,37 +39,10 @@
         </div>
     </footer>
     @{
-        ViewBag.toast = Session["toast"];
-    }
-
-    @if (ViewBag.toast != null)
-    {
-        var toast = ViewBag.toast;
-
-        <div class="float-right" aria-live="polite" aria-atomic="true" style="top:100px;">
-            <div class="toast fade rubberBand animated position-fixed show" role="alert" id="Mytoast"
-                 style="position: absolute;top: 115px;right: 15px;z-index: 10;" data-autohide="true" data-delay="10">
-                <div class="toast-header bg-light">
-                    <img class="mr-2">
-                    <strong class="mr-auto">@toast.Title</strong>
-                    @* title *@
-                    <button class="close ml-2 mb-1 close" data-dismiss="toast">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="toast-body bg-@toast.MessageType text-light" role="alert">
-                    @* success / danger *@
-                    <p>@toast.Message</p>
-                    @* message *@
-                </div>
-            </div>
-        </div>
-        Session.Remove("toast");
+        Html.RenderPartial("_toasterPartial");
     }
 
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     <script type="text/javascript" src="../../Scripts/ShowTransactionInfosOfBlock.js"></script>
     <script type="text/javascript" src="../../Scripts/Exchange-rate.js"></script>
@@ -297,6 +63,9 @@
     </script>
     <script src="../../Scripts/addProductAndCategory.js"></script>
     <script src="../../Scripts/UpdateProduct.js"></script>
+    
+
+
 
 </body>
 </html>
