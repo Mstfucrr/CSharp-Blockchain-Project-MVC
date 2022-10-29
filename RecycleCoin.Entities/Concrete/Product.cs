@@ -7,10 +7,9 @@ namespace RecycleCoin.Entities.Concrete
         public int Id { get; set; }
         public int CategoryId { get; set; }
         public string Name { get; set; }
-
         public string Image { get; set; }
         public int Carbon { get; set; }
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
 
     }
 }

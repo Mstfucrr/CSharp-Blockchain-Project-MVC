@@ -122,6 +122,10 @@
     <Compile Include="Migrations\202210261558089_mig_add_carbon_column_to_user.designer.cs">
       <DependentUpon>202210261558089_mig_add_carbon_column_to_user.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202210291929059_mig_update_prop_to_virtual.cs" />
+    <Compile Include="Migrations\202210291929059_mig_update_prop_to_virtual.designer.cs">
+      <DependentUpon>202210291929059_mig_update_prop_to_virtual.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -154,6 +158,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202210261558089_mig_add_carbon_column_to_user.resx">
       <DependentUpon>202210261558089_mig_add_carbon_column_to_user.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210291929059_mig_update_prop_to_virtual.resx">
+      <DependentUpon>202210291929059_mig_update_prop_to_virtual.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
