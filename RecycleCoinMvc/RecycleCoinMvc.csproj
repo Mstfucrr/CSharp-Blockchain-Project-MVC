@@ -357,6 +357,10 @@
     <Content Include="Views\Transaction\CreateTransaction.cshtml" />
     <Content Include="Views\Transaction\PendingTransaction.cshtml" />
     <Content Include="Views\User\Wallet.cshtml" />
+    <Content Include="Views\Shared\_blcoksListenerPartial.cshtml" />
+    <Content Include="Views\Shared\_exchangeRatePartial.cshtml" />
+    <Content Include="Views\Shared\_toasterPartial.cshtml" />
+    <Content Include="Views\Shared\_navbar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
