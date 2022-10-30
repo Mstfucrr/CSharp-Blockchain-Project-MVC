@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Net.Http;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Newtonsoft.Json.Linq;
 using RecycleCoinMvc.Models;
@@ -9,13 +9,11 @@ namespace RecycleCoinMvc.Controllers
 {
     public class TransactionController : Controller
     {
-        private readonly HttpClient httpClient;
-
+        private readonly BlockchainApi _blockchainApi;
 
         public TransactionController()
         {
-            httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("http://localhost:5000");
+            _blockchainApi = new BlockchainApi();
         }
 
         // GET: Transaction
@@ -28,33 +26,27 @@ namespace RecycleCoinMvc.Controllers
                     var fromAddress = Request.Form["fromAddress"];
                     var toAddress = Request.Form["toAddress"];
 
-
-                    var contentCheck = new StringContent(new JObject(new JProperty("Address", toAddress)).ToString(), System.Text.Encoding.UTF8, "application/json");
-                    // Bakiye kısmı
-                    var getWallet = httpClient.PostAsync("api/User/getBalanceOfAddress", contentCheck);
-                    getWallet.Result.EnsureSuccessStatusCode();
-                    var res_balance = getWallet.Result.Content.ReadAsStringAsync().Result;
-                    var balance_of_toAddress = Convert.ToInt32(JsonConvert.DeserializeObject(res_balance));
+                    var balanceOfToAddress = Convert.ToInt32(_blockchainApi.Post("api/User/getBalanceOfAddress",
+                        new List<JProperty> { new("Address", toAddress) }));
                     var amount = Request.Form["amount"];
-
-                    if ((balance_of_toAddress + Convert.ToInt32(amount)) >= 100000000) //RC miktarı 100M ile sınırlandırıldı.
+                    
+                    if ((balanceOfToAddress + Convert.ToInt32(amount)) >= 100000000) //RC miktarı 100M ile sınırlandırıldı.
                     {
                         Session["toast"] = new Toastr("İşlem", "İşleminiz başarısız RC sınırı aşıldı!", "danger");
                         return View();
                     }
 
-                    var transactionContent = new JObject(new JProperty("fromAddress", fromAddress),
-                        new JProperty("toAddress", toAddress),
-                        new JProperty("amount", amount)).ToString();
-
-                    var content = new StringContent(transactionContent, System.Text.Encoding.UTF8, "application/json");
-
-                    var pushTransaction = httpClient.PostAsync("api/Transaction/AddTransaction", content);
-                    pushTransaction.Result.EnsureSuccessStatusCode();
+                    var transactionContent = new List<JProperty>
+                    {
+                        new("fromAddress", fromAddress),
+                        new("toAddress", toAddress),
+                        new("amount", amount)
+                    };
+                    _blockchainApi.Post("api/Transaction/AddTransaction", transactionContent);
 
                     Session["toast"] = new Toastr("İşlem", "İşleminiz başarıyla gerçekleştirildi", "success");
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Session["toast"] = new Toastr("İşlem", "İşleminiz Başarısız!", "danger");
                 }
@@ -67,14 +59,7 @@ namespace RecycleCoinMvc.Controllers
 
         public ActionResult PendingTransaction()
         {
-
-            var getBlockchain = httpClient.GetAsync("api/Transaction/getPendingTransactions");
-            getBlockchain.Result.EnsureSuccessStatusCode();
-            var res = getBlockchain.Result.Content.ReadAsStringAsync().Result;
-            var j_res = JsonConvert.DeserializeObject(res);
-            ViewBag.PendingTransactions = j_res;
-
-
+            ViewBag.PendingTransactions = _blockchainApi.Get("api/Transaction/getPendingTransactions");
             return View();
         }
 
@@ -82,20 +67,14 @@ namespace RecycleCoinMvc.Controllers
         {
             try
             {
+                dynamic balance_of_toAddress = Convert.ToInt32(
+                    _blockchainApi.Post("api/User/getBalanceOfAddress", 
+                        new List<JProperty> { new("Address", minerRewardAddress) }));
 
-                var contentCheck = new StringContent(new JObject(new JProperty("Address", minerRewardAddress)).ToString(), System.Text.Encoding.UTF8, "application/json");
-                // Bakiye kısmı
-                var getWallet = httpClient.PostAsync("api/User/getBalanceOfAddress", contentCheck);
-                getWallet.Result.EnsureSuccessStatusCode();
-                var res_balance = getWallet.Result.Content.ReadAsStringAsync().Result;
-                var balance_of_toAddress = Convert.ToInt32(JsonConvert.DeserializeObject(res_balance));
+                dynamic miningReward = Convert.ToInt32(
+                    _blockchainApi.Get("api/Blockchain/getDifficultyAndminingReward")["miningReward"]);
 
-                var getSettings = httpClient.GetAsync("api/Blockchain/getDifficultyAndminingReward");
-                getSettings.Result.EnsureSuccessStatusCode();
-                var res = getSettings.Result.Content.ReadAsStringAsync().Result;
-                dynamic j_res = JsonConvert.DeserializeObject(res);
-                dynamic miningReward = Convert.ToInt32(j_res["miningReward"]);
-
+                Console.WriteLine(balance_of_toAddress + miningReward);
 
                 if ((balance_of_toAddress + miningReward) >= 100000000) //RC miktarı 100M ile sınırlandırıldı.
                 {
@@ -103,25 +82,16 @@ namespace RecycleCoinMvc.Controllers
                     return RedirectToAction("PendingTransaction");
                 }
 
-
-
-
-                var transactionContent = new JObject(new JProperty("minerRewardAddress", minerRewardAddress)).ToString();
-
-                var content = new StringContent(transactionContent, System.Text.Encoding.UTF8, "application/json");
-
-                var pushTransaction = httpClient.PostAsync("api/Transaction/minerPendingTransactions", content);
-                pushTransaction.Result.EnsureSuccessStatusCode();
+                _blockchainApi.Post("api/Transaction/minerPendingTransactions",
+                    new List<JProperty> { new("minerRewardAddress", minerRewardAddress) });
 
                 Session["toast"] = new Toastr("Kazı", "Kazı işleminiz başarıyla gerçekleştirildi.", "success");
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
-
                 Session["toast"] = new Toastr("Kazı", "Kazı işleminiz başarısız.", "danger");
                 return RedirectToAction("PendingTransaction");
-
             }
 
 

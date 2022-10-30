@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
@@ -15,18 +16,17 @@ namespace RecycleCoinMvc.Controllers
 {
     public class UserController : Controller
     {
-
-        private readonly HttpClient httpClient;
-
+        
         private UserManager<AppUser> userManager;
+        private readonly BlockchainApi _blockchainApi;
+
 
         public UserController()
         {
-            httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("http://localhost:5000");
 
             var userStore = new UserStore<AppUser>(new RecycleCoinDbContext());
             userManager = new UserManager<AppUser>(userStore);
+            _blockchainApi = new BlockchainApi();
         }
 
 
@@ -39,30 +39,21 @@ namespace RecycleCoinMvc.Controllers
 
         public ActionResult Wallet()
         {
-            var address = HttpContext.User.Identity.IsAuthenticated ? userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId()).Result.PublicKey : "" ;
+            var address = HttpContext.User.Identity.IsAuthenticated ? userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId()).Result.PublicKey : "";
             if (Request.HttpMethod == "POST")
             {
                 address = Request.Form["address"];
             }
-            var content = new StringContent(new JObject(new JProperty("Address", address)).ToString(), System.Text.Encoding.UTF8,"application/json");
-            // Bakiye kısmı
-            var getWallet = httpClient.PostAsync("api/User/getBalanceOfAddress", content);
-            getWallet.Result.EnsureSuccessStatusCode();
-            var res_balance = getWallet.Result.Content.ReadAsStringAsync().Result;
-            var balance_j_res = JsonConvert.DeserializeObject(res_balance);
+            var balance_j_res = _blockchainApi.Post("api/User/getBalanceOfAddress", new List<JProperty> { new("Address", address) });
             // İşlemlerin çekilceği kısım
-            var contentx = new StringContent(new JObject(new JProperty("Address", address)).ToString(), System.Text.Encoding.UTF8, "application/json");
+            var res_transactions_j = _blockchainApi.Post("api/User/getTransactionsOfAddress", new List<JProperty> { new("Address", address) });
 
-            var getTransaction = httpClient.PostAsync("api/User/getTransactionsOfAddress", contentx);
-            getTransaction.Result.EnsureSuccessStatusCode();
-            var res_transactions = getTransaction.Result.Content.ReadAsStringAsync().Result;
-            var res_transactions_j = JsonConvert.DeserializeObject(res_transactions);
 
             ViewBag.address = address;
             ViewBag.balance = balance_j_res;
 
-            ViewBag.carbon = userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId()).Result != null 
-                ? userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId()).Result.Carbon 
+            ViewBag.carbon = userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId()).Result != null
+                ? userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId()).Result.Carbon
                 : 0;
             ViewBag.transactions = res_transactions_j;
             return View();
@@ -131,11 +122,7 @@ namespace RecycleCoinMvc.Controllers
                 user.Name = userRegisterViewModel.Name;
                 user.Lastname = userRegisterViewModel.Lastname;
                 user.Email = userRegisterViewModel.Email;
-
-                var getKeyPair = httpClient.GetAsync("api/User/generateKeyPair");
-                getKeyPair.Result.EnsureSuccessStatusCode();
-                var res = getKeyPair.Result.Content.ReadAsStringAsync().Result;
-                var j_res = JsonConvert.DeserializeObject(res);
+                var j_res = _blockchainApi.Get("api/User/generateKeyPair");
                 ViewBag.data = j_res;
                 user.PublicKey = ViewBag.data["publicKey"];
                 user.PrivateKey = ViewBag.data["privateKey"];
@@ -168,7 +155,7 @@ namespace RecycleCoinMvc.Controllers
             Session.Remove("privateKey");
             Session["toast"] = new Toastr("Çıkış", "Başarıyla çıkış yaptınız.", "success");
 
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

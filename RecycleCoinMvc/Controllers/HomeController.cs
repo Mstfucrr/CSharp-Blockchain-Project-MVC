@@ -6,18 +6,19 @@ using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RecycleCoinMvc.Models;
 
 namespace RecycleCoinMvc.Controllers
 {
     public class HomeController : Controller
     {
         private readonly HttpClient httpClient;
+        private readonly BlockchainApi _blockchainApi;
 
 
         public HomeController()
         {
-            httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("http://localhost:5000");
+            _blockchainApi = new BlockchainApi();
         }
 
 
@@ -25,13 +26,10 @@ namespace RecycleCoinMvc.Controllers
         {
             return View();
         }
-        
+
         public ActionResult About()
         {
-            var deneme = httpClient.GetAsync("api/getBlockchain");
-            deneme.Result.EnsureSuccessStatusCode();
-            var res = deneme.Result.Content.ReadAsStringAsync().Result;
-            var j_res = JsonConvert.DeserializeObject(res);
+            var j_res = _blockchainApi.Get("api/getBlockchain");
             ViewBag.message = j_res;
             return View();
         }
@@ -47,11 +45,7 @@ namespace RecycleCoinMvc.Controllers
         {
             try
             {
-
-                var getBlockchain = httpClient.GetAsync("api/Blockchain/getBlockchain");
-                getBlockchain.Result.EnsureSuccessStatusCode();
-                var res = getBlockchain.Result.Content.ReadAsStringAsync().Result;
-                var j_res = JsonConvert.DeserializeObject(res);
+                var j_res = _blockchainApi.Get("api/Blockchain/getBlockchain");
                 ViewBag.blockchain = j_res;
                 if (Session["blockByHash"] != null)
                 {
