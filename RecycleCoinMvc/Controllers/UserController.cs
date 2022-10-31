@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
@@ -16,7 +17,7 @@ namespace RecycleCoinMvc.Controllers
 {
     public class UserController : Controller
     {
-        
+
         private UserManager<AppUser> userManager;
         private readonly BlockchainApi _blockchainApi;
 
@@ -39,10 +40,18 @@ namespace RecycleCoinMvc.Controllers
 
         public ActionResult Wallet()
         {
-            var address = HttpContext.User.Identity.IsAuthenticated ? userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId()).Result.PublicKey : "";
+
+            var user = HttpContext.User.Identity.IsAuthenticated 
+                ? userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId()).Result 
+                : null;
+            var address = user != null ? user.PublicKey : "";
+
             if (Request.HttpMethod == "POST")
             {
                 address = Request.Form["address"];
+                user = userManager.Users.FirstOrDefault(u=>u.PublicKey == address);
+
+
             }
             var balance_j_res = _blockchainApi.Post("api/User/getBalanceOfAddress", new List<JProperty> { new("Address", address) });
             // İşlemlerin çekilceği kısım
@@ -52,9 +61,7 @@ namespace RecycleCoinMvc.Controllers
             ViewBag.address = address;
             ViewBag.balance = balance_j_res;
 
-            ViewBag.carbon = userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId()).Result != null
-                ? userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId()).Result.Carbon
-                : 0;
+            ViewBag.carbon = user?.Carbon ?? 0;
             ViewBag.transactions = res_transactions_j;
             return View();
         }
