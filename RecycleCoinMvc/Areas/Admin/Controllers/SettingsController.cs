@@ -8,22 +8,23 @@ using RecycleCoinMvc.Models;
 using RecycleCoin.Business.Concrete;
 using RecycleCoin.DataAccess.Concrete.EntityFramework;
 using RecycleCoin.Entities.Concrete;
+using Microsoft.Owin.BuilderProperties;
+using System.Collections.Generic;
 
 namespace RecycleCoinMvc.Areas.Admin.Controllers
 {
     //[Authorize(Roles = "Admin")]
     public class SettingsController : Controller
     {
-        private readonly HttpClient httpClient;
         private readonly CategoryManager categoryManager;
         private readonly ProductManager productManager;
+        private readonly BlockchainApi _blockchainApi;
 
         public SettingsController()
         {
-            httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("http://localhost:5000");
             categoryManager = new CategoryManager(new EfCategoryDal());
             productManager = new ProductManager(new EfProductDal());
+            _blockchainApi = new BlockchainApi();
         }
 
 
@@ -36,19 +37,13 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
             {
                 try
                 {
-                    var SettingsContent = new JObject(
-                        new JProperty("difficulty", Request.Form["difficulty"]),
-                        new JProperty("reward", Request.Form["reward"])).ToString();
-
-                    var s_content = new StringContent(SettingsContent, System.Text.Encoding.UTF8, "application/json");
-
-
-                    var setSettings = httpClient.PostAsync("api/Blockchain/setDifficultyAndminingReward", s_content);
-                    setSettings.Result.EnsureSuccessStatusCode();
+                    var dif = new JProperty("difficulty", Request.Form["difficulty"]);
+                    var rew = new JProperty("reward", Request.Form["reward"]);
+                    _blockchainApi.Post("api/Blockchain/setDifficultyAndminingReward", new List<JProperty>{dif,rew});
                     Session["toast"] = new Toastr("Ayarlar", "Ayarlama işlemi başarıyla gerçekleştirildi", "success");
 
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Session["toast"] = new Toastr("Ayarlar", "Ayarlama işlemi Başarısız !", "danger");
 
@@ -56,12 +51,8 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
 
             }
 
-
-            var getSettings = httpClient.GetAsync("api/Blockchain/getDifficultyAndminingReward");
-            getSettings.Result.EnsureSuccessStatusCode();
-            var res = getSettings.Result.Content.ReadAsStringAsync().Result;
-            var j_res = JsonConvert.DeserializeObject(res);
-            ViewBag.settings = j_res;
+            var getSettings = _blockchainApi.Get("api/Blockchain/getDifficultyAndminingReward");
+            ViewBag.settings = getSettings;
             ViewBag.categories = categoryManager.GetList();
 
             return View();
@@ -94,7 +85,7 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
             {
                 Session["toast"] = new Toastr("Kategori", "Kategoriniz ekleme işlemi başarısız !", "danger");
             }
-            
+
             return RedirectToAction("Index");
         }
 
@@ -148,7 +139,7 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
                 Session["toast"] = new Toastr("Ürün Ayarları", $"{product.Name} ürününün Carbon tutarı {product.Carbon} miktarına başarıyla güncellendi.", "success");
 
             }
-            catch (Exception )
+            catch (Exception)
             {
                 Session["toast"] = new Toastr("Ürün Ayarları", "Ayarlama işlemi Başarısız !", "danger");
             }
