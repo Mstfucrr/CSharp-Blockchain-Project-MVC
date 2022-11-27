@@ -126,6 +126,10 @@
     <Compile Include="Migrations\202210291929059_mig_update_prop_to_virtual.designer.cs">
       <DependentUpon>202210291929059_mig_update_prop_to_virtual.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202211261320244_mig_sp_for_getProductsByCategoryId.cs" />
+    <Compile Include="Migrations\202211261320244_mig_sp_for_getProductsByCategoryId.designer.cs">
+      <DependentUpon>202211261320244_mig_sp_for_getProductsByCategoryId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -161,6 +165,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202210291929059_mig_update_prop_to_virtual.resx">
       <DependentUpon>202210291929059_mig_update_prop_to_virtual.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211261320244_mig_sp_for_getProductsByCategoryId.resx">
+      <DependentUpon>202211261320244_mig_sp_for_getProductsByCategoryId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
