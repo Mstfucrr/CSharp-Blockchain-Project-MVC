@@ -112,7 +112,7 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
                 product.Image = $"Image_Product_{product.Id}{uzanti}";
 
                 productManager.Update(product);
-                Session["toast"] = new Toastr("Ürün", $"{product} ürünü başarıyla eklendi.", "success");
+                Session["toast"] = new Toastr("Ürün", $"{product.Name} ürünü başarıyla eklendi.", "success");
 
             }
             catch (Exception)
