@@ -93,9 +93,10 @@
                         </a>
                         <div class="dropdown-menu">
 
-
-                            @if (User.Identity.IsAuthenticated)
+	                        <a class="dropdown-item" href="/User/Wallet">Rc Bilgileri </a>
+	                        @if (User.Identity.IsAuthenticated)
                             {
+                                <a class="dropdown-item" href="/User/RecycleItems">Geri Dönüşümlerim</a>
                                 <a class="dropdown-item" href="/User/Logout">Çıkış Yap</a>
                             }
                             else
@@ -103,7 +104,6 @@
                                 <a class="dropdown-item" href="/User/Login">Giriş Yap</a>
                                 <a class="dropdown-item" href="/User/Register">Kayıt Ol</a>
                             }
-                            <a class="dropdown-item" href="/User/Wallet">Rc Bilgileri </a>
                         </div>
                     </div>
                 </li>

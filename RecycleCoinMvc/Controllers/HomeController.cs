@@ -63,8 +63,8 @@ namespace RecycleCoinMvc.Controllers
         
         public ActionResult CategoryListener()
         {
-            var categories = _categoryManager.GetProductListByCarbonDesc();
-            ViewBag.categories = categories;
+            //var categories = _categoryManager.GetProductListByCarbonDesc();
+            //ViewBag.categories = categories;
             return PartialView("_categoryListenerPartial");
         }
 

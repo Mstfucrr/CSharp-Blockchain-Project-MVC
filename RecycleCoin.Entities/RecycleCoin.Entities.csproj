@@ -61,6 +61,7 @@
     <Compile Include="Concrete\AppUser.cs" />
     <Compile Include="Concrete\Category.cs" />
     <Compile Include="Concrete\Product.cs" />
+    <Compile Include="Concrete\UserRecycleItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -363,6 +363,7 @@
     <Content Include="Views\Shared\_toasterPartial.cshtml" />
     <Content Include="Views\Shared\_navbar.cshtml" />
     <Content Include="Views\Shared\_categoryListenerPartial.cshtml" />
+    <Content Include="Views\User\RecycleItems.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RecycleCoin.Business.Concrete;
+using RecycleCoin.DataAccess.Concrete.EntityFramework;
 using RecycleCoin.DataAccess.Concrete.EntityFramework.Contexts;
 using RecycleCoin.Entities.Concrete;
 using RecycleCoinMvc.Models;
@@ -18,7 +17,8 @@ namespace RecycleCoinMvc.Controllers
     public class UserController : Controller
     {
 
-        private UserManager<AppUser> userManager;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly UserRecycleItemManager _userRecycleItemManager;
         private readonly BlockchainApi _blockchainApi;
 
 
@@ -26,7 +26,8 @@ namespace RecycleCoinMvc.Controllers
         {
 
             var userStore = new UserStore<AppUser>(new RecycleCoinDbContext());
-            userManager = new UserManager<AppUser>(userStore);
+            _userManager = new UserManager<AppUser>(userStore);
+            _userRecycleItemManager = new UserRecycleItemManager(new EfUserRecycleItemDal());
             _blockchainApi = new BlockchainApi();
         }
 
@@ -42,14 +43,14 @@ namespace RecycleCoinMvc.Controllers
         {
 
             var user = HttpContext.User.Identity.IsAuthenticated 
-                ? userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId()).Result 
+                ? _userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId()).Result 
                 : null;
             var address = user != null ? user.PublicKey : "";
 
             if (Request.HttpMethod == "POST")
             {
                 address = Request.Form["address"];
-                user = userManager.Users.FirstOrDefault(u=>u.PublicKey == address);
+                user = _userManager.Users.FirstOrDefault(u=>u.PublicKey == address);
 
 
             }
@@ -80,7 +81,7 @@ namespace RecycleCoinMvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = userManager.Find(userLoginViewModel.Username, userLoginViewModel.Password);
+                var user = _userManager.Find(userLoginViewModel.Username, userLoginViewModel.Password);
 
                 if (user == null)
                 {
@@ -89,7 +90,7 @@ namespace RecycleCoinMvc.Controllers
                 else
                 {
                     var authManager = HttpContext.GetOwinContext().Authentication; //login işlemini yerine getiren nesne.
-                    var identity = userManager.CreateIdentity(user, "ApplicationCookie"); //cookie oluşturup authManager aracılığıyla kullanıcıya göndericez.
+                    var identity = _userManager.CreateIdentity(user, "ApplicationCookie"); //cookie oluşturup authManager aracılığıyla kullanıcıya göndericez.
 
                     var authProperties = new AuthenticationProperties()
                     {
@@ -133,7 +134,7 @@ namespace RecycleCoinMvc.Controllers
                 ViewBag.data = j_res;
                 user.PublicKey = ViewBag.data["publicKey"];
                 user.PrivateKey = ViewBag.data["privateKey"];
-                var result = userManager.Create(user, userRegisterViewModel.Password);
+                var result = _userManager.Create(user, userRegisterViewModel.Password);
 
                 if (result.Succeeded)
                 {
@@ -163,6 +164,15 @@ namespace RecycleCoinMvc.Controllers
             Session["toast"] = new Toastr("Çıkış", "Başarıyla çıkış yaptınız.", "success");
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult RecycleItems()
+        {
+            var userId = HttpContext.User.Identity.GetUserId();
+            var userRecycleItemsById = _userRecycleItemManager.GetListByUserId(userId);
+            ViewBag.RecycleItems = userRecycleItemsById;
+            return View();
+
         }
     }
 }

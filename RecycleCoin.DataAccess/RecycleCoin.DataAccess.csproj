@@ -101,10 +101,12 @@
   <ItemGroup>
     <Compile Include="Abstract\ICategoryDal.cs" />
     <Compile Include="Abstract\IProductDal.cs" />
+    <Compile Include="Abstract\IUserRecycleItemDal.cs" />
     <Compile Include="Concrete\EntityFramework\Contexts\RecycleCoinDbContext.cs" />
     <Compile Include="Abstract\IEntityRepositoryBase.cs" />
     <Compile Include="Concrete\EntityFramework\EfCategoryDal.cs" />
     <Compile Include="Concrete\EntityFramework\EfProductDal.cs" />
+    <Compile Include="Concrete\EntityFramework\EfUserRecycleItemDal.cs" />
     <Compile Include="Concrete\EntityFramework\Repositories\Concrete\EfEntityRepositoryBase.cs" />
     <Compile Include="Migrations\202210232131381_mig_identityDb_add.cs" />
     <Compile Include="Migrations\202210232131381_mig_identityDb_add.designer.cs">
@@ -130,12 +132,18 @@
     <Compile Include="Migrations\202211261320244_mig_sp_for_getProductsByCategoryId.designer.cs">
       <DependentUpon>202211261320244_mig_sp_for_getProductsByCategoryId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202211271952428_mig_add_table_UserRecycleItems.cs" />
+    <Compile Include="Migrations\202211271952428_mig_add_table_UserRecycleItems.designer.cs">
+      <DependentUpon>202211271952428_mig_add_table_UserRecycleItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211272055407_mig_sp_for_getUserRecycleItemsByUserId.cs" />
+    <Compile Include="Migrations\202211272055407_mig_sp_for_getUserRecycleItemsByUserId.designer.cs">
+      <DependentUpon>202211272055407_mig_sp_for_getUserRecycleItemsByUserId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Concrete\EntityFramework\Mappings\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
@@ -168,6 +176,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202211261320244_mig_sp_for_getProductsByCategoryId.resx">
       <DependentUpon>202211261320244_mig_sp_for_getProductsByCategoryId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211271952428_mig_add_table_UserRecycleItems.resx">
+      <DependentUpon>202211271952428_mig_add_table_UserRecycleItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211272055407_mig_sp_for_getUserRecycleItemsByUserId.resx">
+      <DependentUpon>202211272055407_mig_sp_for_getUserRecycleItemsByUserId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

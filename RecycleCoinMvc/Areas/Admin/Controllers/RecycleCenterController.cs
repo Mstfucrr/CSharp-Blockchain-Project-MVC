@@ -1,4 +1,5 @@
-﻿using RecycleCoin.Business.Concrete;
+﻿using System;
+using RecycleCoin.Business.Concrete;
 using RecycleCoin.DataAccess.Concrete.EntityFramework;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,15 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
         private readonly CategoryManager _categoryManager;
         private readonly ProductManager _productManager;
         private readonly UserManager<AppUser> _userManager;
+        private readonly UserRecycleItemManager _userRecycleItemManager;
+
         private Toastr toastr;
 
         public RecycleCenterController()
         {
             _categoryManager = new CategoryManager(new EfCategoryDal());
             _productManager = new ProductManager(new EfProductDal());
+            _userRecycleItemManager = new UserRecycleItemManager(new EfUserRecycleItemDal());
             var userStore = new UserStore<AppUser>(new RecycleCoinDbContext());
             _userManager = new UserManager<AppUser>(userStore);
 
@@ -78,8 +82,21 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
             var user = _userManager.Users.FirstOrDefault(u => u.PublicKey == toAddress);
             user.Carbon += totalCarbon;
             _userManager.Update(user);
-            Session.Remove("cartItems");
 
+            if (Session["cartItems"] is List<CartItem> cartlist)
+                foreach (var cartItem in cartlist)
+                {
+                    _userRecycleItemManager.Add(new UserRecycleItem()
+                    {
+                        ProductId = cartItem.product.Id,
+                        Amount = cartItem.amount,
+                        UserId = user.Id,
+                        RecycleCarbon = cartItem.product.Carbon * cartItem.amount,
+                        RecycleDate = DateTime.Now,
+                    });
+                }
+            
+            Session.Remove("cartItems");
             return RedirectToAction("Index");
         }
 
