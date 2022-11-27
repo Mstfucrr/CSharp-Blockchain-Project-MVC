@@ -13,7 +13,7 @@ namespace RecycleCoin.DataAccess.Concrete.EntityFramework
         public List<Product> GetListByCategory(int categoryId)
         {
             recycleCoinDbContext = new RecycleCoinDbContext();
-            var products= recycleCoinDbContext.Products.Where(p => p.CategoryId == categoryId).ToList();
+             var products = new List<Product>(recycleCoinDbContext.Products.SqlQuery($@"call recyclecoindb.sp_getProductsByCategoryId({categoryId});"));
             return products ?? null;
         }
     }
