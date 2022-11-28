@@ -1,0 +1,125 @@
+﻿@using RecycleCoin.Entities.Concrete
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var userRecycleItemInfos = ViewBag.UserRecycleItemInfos as List<UserRecycleItem>;
+}
+
+<link href="../../../../Content/UserRecycle.css" type="text/css" rel="stylesheet" />
+
+
+
+<section style="width: 100%; margin-top: -18px; padding-top: 180px; padding-bottom: 70px;background: linear-gradient(230deg, red, #ff00cb);min-height: 100vh;display: flex;justify-content: center;align-items: center;">
+    <div style="background-color: #fff;width: 50%;height: 100%;box-shadow: 0px 0px 20px 1px;border-radius: 25px;">
+        <div style="text-align: center;margin-top: 23px;">
+            <h2>Kullanıcılar</h2>
+        </div>
+        <div class="text-center">
+            <hr class="w-50" />
+
+            <div class="row orderByGroup">
+                <div class="col">
+                    <button class="btn btn-outline-primary" id="date">
+                        Tarihe göre
+                        <span id="date-arrow" class="ml-1 arrow">
+                            <i class="notOrderBy fas fa-chevron-right"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="col">
+                    <button class="btn btn-outline-primary" id="carbon">
+                        Carbon Miktarına göre
+                        <span id="carbon-arrow" class="ml-1 arrow">
+                            <i class="notOrderBy fas fa-chevron-right"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="col">
+                    <button class="btn btn-outline-primary" id="name">
+                        İsme göre
+                        <span id="name-arrow" class="ml-1 arrow">
+                            <i class="notOrderBy fas fa-chevron-right"></i>
+                        </span>
+                    </button>
+                </div>
+
+            </div>
+
+            <hr class="w-75" />
+        </div>
+
+        <div id="userListBody" class="w-100">
+            <div class="userListItem bg-light text-dark" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
+                <div class="col">Ad</div>
+                <div class="col">Soyad</div>
+                <div class="col">Adet</div>
+                <div class="col">Ürün</div>
+                <div class="col">Carbon</div>
+                <div class="col">Tarih</div>
+            </div>
+            <br />
+            @if (userRecycleItemInfos != null)
+            {
+
+                foreach (var userRecycleItemInfo in userRecycleItemInfos)
+                {
+                    var adetCarbon = userRecycleItemInfo.RecycleCarbon / userRecycleItemInfo.Amount;
+
+                    <div class="userListItem row m-2" style="cursor: pointer">
+
+
+                        <div class="col">@userRecycleItemInfo.User.Name</div>
+                        <div class="col">@userRecycleItemInfo.User.Lastname</div>
+                        <div class="col">@userRecycleItemInfo.Amount</div>
+                        <div class="col" style="min-width: 200px">@userRecycleItemInfo.Product.Name (@adetCarbon c)</div>
+                        <div class="col">@userRecycleItemInfo.RecycleCarbon</div>
+                        <div class="col">@userRecycleItemInfo.RecycleDate</div>
+                    </div>
+
+                }
+            }
+        </div>
+    </div>
+</section>
+<script>
+
+    $("#date").click(function () {
+        if (!$("#date-arrow i.orderBy")[0]) {
+            $("#date-arrow i").addClass("orderBy").removeClass("notOrderBy").removeClass("orderBydesc")
+
+        }
+        else {
+            $("#date-arrow i").removeClass("orderBy").addClass("orderBydesc")
+        }
+
+        $("#name-arrow i").addClass("notOrderBy").removeClass("orderBy").removeClass("orderBydesc")
+        $("#carbon-arrow i").addClass("notOrderBy").removeClass("orderBy").removeClass("orderBydesc")
+    })
+
+    $("#carbon").click(function () {
+
+        if (!$("#carbon-arrow i.orderBy")[0]) {
+
+            $("#carbon-arrow i").addClass("orderBy").removeClass("notOrderBy").removeClass("orderBydesc")
+        }
+        else {
+            $("#carbon-arrow i").removeClass("orderBy").addClass("orderBydesc")
+        }
+        $("#name-arrow i").addClass("notOrderBy").removeClass("orderBy").removeClass("orderBydesc")
+        $("#date-arrow i").addClass("notOrderBy").removeClass("orderBy").removeClass("orderBydesc")
+    })
+
+    $("#name").click(function () {
+
+        if (!$("#name-arrow i.orderBy")[0]) {
+            $("#name-arrow i").addClass("orderBy").removeClass("notOrderBy").removeClass("orderBydesc")
+        }
+        else {
+            $("#name-arrow i").removeClass("orderBy").addClass("orderBydesc")
+        }
+        $("#date-arrow i").addClass("notOrderBy").removeClass("orderBy").removeClass("orderBydesc")
+        $("#carbon-arrow i").addClass("notOrderBy").removeClass("orderBy").removeClass("orderBydesc")
+    })
+
+</script>

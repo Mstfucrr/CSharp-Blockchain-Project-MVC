@@ -1,0 +1,91 @@
+﻿@property --rotate {
+    /* ReSharper disable once CssNotResolved */
+    syntax: "<angle>";
+    /* ReSharper disable once CssNotResolved */
+
+    initial-value: 132deg;
+    /* ReSharper disable once CssNotResolved */
+
+    inherits: false;
+}
+
+.orderByGroup i {
+    transition: .3s;
+}
+
+.orderBy {
+    transform: rotate(90deg);
+}
+
+.orderBydesc {
+    transform: rotate(-90deg);
+}
+
+.notOrderBy {
+    transform: rotate(0);
+}
+
+#userListBody {
+    background: #212534;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    max-height: 540px;
+    overflow-y: auto;
+}
+
+.userListItem {
+    background: #191c29;
+    width: 750px;
+    min-height: 50px;
+    padding: 3px;
+    position: relative;
+    border-radius: 6px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    color: #add8e6;
+    font-family: cursive;
+}
+
+    .userListItem:before {
+        content: "";
+        width: 102%;
+        height: 116%;
+        border-radius: 8px;
+        background-image: linear-gradient( var(--rotate), #5ddcff, #3c67e3 43%, #4e00c2);
+        position: absolute;
+        z-index: -1;
+        top: -8%;
+        left: -1%;
+        animation: spin 3s cubic-bezier(0, 0, 0, 0) infinite;
+    }
+
+    .userListItem:hover:not(:nth-child(1)):before {
+        z-index: 0;
+    }
+
+@keyframes spin {
+    0% {
+        --rotate: 0deg;
+    }
+
+    25% {
+        --rotate: 90deg;
+    }
+
+    50% {
+        --rotate: 180deg;
+    }
+
+    75% {
+        --rotate: 270deg;
+    }
+
+    100% {
+        --rotate: 360deg;
+    }
+}
