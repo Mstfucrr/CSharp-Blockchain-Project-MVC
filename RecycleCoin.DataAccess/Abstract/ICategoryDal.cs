@@ -5,6 +5,5 @@ namespace RecycleCoin.DataAccess.Abstract
 {
     public interface ICategoryDal:IEntityRepositoryBase<Category>
     {
-        List<Category> GetProductListByCarbonDesc();
     }
 }

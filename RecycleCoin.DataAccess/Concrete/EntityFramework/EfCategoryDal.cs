@@ -11,16 +11,6 @@ namespace RecycleCoin.DataAccess.Concrete.EntityFramework
     {
 
         private RecycleCoinDbContext recycleCoinDbContext;
-        public List<Category> GetProductListByCarbonDesc()
-        {
-            recycleCoinDbContext = new RecycleCoinDbContext();
-            var Categoryies = new List<Category>(
-                recycleCoinDbContext
-                    .Categories
-                    .SqlQuery($@"SELECT * FROM recyclecoindb.getproductlistbycarbon;"));// düzenlenecek
-            return Categoryies ?? null;
-        }
-
 
     }
 }

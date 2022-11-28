@@ -19,11 +19,6 @@ namespace RecycleCoin.Business.Concrete
 
         }
         
-        public List<Category> GetProductListByCarbonDesc()
-        {
-            return _categoryDal.GetProductListByCarbonDesc();
-        }
-
         public void Add(Category category)
         {
             _categoryDal.Add(category);

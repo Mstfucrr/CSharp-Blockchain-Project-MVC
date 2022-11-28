@@ -12,13 +12,10 @@ namespace RecycleCoinMvc.Controllers
     {
         private readonly HttpClient httpClient;
         private readonly BlockchainApi _blockchainApi;
-        private readonly CategoryManager _categoryManager;
-
-
+        
         public HomeController()
         {
             _blockchainApi = new BlockchainApi();
-            _categoryManager = new CategoryManager(new EfCategoryDal());
         }
 
 
@@ -61,12 +58,5 @@ namespace RecycleCoinMvc.Controllers
             return PartialView("_blcoksListenerPartial");
         }
         
-        public ActionResult CategoryListener()
-        {
-            //var categories = _categoryManager.GetProductListByCarbonDesc();
-            //ViewBag.categories = categories;
-            return PartialView("_categoryListenerPartial");
-        }
-
     }
 }
