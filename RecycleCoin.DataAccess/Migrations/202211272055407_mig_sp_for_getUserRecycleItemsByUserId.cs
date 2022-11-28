@@ -10,7 +10,7 @@
             AddColumn("dbo.UserRecycleItems", "Amount", c => c.Int(nullable: false));
             Sql($@"CREATE PROCEDURE `sp_getUserRecycleItemsByUserId`(IN userId varchar(128))
                     BEGIN
-	                    SELECT * FROM recyclecoindb.userrecycleitems where UserId=userId ; 
+	                    SELECT * FROM recyclecoindb.userrecycleitems ur where ur.UserId = userId ; 
                     END");
         }
 
