@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using RecycleCoin.Business.Concrete;
 using System.Web.Mvc;
 using RecycleCoin.DataAccess.Concrete.EntityFramework;
@@ -21,6 +22,21 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
             
             ViewBag.UserRecycleItemInfos = userRecycleItemInfos;
             return View();
+        }
+
+        public ActionResult OrderByDate()
+        {
+            var userRecycleItemInfos = _userRecycleItemManager.GetListOrderByDate();
+
+            ViewBag.UserRecycleItemInfos = userRecycleItemInfos;
+            return PartialView("_userRecycleItemsPartial");
+        }
+
+        public ActionResult OrderByDateDesc()
+        {
+            var userRecycleItemInfos = _userRecycleItemManager.GetListOrderByDateDesc();
+            ViewBag.UserRecycleItemInfos = userRecycleItemInfos;
+            return PartialView("_userRecycleItemsPartial");
         }
     }
 }

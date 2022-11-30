@@ -6,5 +6,7 @@ namespace RecycleCoin.DataAccess.Abstract
     public interface IUserRecycleItemDal: IEntityRepositoryBase<UserRecycleItem>
     {
         List<UserRecycleItem> GetListByUser(string userId);
+        List<UserRecycleItem> GetListOrderByDate();
+        List<UserRecycleItem> GetListOrderByDateDesc();
     }
 }

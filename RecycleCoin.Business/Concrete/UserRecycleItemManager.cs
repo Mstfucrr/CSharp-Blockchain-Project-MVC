@@ -24,6 +24,15 @@ namespace RecycleCoin.Business.Concrete
             return _userRecycleItemDal.GetListByUser(userId);
         }
 
+        public List<UserRecycleItem> GetListOrderByDate()
+        {
+            return _userRecycleItemDal.GetListOrderByDate();
+        }
+
+        public List<UserRecycleItem> GetListOrderByDateDesc()
+        {
+            return _userRecycleItemDal.GetListOrderByDateDesc();
+        }
         public void Add(UserRecycleItem userRecycleItem)
         {
             _userRecycleItemDal.Add(userRecycleItem);
