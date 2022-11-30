@@ -248,6 +248,8 @@
     <Content Include="Areas\Admin\Views\RecycleCenter\Index.cshtml" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\ShowUsers\Index.cshtml" />
+    <Content Include="Scripts\UserRecycle.js" />
+    <Content Include="Views\Shared\_userRecycleItemsPartial.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

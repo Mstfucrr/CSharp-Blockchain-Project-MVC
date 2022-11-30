@@ -33,7 +33,7 @@
     padding-top: 2rem;
     padding-bottom: 2rem;
     max-height: 540px;
-    overflow-y: auto;
+    overflow-y: hidden;
 }
 
 .userListItem {
@@ -51,7 +51,7 @@
     font-family: cursive;
 }
 
-    .userListItem:before {
+    .userListItem.row:before {
         content: "";
         width: 102%;
         height: 116%;
@@ -64,7 +64,7 @@
         animation: spin 3s cubic-bezier(0, 0, 0, 0) infinite;
     }
 
-    .userListItem:hover:not(:nth-child(1)):before {
+    .userListItem.row:hover:before {
         z-index: 0;
     }
 
@@ -88,4 +88,14 @@
     100% {
         --rotate: 360deg;
     }
+}
+
+@keyframes load {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+
 }
