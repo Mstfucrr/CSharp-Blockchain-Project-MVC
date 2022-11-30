@@ -17,53 +17,43 @@
         </div>
         <div class="text-center">
             <hr class="w-50" />
+            <h3> Sırala </h3>
+            <div class="orderByGroup d-flex flex-wrap flex-row" style="justify-content: space-evenly">
+                    <button class="btn btn-outline-primary" onclick="arrowClick('name')" id="name">
+                        Kullanıcı Adı
+                        <span id="name-arrow" class="ml-1 arrow">
+                            <i class="notOrderBy fas fa-chevron-right"></i>
+                        </span>
+                    </button>
+                    <button class="btn btn-outline-primary" onclick="arrowClick('amount')" id="amount">
+                        Adet
+                        <span id="amount-arrow" class="ml-1 arrow">
+                            <i class="notOrderBy fas fa-chevron-right"></i>
+                        </span>
+                    </button>
 
-            <div class="row orderByGroup">
-	            <div class="col">
-		            <button class="btn btn-outline-primary" id="name">
-			            Kullanıcı Adı
-			            <span id="name-arrow" class="ml-1 arrow">
-				            <i class="notOrderBy fas fa-chevron-right"></i>
-			            </span>
-		            </button>
-	            </div>
-	            <div class="col">
-		            <button class="btn btn-outline-primary" id="amount">
-			            Adet
-			            <span id="amount-arrow" class="ml-1 arrow">
-				            <i class="notOrderBy fas fa-chevron-right"></i>
-			            </span>
-		            </button>
-	            </div>
-                
-	            <div class="col">
-                    <button class="btn btn-outline-primary" id="product">
+                    <button class="btn btn-outline-primary" onclick="arrowClick('product')" id="product">
                         Ürün Adı
                         <span id="product-arrow" class="ml-1 arrow">
                             <i class="notOrderBy fas fa-chevron-right"></i>
                         </span>
                     </button>
-	            </div>
-	            <div class="col">
-		            <button class="btn btn-outline-primary" id="carbon">
-			            Carbon Miktarı
-			            <span id="carbon-arrow" class="ml-1 arrow">
-				            <i class="notOrderBy fas fa-chevron-right"></i>
-			            </span>
-		            </button>
-	            </div>
-	            <div class="col">
-		            <button class="btn btn-outline-primary" id="date">
-			            Tarih
-			            <span id="date-arrow" class="ml-1 arrow">
-				            <i class="notOrderBy fas fa-chevron-right"></i>
-			            </span>
-		            </button>
-	            </div>
-
+                    <button class="btn btn-outline-primary" onclick="arrowClick('carbon')" id="carbon">
+                        Carbon Miktarı
+                        <span id="carbon-arrow" class="ml-1 arrow">
+                            <i class="notOrderBy fas fa-chevron-right"></i>
+                        </span>
+                    </button>
+                    <button class="btn btn-outline-primary" onclick="arrowClick('date')" id="date">
+                        Tarih
+                        <span id="date-arrow" class="ml-1 arrow">
+                            <i class="notOrderBy fas fa-chevron-right"></i>
+                        </span>
+                    </button>
             </div>
 
             <hr class="w-75" />
+
         </div>
 
         <div id="userListBody" class="w-100">
@@ -71,7 +61,7 @@
                 <div class="col">Ad</div>
                 <div class="col">Soyad</div>
                 <div class="col">Adet</div>
-                <div class="col">Ürün</div>
+                <div class="col" style="min-width: 200px">Ürün</div>
                 <div class="col">Carbon</div>
                 <div class="col">Tarih</div>
             </div>

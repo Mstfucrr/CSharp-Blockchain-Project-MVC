@@ -14,11 +14,11 @@
 }
 
 .orderBy {
-    transform: rotate(90deg);
+    transform: rotate(-90deg);
 }
 
 .orderBydesc {
-    transform: rotate(-90deg);
+    transform: rotate(90deg);
 }
 
 .notOrderBy {
