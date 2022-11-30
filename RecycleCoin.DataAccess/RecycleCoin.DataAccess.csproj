@@ -140,6 +140,10 @@
     <Compile Include="Migrations\202211272055407_mig_sp_for_getUserRecycleItemsByUserId.designer.cs">
       <DependentUpon>202211272055407_mig_sp_for_getUserRecycleItemsByUserId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202211302157388_mig_add_views.cs" />
+    <Compile Include="Migrations\202211302157388_mig_add_views.designer.cs">
+      <DependentUpon>202211302157388_mig_add_views.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -182,6 +186,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202211272055407_mig_sp_for_getUserRecycleItemsByUserId.resx">
       <DependentUpon>202211272055407_mig_sp_for_getUserRecycleItemsByUserId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211302157388_mig_add_views.resx">
+      <DependentUpon>202211302157388_mig_add_views.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
