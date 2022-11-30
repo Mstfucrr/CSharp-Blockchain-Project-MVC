@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
 using RecycleCoin.DataAccess.Abstract;
 using RecycleCoin.DataAccess.Concrete.EntityFramework.Contexts;
 using RecycleCoin.DataAccess.Concrete.EntityFramework.Repositories.Concrete;
@@ -20,19 +22,24 @@ namespace RecycleCoin.DataAccess.Concrete.EntityFramework
            var userRecycleItems = new List<UserRecycleItem>(_recycleCoinDbContext.UserRecycleItems.SqlQuery($@"call recyclecoindb.sp_getUserRecycleItemsByUserId('{userId}');"));
            return userRecycleItems ?? null;
         }
-
-        public List<UserRecycleItem> GetListOrderByDate()
+        
+        public List<UserRecycleItem> GetListOrderBy(string filter)
         {
-            var userRecycleItems = new List<UserRecycleItem>(_recycleCoinDbContext.UserRecycleItems.SqlQuery($@"Select * from recyclecoindb.userrecycleitems ur order by ur.RecycleDate;"));
-            return userRecycleItems ?? null;
+            var userRecycleItems = new List<UserRecycleItem>(GetViewResult(filter));
+            return userRecycleItems;
         }
 
-        public List<UserRecycleItem> GetListOrderByDateDesc()
+        public List<UserRecycleItem> GetListOrderByDesc(string filter)
         {
-            var userRecycleItems = new List<UserRecycleItem>(_recycleCoinDbContext.UserRecycleItems.SqlQuery($@"Select * from recyclecoindb.userrecycleitems ur order by ur.RecycleDate desc;"));
-            return userRecycleItems ?? null;
+            var userRecycleItems = new List<UserRecycleItem>(GetViewResult(filter)); 
+            userRecycleItems.Reverse();
+            return userRecycleItems;
         }
 
-
+        public DbSqlQuery<UserRecycleItem> GetViewResult(string filter)
+        {
+            return _recycleCoinDbContext.UserRecycleItems.SqlQuery(
+                $@"Select * from recyclecoindb.{filter}_orderbyview;");
+        }
     }
 }

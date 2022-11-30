@@ -24,17 +24,17 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
             return View();
         }
 
-        public ActionResult OrderByDate()
+        public ActionResult OrderBy(string filter)
         {
-            var userRecycleItemInfos = _userRecycleItemManager.GetListOrderByDate();
-
+            var userRecycleItemInfos = _userRecycleItemManager.GetListOrderBy(filter);
             ViewBag.UserRecycleItemInfos = userRecycleItemInfos;
+
             return PartialView("_userRecycleItemsPartial");
         }
 
-        public ActionResult OrderByDateDesc()
+        public ActionResult OrderByDesc(string filter)
         {
-            var userRecycleItemInfos = _userRecycleItemManager.GetListOrderByDateDesc();
+            var userRecycleItemInfos = _userRecycleItemManager.GetListOrderByDesc(filter);
             ViewBag.UserRecycleItemInfos = userRecycleItemInfos;
             return PartialView("_userRecycleItemsPartial");
         }

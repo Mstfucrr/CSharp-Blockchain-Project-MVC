@@ -23,19 +23,21 @@ namespace RecycleCoin.Business.Concrete
         {
             return _userRecycleItemDal.GetListByUser(userId);
         }
-
-        public List<UserRecycleItem> GetListOrderByDate()
+        
+        public List<UserRecycleItem> GetListOrderBy(string filter)
         {
-            return _userRecycleItemDal.GetListOrderByDate();
+            return _userRecycleItemDal.GetListOrderBy(filter);
         }
 
-        public List<UserRecycleItem> GetListOrderByDateDesc()
+        public List<UserRecycleItem> GetListOrderByDesc(string filter)
         {
-            return _userRecycleItemDal.GetListOrderByDateDesc();
+            return _userRecycleItemDal.GetListOrderByDesc(filter);
         }
+
         public void Add(UserRecycleItem userRecycleItem)
         {
             _userRecycleItemDal.Add(userRecycleItem);
         }
+
     }
 }

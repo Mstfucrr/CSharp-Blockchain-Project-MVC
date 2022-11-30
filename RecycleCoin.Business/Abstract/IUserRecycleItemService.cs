@@ -7,8 +7,8 @@ namespace RecycleCoin.Business.Abstract
     {
         List<UserRecycleItem> GetList();
         List<UserRecycleItem> GetListByUserId(string userId);
-        List<UserRecycleItem> GetListOrderByDate();
-        List<UserRecycleItem> GetListOrderByDateDesc();
+        List<UserRecycleItem> GetListOrderBy(string filter);
+        List<UserRecycleItem> GetListOrderByDesc(string filter);
         void Add(UserRecycleItem userRecycleItem);
     }
 }
