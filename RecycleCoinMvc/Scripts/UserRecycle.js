@@ -10,3 +10,20 @@
     }
     $("i").not($("#" + filterName + " i")).addClass("notOrderBy").removeClass("orderBy").removeClass("orderBydesc");
 }
+
+
+$(".userListItem.row").click(function () {
+
+    $("#userInfo").load(`/Admin/ShowUsers/GetUserInfo?userId=${this.dataset["userid"]}`)
+
+    $("#userInfo").css({
+        "left": "50px",
+        "transform": "scaleX(1)"
+    })
+
+    $("#info .bubble").css(
+        {
+            "left": "0px",
+            "transform": "scaleX(1)"
+        });
+})
