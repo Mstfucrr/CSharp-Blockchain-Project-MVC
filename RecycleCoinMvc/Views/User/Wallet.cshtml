@@ -6,6 +6,7 @@
     var address = ViewBag.address;
     var transactions = ViewBag.transactions;
 	var carbon = ViewBag.carbon;
+	string username = ViewBag.username;
 
 }
 
@@ -18,7 +19,7 @@
         <div class="d-flex align-items-start h-50" style="border-color: var(--indigo);width: 85%;">
             <div>
                 <img src="../../image/default.png" style="width: 135px;">
-                <p class="text-center">Username</p>
+                <p class="text-center">@username</p>
             </div>
             <div style="margin-left: 40px;overflow-x: auto;">
                 <h5></h5>

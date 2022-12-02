@@ -53,5 +53,13 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
             ViewBag.User = user;
             return PartialView("_userInfoPartial");
         }
+
+
+        public ActionResult GetStatistic()
+        {
+            //istatisticler çekilecek
+
+            return PartialView("_showStatisticsPartial");
+        }
     }
 }

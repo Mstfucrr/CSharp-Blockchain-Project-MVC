@@ -63,6 +63,7 @@ namespace RecycleCoinMvc.Controllers
             ViewBag.balance = balance_j_res;
 
             ViewBag.carbon = user?.Carbon ?? 0;
+            ViewBag.username = user?.UserName ?? "Bulunamadı";
             ViewBag.transactions = res_transactions_j;
             return View();
         }
