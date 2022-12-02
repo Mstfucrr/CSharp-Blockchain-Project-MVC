@@ -8,20 +8,14 @@
 
     <div id="info" style="">
         <div class="bubble">
-            <div class="d-flex h-100">
-                <ul class="" style="list-style-type: none">
+            <div class="h-100 w-100">
+                <ul>
 
-                    <li class="">
-	                    Ad Soyad : @user.Name @user.Lastname
-                    </li>
+                    <li>Ad Soyad : @user.Name @user.Lastname</li>
+                    <li>Kullanıcı Adı : @user.UserName</li>
+                    <li>Email : @user.Email</li>
+                    <li>Toplam karbon : @user.Carbon</li>
 
-	                <li class="">
-		                Kullanıcı Adı : @user.UserName
-	                </li>
-
-                    <li class="">
-                        Toplam karbon : @user.Carbon
-                    </li>
                 </ul>
 
                 <button id="infoClose" class="btn btn-primary">Kapat</button>
@@ -29,6 +23,26 @@
         </div>
 
     </div>
+
+    <style>
+        .bubble div {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            align-content: center;
+            align-items: flex-end;
+            padding: 5px 17px;
+        }
+
+        .bubble ul {
+            list-style-type: none;
+        }
+
+            .bubble ul li {
+                margin: -65px;
+            }
+    </style>
 
 }
 
