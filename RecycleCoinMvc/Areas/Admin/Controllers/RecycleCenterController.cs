@@ -20,8 +20,6 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly UserRecycleItemManager _userRecycleItemManager;
 
-        private Toastr toastr;
-
         public RecycleCenterController()
         {
             _categoryManager = new CategoryManager(new EfCategoryDal());
@@ -34,7 +32,6 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
         public ActionResult Index()
         {
             ViewBag.categories = _categoryManager.GetList();
-            Session["toast"] = toastr;
             return View();
         }
 
@@ -42,9 +39,8 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
         public ActionResult GetProductsByCategory(int categoryId)
         {
             Session["products"] = _productManager.GetListByCategory(categoryId);
-            Session["categoryId"] = categoryId;
 
-            return RedirectToAction("Index");
+            return PartialView("_productsPartial");
             //return productManager.GetListByCategory(categoryId);
         }
 
@@ -55,7 +51,7 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
             list ??= new List<CartItem>();
             list.Add(new CartItem(product, quantity));
             Session["cartItems"] = list;
-            return RedirectToAction("Index");
+            return PartialView("_cartPartial");
             //return productManager.GetListByCategory(categoryId);
         }
 
@@ -74,29 +70,38 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
 
             Session["cartItems"] = cartItems;
 
-            return RedirectToAction("Index");
+            return PartialView("_cartPartial");
+
         }
 
         public ActionResult RecyleItems(string toAddress, int totalCarbon)
         {
             var user = _userManager.Users.FirstOrDefault(u => u.PublicKey == toAddress);
-            user.Carbon += totalCarbon;
-            _userManager.Update(user);
+            if (user != null)
+            {
+                user.Carbon += totalCarbon;
+                _userManager.Update(user);
 
-            if (Session["cartItems"] is List<CartItem> cartlist)
-                foreach (var cartItem in cartlist)
-                {
-                    _userRecycleItemManager.Add(new UserRecycleItem()
+                if (Session["cartItems"] is List<CartItem> cartlist)
+                    foreach (var cartItem in cartlist)
                     {
-                        ProductId = cartItem.product.Id,
-                        Amount = cartItem.amount,
-                        UserId = user.Id,
-                        RecycleCarbon = cartItem.product.Carbon * cartItem.amount,
-                        RecycleDate = DateTime.Now,
-                    });
-                }
-            
-            Session.Remove("cartItems");
+                        _userRecycleItemManager.Add(new UserRecycleItem()
+                        {
+                            ProductId = cartItem.product.Id,
+                            Amount = cartItem.amount,
+                            UserId = user.Id,
+                            RecycleCarbon = cartItem.product.Carbon * cartItem.amount,
+                            RecycleDate = DateTime.Now,
+                        });
+                    }
+                Session["toast"] = new Toastr("Geri Dönüşüm", $"{user.Name} {user.Lastname} kullanıcısına {totalCarbon} karbon eklemesi yapıldı.!", "warning");
+                Session.Remove("cartItems");
+            }
+            else
+            {
+                Session["toast"] = new Toastr("Geri Dönüşüm", $"Kullanıcı bulunamadı lütfen kullanıcı adresini kontrol ediniz!", "danger");
+            }
+
             return RedirectToAction("Index");
         }
 
