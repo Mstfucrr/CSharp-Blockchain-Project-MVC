@@ -5,7 +5,7 @@
 
 <div class="table-responsive" data-aos="zoom-in" data-aos-delay="350"
      style="border-top-left-radius: 25px;overflow-x: hidden;">
-	<table class="table table-striped table-dark" id="TransactionTable">
+	<table class="table table-striped table-dark" id="TransactionTable" style=" overflow-wrap: anywhere; ">
 		<thead class="bg-dark" style="position: sticky;top: 0;">
 		<tr style="font-size: 12px;">
 			<th>Ad</th>
@@ -14,14 +14,14 @@
 			<th>İptal et</th>
 		</tr>
 		</thead>
-		<tbody id="cartData">
+		<tbody id="cartData" style="font-size: 12px;">
 		@if (cartItems != null)
 		{
 			foreach (var cartItem in cartItems)
 			{
 
 				var total = cartItem.amount * cartItem.product.Carbon;
-				<tr style="background-color: #F42951; font-size: 15px;">
+				<tr style="background-color: #F42951;">
 					<td>@cartItem.product.Name</td>
 					<td>@cartItem.amount</td>
 
