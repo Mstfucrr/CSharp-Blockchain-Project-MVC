@@ -424,6 +424,7 @@
 .ConfirmBtn:hover {
     background-position: right center;
     transform: scale(1.1);
+    animation: gradient 2s ease alternate infinite;
 }
 
 .ConfirmBtn {
