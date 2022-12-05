@@ -49,21 +49,20 @@ namespace RecycleCoin.DataAccess.Concrete.EntityFramework
 
         public int GetBestRecycleAmount(int filterday)
         {
-            var res = _recycleCoinDbContext.UserRecycleItems.SqlQuery($@"
-                       Select recyclecoindb.bestRecycleAmount('{filterday}');");
-            
-            return Convert.ToInt32(res);
+            var res = _recycleCoinDbContext.Database.SqlQuery<string>($"Select recyclecoindb.bestRecycleAmount('{filterday}');").FirstOrDefault();
+            var res2 = Convert.ToInt32(res);
+            return res2;
         }
 
         public string GetBestRecycleUserID(int filterday)
         {
             
-            var res = _recycleCoinDbContext.Database.SqlQuery<string>($@"Select recyclecoindb.bestRecycleUserID({filterday});");
+            var res = _recycleCoinDbContext.Database.SqlQuery<string>($"Select recyclecoindb.bestRecycleUserID('{filterday}');").FirstOrDefault();
 
 
             //$@"Select recyclecoindb.bestRecycleUserID({filterday});"
 
-            return res.ToString();
+            return res;
         }
     }
 }

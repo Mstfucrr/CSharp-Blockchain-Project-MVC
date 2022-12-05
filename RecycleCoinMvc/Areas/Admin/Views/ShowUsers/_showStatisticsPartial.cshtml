@@ -2,6 +2,7 @@
 @{
     var bestAmount = ViewBag.bestAmount;
     var bestUser = ViewBag.bestUser as AppUser;
+	var filterday = ViewBag.filterday;
 }
 
 
@@ -10,16 +11,19 @@
         <div class="h-100 w-100">
             <ul>
                 <li>
-                    Son <input id="dayInput" type="number" min="1" class="form-control w-25 d-inline-block" style="font-size: 12px" /> günde
+                    Son <input id="dayInput" type="number" min="1" class="form-control d-inline-block" style="font-size: 14px;width: 34%" value="@filterday"/> günde
                 </li>
                 @if (bestUser != null)
                 {
-                    <li>
-                        Ençok Geri dönüşüm yapan Kullanıcı : @bestUser.Name @bestUser.Lastname
-                    </li>
-                    <li>
-                        Kullanıcının  günde yaptığı geri dönüşüm sayısı : @bestAmount
-                    </li>
+	                <li>
+		                Ençok Geri dönüşüm yapan Kullanıcı : 
+	                </li>
+	                <li style="font-weight: bold">
+		                @bestUser.Name @bestUser.Lastname
+	                </li>
+	                <li>
+		                Yaptığı geri dönüşüm sayısı : @bestAmount 
+	                </li>
                 }
 
             </ul>

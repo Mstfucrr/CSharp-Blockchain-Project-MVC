@@ -59,11 +59,12 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
         {
             //istatisticler çekilecek
             var bestRecycleUserID = _userRecycleItemManager.GetBestRecycleUserID(filterday);
-            //var bestRecycleAmount = _userRecycleItemManager.GetBestRecycleAmount(filterday);
+            var bestRecycleAmount = _userRecycleItemManager.GetBestRecycleAmount(filterday);
             var bestUser = _userManager.FindById(bestRecycleUserID);
 
-            //ViewBag.bestAmount = bestRecycleAmount;
+            ViewBag.bestAmount = bestRecycleAmount;
             ViewBag.bestUser = bestUser;
+            ViewBag.filterday = filterday;
 
 
             return PartialView("_showStatisticsPartial");
