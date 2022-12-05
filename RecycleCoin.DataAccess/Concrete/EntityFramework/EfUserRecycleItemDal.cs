@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using MySql.Data.MySqlClient;
 using RecycleCoin.DataAccess.Abstract;
 using RecycleCoin.DataAccess.Concrete.EntityFramework.Contexts;
 using RecycleCoin.DataAccess.Concrete.EntityFramework.Repositories.Concrete;
@@ -8,7 +10,7 @@ using RecycleCoin.Entities.Concrete;
 
 namespace RecycleCoin.DataAccess.Concrete.EntityFramework
 {
-    public class EfUserRecycleItemDal:EfEntityRepositoryBase<UserRecycleItem>, IUserRecycleItemDal
+    public class EfUserRecycleItemDal : EfEntityRepositoryBase<UserRecycleItem>, IUserRecycleItemDal
     {
         private RecycleCoinDbContext _recycleCoinDbContext;
 
@@ -17,12 +19,15 @@ namespace RecycleCoin.DataAccess.Concrete.EntityFramework
             _recycleCoinDbContext = new RecycleCoinDbContext();
 
         }
+
         public List<UserRecycleItem> GetListByUser(string userId)
         {
-           var userRecycleItems = new List<UserRecycleItem>(_recycleCoinDbContext.UserRecycleItems.SqlQuery($@"call recyclecoindb.sp_getUserRecycleItemsByUserId('{userId}');"));
-           return userRecycleItems ?? null;
+            var userRecycleItems = new List<UserRecycleItem>(
+                _recycleCoinDbContext.UserRecycleItems.SqlQuery(
+                    $@"call recyclecoindb.sp_getUserRecycleItemsByUserId('{userId}');"));
+            return userRecycleItems ?? null;
         }
-        
+
         public List<UserRecycleItem> GetListOrderBy(string filter)
         {
             var userRecycleItems = new List<UserRecycleItem>(GetViewResult(filter));
@@ -31,7 +36,7 @@ namespace RecycleCoin.DataAccess.Concrete.EntityFramework
 
         public List<UserRecycleItem> GetListOrderByDesc(string filter)
         {
-            var userRecycleItems = new List<UserRecycleItem>(GetViewResult(filter)); 
+            var userRecycleItems = new List<UserRecycleItem>(GetViewResult(filter));
             userRecycleItems.Reverse();
             return userRecycleItems;
         }
@@ -40,6 +45,25 @@ namespace RecycleCoin.DataAccess.Concrete.EntityFramework
         {
             return _recycleCoinDbContext.UserRecycleItems.SqlQuery(
                 $@"Select * from recyclecoindb.{filter}_orderbyview;");
+        }
+
+        public int GetBestRecycleAmount(int filterday)
+        {
+            var res = _recycleCoinDbContext.UserRecycleItems.SqlQuery($@"
+                       Select recyclecoindb.bestRecycleAmount('{filterday}');");
+            
+            return Convert.ToInt32(res);
+        }
+
+        public string GetBestRecycleUserID(int filterday)
+        {
+            
+            var res = _recycleCoinDbContext.Database.SqlQuery<string>($@"Select recyclecoindb.bestRecycleUserID({filterday});");
+
+
+            //$@"Select recyclecoindb.bestRecycleUserID({filterday});"
+
+            return res.ToString();
         }
     }
 }

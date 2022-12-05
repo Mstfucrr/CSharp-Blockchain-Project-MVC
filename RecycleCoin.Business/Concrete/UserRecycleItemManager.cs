@@ -39,5 +39,14 @@ namespace RecycleCoin.Business.Concrete
             _userRecycleItemDal.Add(userRecycleItem);
         }
 
+        public int GetBestRecycleAmount(int filterday)
+        {
+            return _userRecycleItemDal.GetBestRecycleAmount(filterday);
+        }
+        public string GetBestRecycleUserID(int filterday)
+        {
+            return _userRecycleItemDal.GetBestRecycleUserID(filterday);
+        }
+
     }
 }

@@ -9,6 +9,9 @@ namespace RecycleCoin.Business.Abstract
         List<UserRecycleItem> GetListByUserId(string userId);
         List<UserRecycleItem> GetListOrderBy(string filter);
         List<UserRecycleItem> GetListOrderByDesc(string filter);
+
+        int GetBestRecycleAmount(int filterday);
+        string GetBestRecycleUserID(int filterday);
         void Add(UserRecycleItem userRecycleItem);
     }
 }

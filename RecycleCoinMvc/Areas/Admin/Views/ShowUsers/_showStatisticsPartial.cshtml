@@ -1,36 +1,48 @@
-﻿
+﻿@using RecycleCoin.Entities.Concrete
+@{
+    var bestAmount = ViewBag.bestAmount;
+    var bestUser = ViewBag.bestUser as AppUser;
+}
 
 
 <div id="statistic" style="">
-	<div class="bubble">
-		<div class="h-100 w-100">
-			<ul>
-				<li>
-					Son bir Haftada
-				</li>
+    <div class="bubble">
+        <div class="h-100 w-100">
+            <ul>
                 <li>
-                    Ençok Geri dönüşüm yapan Kullanıcı :
+                    Son <input id="dayInput" type="number" min="1" class="form-control w-25 d-inline-block" style="font-size: 12px" /> günde
                 </li>
-				<li>
-					asdpasöd apsdöpasdö
-				</li>
+                @if (bestUser != null)
+                {
+                    <li>
+                        Ençok Geri dönüşüm yapan Kullanıcı : @bestUser.Name @bestUser.Lastname
+                    </li>
+                    <li>
+                        Kullanıcının  günde yaptığı geri dönüşüm sayısı : @bestAmount
+                    </li>
+                }
 
-			</ul>
-			<button id="statisticPanelClose" class="btn btn-primary">Kapat</button>
-		</div>
-	</div>
+            </ul>
+            <button id="statisticPanelClose" class="btn btn-primary">Kapat</button>
+        </div>
+    </div>
 
 </div>
 
 
+
+
 <script type="text/javascript">
     $("#showStatisticsBtn").click(function () {
-        $("#statisticsPanel").toggleClass("activeStatisticPanel")
-    })
+        $("#statisticsPanel").toggleClass("activeStatisticPanel");
+    });
     $("#statisticPanelClose").click(function () {
-        $("#statisticsPanel").removeClass("activeStatisticPanel")
+        $("#statisticsPanel").removeClass("activeStatisticPanel");
+    });
 
-	})
+    $("#dayInput").change(function () {
+        $("#statisticsPanel").load(`/Admin/ShowUsers/GetStatistic?filterday=${parseInt(this.value)}`);
+    });
 
 </script>
 

@@ -55,9 +55,16 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
         }
 
 
-        public ActionResult GetStatistic()
+        public ActionResult GetStatistic(int filterday)
         {
             //istatisticler çekilecek
+            var bestRecycleUserID = _userRecycleItemManager.GetBestRecycleUserID(filterday);
+            //var bestRecycleAmount = _userRecycleItemManager.GetBestRecycleAmount(filterday);
+            var bestUser = _userManager.FindById(bestRecycleUserID);
+
+            //ViewBag.bestAmount = bestRecycleAmount;
+            ViewBag.bestUser = bestUser;
+
 
             return PartialView("_showStatisticsPartial");
         }
