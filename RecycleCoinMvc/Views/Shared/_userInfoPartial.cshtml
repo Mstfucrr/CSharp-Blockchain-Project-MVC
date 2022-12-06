@@ -8,7 +8,7 @@
 
     <div id="info" style="">
         <div class="bubble">
-            <div class="h-100 w-100">
+            <div class="h-100 w-100 bubbleSub">
                 <ul>
 
                     <li>Ad Soyad : @user.Name @user.Lastname</li>
@@ -18,7 +18,13 @@
 
                 </ul>
 
-                <button id="infoClose" class="btn btn-primary">Kapat</button>
+                <input id="publicKey" type="text" style="display: none" value="@user.PublicKey" />
+                <div class="w-100" style="text-align-last: justify;">
+
+                    <button id="copyPublicBtn" class="btn btn-success">Public Key Kopyala</button>
+
+                    <button id="infoClose" class="btn btn-primary">Kapat</button>
+                </div>
             </div>
         </div>
 
@@ -41,5 +47,13 @@
                 "transform": "scaleX(0)"
             });
     })
+
+    $("#copyPublicBtn").click(function () {
+
+        $("#publicKey").css("display", "block").focus().select();
+        document.execCommand("copy");
+        $("#publicKey").css("display", "none");
+        console.log("public key is copied!");
+    });
 
 </script>
