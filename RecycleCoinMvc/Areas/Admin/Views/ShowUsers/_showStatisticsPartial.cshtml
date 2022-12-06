@@ -8,26 +8,29 @@
 
 <div id="statistic" style="">
     <div class="bubble">
-        <div class="h-100 w-100">
-            <ul>
-                <li>
-                    Son <input id="dayInput" type="number" min="1" class="form-control d-inline-block" style="font-size: 14px;width: 34%" value="@filterday"/> günde
-                </li>
-                @if (bestUser != null)
-                {
-	                <li>
-		                Ençok Geri dönüşüm yapan Kullanıcı : 
-	                </li>
-	                <li style="font-weight: bold">
-		                @bestUser.Name @bestUser.Lastname
-	                </li>
-	                <li>
-		                Yaptığı geri dönüşüm sayısı : @bestAmount 
-	                </li>
-                }
+        <div class="h-100 w-100 bubbleSub">
+	        <ul>
+		        <li>
+			        Son <input id="dayInput" type="number" min="1" class="form-control d-inline-block" style="font-size: 14px;width: 34%" value="@filterday"/> günde
+		        </li>
+		        @if (bestUser != null)
+		        {
+			        <li>
+				        Ençok Geri dönüşüm yapan Kullanıcı : 
+			        </li>
+			        <li style="font-weight: bold">
+				        @bestUser.Name @bestUser.Lastname
+			        </li>
+			        <li>
+				        Yaptığı geri dönüşüm sayısı : @bestAmount 
+			        </li>
+		        }
 
-            </ul>
-            <button id="statisticPanelClose" class="btn btn-primary">Kapat</button>
+	        </ul>
+	        <div class="w-100 text-right">
+
+				<button id="statisticPanelClose" class="btn btn-primary">Kapat</button>
+	        </div>
         </div>
     </div>
 
@@ -38,10 +41,13 @@
 
 <script type="text/javascript">
     $("#showStatisticsBtn").click(function () {
-        $("#statisticsPanel").toggleClass("activeStatisticPanel");
+		$("#statisticsPanel").toggleClass("activeStatisticPanel");
+		$("#showStatisticsBtn i").toggleClass("activeStatisticBtn");
     });
     $("#statisticPanelClose").click(function () {
-        $("#statisticsPanel").removeClass("activeStatisticPanel");
+		$("#statisticsPanel").removeClass("activeStatisticPanel");
+        $("#showStatisticsBtn i").removeClass("activeStatisticBtn");
+
     });
 
     $("#dayInput").change(function () {

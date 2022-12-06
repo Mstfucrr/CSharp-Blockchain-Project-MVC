@@ -79,41 +79,36 @@
     color: #FFFFFF;
     font-family: Abril Fatface;
     font-size: 16px;
-    line-height: 120px;
     box-shadow: 5px 5px 10px 0px #3c0000;
     text-align: center;
     width: 300px;
     height: 300px;
     border-radius: 42px;
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: column;
-    justify-content: flex-end;
     padding: 20px;
-    align-items: flex-end;
-    left: 0px;
+    left: 0;
     transform: scaleX(1);
     transition: 1.2s ease;
     background: #212534;
     z-index: 5;
 }
 
-    .bubble div {
+    .bubble .bubbleSub {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-between;
         align-content: space-around;
         align-items: flex-end;
-        padding: 5px 17px;
     }
 
     .bubble ul {
         list-style-type: none;
         text-align: left;
+        line-height: 2;
+        padding: 0;
     }
 
-    .bubble .btn.btn-primary {
+/*    .bubble .btn.btn-primary {
         position: absolute;
         bottom: 15px;
         right: 26px;
@@ -122,7 +117,7 @@
     .bubble ul li {
         margin: -65px;
     }
-
+*/
 
 
 #userInfo:before, #statisticsPanel:before {
