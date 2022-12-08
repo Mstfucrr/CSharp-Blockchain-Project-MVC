@@ -43,6 +43,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,15 +55,29 @@
   <ItemGroup>
     <Compile Include="Abstract\ICategoryService.cs" />
     <Compile Include="Abstract\IProductService.cs" />
+    <Compile Include="Abstract\IUserCheckService.cs" />
     <Compile Include="Abstract\IUserRecycleItemService.cs" />
+    <Compile Include="Adapters\MernisServiceAdapter.cs" />
     <Compile Include="Concrete\CategoryManager.cs" />
     <Compile Include="Concrete\ProductManager.cs" />
+    <Compile Include="Concrete\UserCheckManager.cs" />
     <Compile Include="Concrete\UserRecycleItemManager.cs" />
+    <Compile Include="Connected Services\TcDogrula\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Connected Services\TcDogrula\KPSPublic.wsdl" />
+    <None Include="Connected Services\TcDogrula\RecycleCoin.Business.TcDogrula.TCKimlikNoDogrulaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +93,21 @@
       <Project>{cefd614a-8741-4e2d-a6a4-d6bda7c2d627}</Project>
       <Name>RecycleCoin.Shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\TcDogrula\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\TcDogrula\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\TcDogrula\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\TcDogrula\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
