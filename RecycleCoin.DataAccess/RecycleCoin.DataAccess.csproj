@@ -148,6 +148,10 @@
     <Compile Include="Migrations\202212042026463_mig_db_function_for_statistic_panel.designer.cs">
       <DependentUpon>202212042026463_mig_db_function_for_statistic_panel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202212081917261_mig_add_TcNo_and_Year_columns_to_User.cs" />
+    <Compile Include="Migrations\202212081917261_mig_add_TcNo_and_Year_columns_to_User.designer.cs">
+      <DependentUpon>202212081917261_mig_add_TcNo_and_Year_columns_to_User.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -196,6 +200,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202212042026463_mig_db_function_for_statistic_panel.resx">
       <DependentUpon>202212042026463_mig_db_function_for_statistic_panel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212081917261_mig_add_TcNo_and_Year_columns_to_User.resx">
+      <DependentUpon>202212081917261_mig_add_TcNo_and_Year_columns_to_User.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
