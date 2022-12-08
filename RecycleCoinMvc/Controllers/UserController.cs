@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,6 +11,7 @@ using RecycleCoin.Business.Concrete;
 using RecycleCoin.DataAccess.Concrete.EntityFramework;
 using RecycleCoin.DataAccess.Concrete.EntityFramework.Contexts;
 using RecycleCoin.Entities.Concrete;
+using RecycleCoin.Entities.Dtos;
 using RecycleCoinMvc.Models;
 
 namespace RecycleCoinMvc.Controllers
@@ -20,6 +22,7 @@ namespace RecycleCoinMvc.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly UserRecycleItemManager _userRecycleItemManager;
         private readonly BlockchainApi _blockchainApi;
+        private readonly UserCheckManager _userCheckManager;
 
 
         public UserController()
@@ -29,6 +32,7 @@ namespace RecycleCoinMvc.Controllers
             _userManager = new UserManager<AppUser>(userStore);
             _userRecycleItemManager = new UserRecycleItemManager(new EfUserRecycleItemDal());
             _blockchainApi = new BlockchainApi();
+            _userCheckManager = new UserCheckManager();
         }
 
 
@@ -42,15 +46,15 @@ namespace RecycleCoinMvc.Controllers
         public ActionResult Wallet()
         {
 
-            var user = HttpContext.User.Identity.IsAuthenticated 
-                ? _userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId()).Result 
+            var user = HttpContext.User.Identity.IsAuthenticated
+                ? _userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId()).Result
                 : null;
             var address = user != null ? user.PublicKey : "";
 
             if (Request.HttpMethod == "POST")
             {
                 address = Request.Form["address"];
-                user = _userManager.Users.FirstOrDefault(u=>u.PublicKey == address);
+                user = _userManager.Users.FirstOrDefault(u => u.PublicKey == address);
 
 
             }
@@ -124,17 +128,46 @@ namespace RecycleCoinMvc.Controllers
         [AllowAnonymous]
         public ActionResult Register(UserRegisterViewModel userRegisterViewModel)
         {
+
             if (ModelState.IsValid)
             {
-                var user = new AppUser();
-                user.UserName = userRegisterViewModel.Username;
-                user.Name = userRegisterViewModel.Name;
-                user.Lastname = userRegisterViewModel.Lastname;
-                user.Email = userRegisterViewModel.Email;
                 var j_res = _blockchainApi.Get("api/User/generateKeyPair");
                 ViewBag.data = j_res;
-                user.PublicKey = ViewBag.data["publicKey"];
-                user.PrivateKey = ViewBag.data["privateKey"];
+                var user = new AppUser
+                {
+                    UserName = userRegisterViewModel.Username,
+                    Name = userRegisterViewModel.Name,
+                    Lastname = userRegisterViewModel.Lastname,
+                    Email = userRegisterViewModel.Email,
+                    PublicKey = ViewBag.data["publicKey"],
+                    PrivateKey = ViewBag.data["privateKey"]
+                };
+                if (!userRegisterViewModel.IsNotTcPerson) // tc vatandaşı ise
+                {
+                    if (userRegisterViewModel.TcNo == null || userRegisterViewModel.Year == null) 
+                    {
+                        Session["toast"] = new Toastr("Kayıt Ol", "Tc kimlik numarası ve Doğum yılınız boş olamaz", "danger");
+                        return View();
+
+                    }
+                    user.TcNo = Convert.ToInt64(userRegisterViewModel.TcNo);
+                    user.Year = Convert.ToInt32(userRegisterViewModel.Year);
+                    var checkUserModel = new UserValidationDto
+                    {
+                        Name = user.Name,
+                        LastName = user.Lastname,
+                        TcNo = user.TcNo,
+                        Year = user.Year
+                    };
+                        
+                    if (!_userCheckManager.IsRealPerson(checkUserModel))    // vatandaşlık bilgileri kontrol edilir
+                    {
+                        Session["toast"] = new Toastr("Kayıt Ol", "Bu bilgilere ait TC vatandaşı bulunamadı", "danger");
+                        return View();
+
+                    }
+                }
+                
                 var result = _userManager.Create(user, userRegisterViewModel.Password);
 
                 if (result.Succeeded)
@@ -144,12 +177,10 @@ namespace RecycleCoinMvc.Controllers
                     return RedirectToAction("Login");
 
                 }
-                else
+
+                foreach (var error in result.Errors)
                 {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error);
-                    }
+                    ModelState.AddModelError("", error);
                 }
             }
             return View();
