@@ -76,7 +76,9 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
 
         public ActionResult RecyleItems(string toAddress, int totalCarbon)
         {
+            var cartitems = Session["cartItems"] as List<CartItem>;
             var user = _userManager.Users.FirstOrDefault(u => u.PublicKey == toAddress);
+            if (cartitems == null) return RedirectToAction("Index");
             if (user != null)
             {
                 user.Carbon += totalCarbon;
