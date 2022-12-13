@@ -17,6 +17,7 @@ namespace RecycleCoinMvc.Controllers
         }
 
         // GET: Transaction
+        [Authorize]
         public ActionResult CreateTransaction()
         {
             if (Request.HttpMethod == "POST")
@@ -26,10 +27,15 @@ namespace RecycleCoinMvc.Controllers
                     var fromAddress = Request.Form["fromAddress"];
                     var toAddress = Request.Form["toAddress"];
 
+                    if (toAddress.Equals((string)Session["publicKey"]))
+                    {
+                        Session["toast"] = new Toastr("İşlem", "İşleminiz Başarısız! göndermek istediğiniz adres sizin adresiniz!", "danger");
+                        return View();
+                    }
                     var balanceOfToAddress = Convert.ToInt32(_blockchainApi.Post("api/User/getBalanceOfAddress",
                         new List<JProperty> { new("Address", toAddress) }));
                     var amount = Request.Form["amount"];
-                    
+
                     if ((balanceOfToAddress + Convert.ToInt32(amount)) >= 100000000) //RC miktarı 100M ile sınırlandırıldı.
                     {
                         Session["toast"] = new Toastr("İşlem", "İşleminiz başarısız RC sınırı aşıldı!", "danger");
@@ -62,13 +68,13 @@ namespace RecycleCoinMvc.Controllers
             ViewBag.PendingTransactions = _blockchainApi.Get("api/Transaction/getPendingTransactions");
             return View();
         }
-
+        [Authorize]
         public ActionResult MinePendingTransaction(string minerRewardAddress)
         {
             try
             {
                 dynamic balance_of_toAddress = Convert.ToInt32(
-                    _blockchainApi.Post("api/User/getBalanceOfAddress", 
+                    _blockchainApi.Post("api/User/getBalanceOfAddress",
                         new List<JProperty> { new("Address", minerRewardAddress) }));
 
                 dynamic miningReward = Convert.ToInt32(
