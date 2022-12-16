@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-	
+
 }
 
 <style>
@@ -23,11 +23,17 @@
 </style>
 
 <section style="width: 100%; margin-top: -18px; padding-top: 180px; padding-bottom: 70px; background: linear-gradient(230deg, red, #ff00cb); min-height: 100vh; display: flex; justify-content: center; align-items: center;">
-    <div class="d-flex flex-column"
-         style="background-color: #fff;width: 63rem;height: 40rem;box-shadow: 0px 0px 20px 1px;border-radius: 25px;">
+    <div id="recyclePanel" style="width: 63rem;height: 44rem;z-index: 1">
         <div class="container h-100">
-            <div style="text-align: center;margin-top: 23px;">
-                <h2>Geri Dönüşüm Merkezi</h2>
+            <div style="display: flex;margin-top: 23px;margin-top: 23px;align-content: space-around;justify-content: space-evenly;align-items: center;">
+                <h2 style="margin-left: 200px">Geri Dönüşüm Merkezi</h2>
+                
+                <button id="QrReadBtn" class="btn ConfirmBtn" type="submit" style="max-width: 176px; height: 69px;">
+
+                    <img style="max-width: 35px; filter: invert(1); margin-top: -3px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAABmJLR0QA/wD/AP+gvaeTAAACZElEQVR4nO3bTU4VQRSG4RfDIoAR6CbEgQKrMO5CWYziSlSEXfizAR0gIy+JznDQELxJV253VXWf06e+J6lJJ7fqdL7u+9d1QEREREREREREZJxj4D3wDbgBbjPHzd0cZ8BRQ/VlewJckH9Cm8Y5cBC4viLPgOsNBdYYv4DDgPUV2QeuCgsfM67pruYo9RX7PMFJbBqXgeorcjLTCfWNIR983utb82jsC4CXieN/gTfALrCVOfaA07u5xqy9pPqKfac//dcV1zhNrPE1QH3FVonFdyqusZNY43eA+tZsZSx+W3GuKdbxXt+anM8AqUgBGNueYY3UrXqv9lvDWKb16Q4wpgCMKQBjCsCYAjCmAIwpAGNz/A6w/p6/iWl9ugOMKQBjOQGsEsdr/t27lzg+9O/oPl7qW5MTwM/E8VcZc6Wk5vox4LXe6yt2Rv/DiD88PPLLtcvDI7++Nd4GqK/YcWLxOcbzAPVV8WmmE/p/fAhUXzGLjU+PA9VXxSHdtrypT+4KeBqwvioOmPZ2/0h3NUetr5oXwDu6fTGpbSFDxgr4QvdtouYHmvf6RERERERERvPUhztmPcs5q/DYh9tMAF77cJsIwHMfbhMBeO7DDR+A9z7cRQUQsU84PO99uIu6A3J478NdVAAt9QnnzDXlnID2hpqbY3v63MZcgUOv7Mm2sKtP2JjegowpAGMKwJgCMKYAjCkAYwrAmPqEjUX8Jaz/gmS4iH3CixKxTzg87324i3ogk8N7H274AMB3H24TAXjuw20iAPDbh9tMAOCzD7epAO556sNtMgAREREREREREfHvHzThkTRW/D6bAAAAAElFTkSuQmCC">
+                    &nbsp;Qr Okut
+                </button>
+
             </div>
             <div class="h-75">
                 <form class="form-row h-100">
@@ -83,6 +89,62 @@
 
         </div>
     </div>
+
+    <div id="QrPanel" style="position: absolute; width: 32rem; height: 32rem;opacity: 0; right: 40rem;">
+        @Html.Partial("_qrPanelParial")
+    </div>
 </section>
 
+<style type="text/css">
+    #QrPanel.activeQrPanel {
+        opacity: 1 !important;
+        right: 8rem !important;
+    }
+
+    #recyclePanel.activeQrPanel {
+        margin-left: -600px;
+    }
+
+    #QrPanel, #recyclePanel {
+        box-shadow: 0px 0px 20px 1px;
+        border-radius: 25px;
+        transition: .7s;
+        background: #ffffff;
+        display: flex;
+    }
+</style>
+
+<script type="text/javascript">
+    $("#QrReadBtn").click(function () {
+        $('#recyclePanel').toggleClass("activeQrPanel");
+        $('#QrPanel').toggleClass("activeQrPanel");
+        $("#QrCamera").attr("src", "");
+
+        setTimeout(function () {
+
+            if ($("#QrPanel.activeQrPanel")[0]) {
+                $("#QrCamera").attr("src", "http://127.0.0.1:3500/video_feed");
+            } else {
+                $.ajax({
+                    type: "Post",
+                    url: "http://127.0.0.1:3500/requests",
+                    success: function (response) {
+                        console.log(response);
+                        if (response["response"] !== "No QR code detected") {
+	                        $.ajax({
+		                        type: "Get",
+                                url: "/Admin/RecycleCenter/QrCodeGetResult?response=" + response["response"]
+                                
+                            });
+                            window.location.reload();
+                        };
+                    }
+                });
+            }
+
+        }, 200);
+
+
+    });
+</script>
 

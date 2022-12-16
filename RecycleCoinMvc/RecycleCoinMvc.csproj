@@ -254,6 +254,7 @@
     <Content Include="Areas\Admin\Views\RecycleCenter\_productsPartial.cshtml" />
     <Content Include="Areas\Admin\Views\RecycleCenter\_cartPartial.cshtml" />
     <Content Include="Areas\Admin\Views\ShowUsers\_showStatisticsPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\RecycleCenter\_qrPanelParial.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

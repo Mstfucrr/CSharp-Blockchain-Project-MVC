@@ -9,6 +9,8 @@ using RecycleCoin.Entities.Concrete;
 using RecycleCoinMvc.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using RecycleCoin.DataAccess.Concrete.EntityFramework.Contexts;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace RecycleCoinMvc.Areas.Admin.Controllers
 {
@@ -107,5 +109,15 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult QrCodeGetResult(string response)
+        {
+
+
+            var findsProducts = _productManager.GetList().FindAll(p => p.Name.Contains(response));
+
+            Session["products"] = findsProducts;
+            return RedirectToAction("Index", "RecycleCenter");
+
+        }
     }
 }
