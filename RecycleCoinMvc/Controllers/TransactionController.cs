@@ -65,8 +65,17 @@ namespace RecycleCoinMvc.Controllers
 
         public ActionResult PendingTransaction()
         {
-            ViewBag.PendingTransactions = _blockchainApi.Get("api/Transaction/getPendingTransactions");
-            return View();
+            try
+            {
+                var pendingTransactions = _blockchainApi.Get("api/Transaction/getPendingTransactions");
+                ViewBag.pendingTransactions = pendingTransactions;
+                return View();
+            }
+            catch (Exception)
+            {
+                Session["toast"] = new Toastr("İşlem", "Bekleyen işlemleri görüntülerken bir hata oluştu! Lütfen daha sonra tekrar deneyin", "danger");
+                return RedirectToAction("Index", "Home");
+            }
         }
         [Authorize]
         public ActionResult MinePendingTransaction(string minerRewardAddress)
