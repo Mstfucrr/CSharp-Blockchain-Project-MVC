@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecycleCoin.Entities", "Rec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecycleCoin.Shared", "RecycleCoin.Shared\RecycleCoin.Shared.csproj", "{CEFD614A-8741-4E2D-A6A4-D6BDA7C2D627}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecycleCoin.Test", "RecycleCoin.Test\RecycleCoin.Test.csproj", "{09DD5CA7-AE23-4E74-9FEA-3ED250634B90}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{CEFD614A-8741-4E2D-A6A4-D6BDA7C2D627}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEFD614A-8741-4E2D-A6A4-D6BDA7C2D627}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEFD614A-8741-4E2D-A6A4-D6BDA7C2D627}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09DD5CA7-AE23-4E74-9FEA-3ED250634B90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09DD5CA7-AE23-4E74-9FEA-3ED250634B90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09DD5CA7-AE23-4E74-9FEA-3ED250634B90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09DD5CA7-AE23-4E74-9FEA-3ED250634B90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
