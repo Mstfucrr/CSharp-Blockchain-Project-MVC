@@ -1,10 +1,11 @@
-﻿
+﻿@using RecycleCoinMvc.Models
+
 @{
     ViewBag.Title = "Wallet";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var Rc = ViewBag.balance;
     var address = ViewBag.address;
-    var transactions = ViewBag.transactions;
+    var transactions = ViewBag.transactions as List<TransactionSchema>;
 	var carbon = ViewBag.carbon;
 	string username = ViewBag.username;
 
@@ -57,17 +58,19 @@
                         </tr>
                     </thead>
                     <tbody style="font-size: 14px;">
-                    @for (int i = 0; i < transactions.Count; i++)
+                    @if(transactions != null)
+                    {for (int i = 0; i < transactions.Count; i++)
                     {
-	                    
-		                    var fromAddress = transactions[i]["fromAddress"] == null ? "System" : transactions[i]["fromAddress"];
+
+	                    var fromAddress = transactions[i].fromAddress == null ? "System" : transactions[i].fromAddress;
 
 	                    <tr style="background-color: #F42951;">
 		                    <td>@i"</td>
 		                    <td style="word-break: break-all">@fromAddress</td>
-		                    <td style="word-break:break-all ">@transactions[i]["toAddress"]</td>
-		                    <td>@transactions[i]["amount"]</td>
+		                    <td style="word-break: break-all">@transactions[i].toAddress</td>
+		                    <td>@transactions[i].amount</td>
 	                    </tr>
+                        }
                     }
                     </tbody>
                 </table>
