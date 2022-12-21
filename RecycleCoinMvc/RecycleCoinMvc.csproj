@@ -169,6 +169,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BlockchainApi.cs" />
+    <Compile Include="Models\BlockchainSchema.cs" />
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\Toastr.cs" />
     <Compile Include="Models\UserLoginViewModel.cs" />
