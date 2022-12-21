@@ -1,10 +1,11 @@
 ﻿@using RecycleCoin.Entities.Concrete
+@using RecycleCoinMvc.Models
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var settings = ViewBag.settings;
+    var settings = ViewBag.settings as BlockchainSchema;
     var categories = ViewBag.categories as List<Category>;
     var products = Session["products"] as List<Product>;
     var categoryId = Convert.ToInt32(Session["categoryId"]);
@@ -19,22 +20,26 @@
         </div>
         <div class="row" style="height: 84%;">
             <div class="d-flex flex-column align-items-center w-100 col-4">
-                @using (Html.BeginForm("Index", "Settings", FormMethod.Post, new { @class = "d-flex flex-column w-75" }))
+                @if (settings != null)
                 {
-                    <div class="form-group">
-                        <label for="difficulty">Zorluk</label>
-                        <input class="form-control" type="number" name="difficulty" id="difficulty" value="@settings["difficulty"]" min="1" max="8">
-                    </div>
-                    <div class="form-group">
-                        <label for="reward">Kazı Ödülü</label>
-                        <input class="form-control" type="text" name="reward" id="reward" value="@settings["miningReward"]">
-                    </div>
-                    <div class="form-group text-center mt-2">
-                        <button id="settingsConfirmBtn" class="btn ConfirmBtn"
-                                type="submit">
-                            Ayarla
-                        </button>
-                    </div>
+
+                    using (Html.BeginForm("Index", "Settings", FormMethod.Post, new { @class = "d-flex flex-column w-75" }))
+                    {
+                        <div class="form-group">
+                            <label for="difficulty">Zorluk</label>
+                            <input class="form-control" type="number" name="difficulty" id="difficulty" value="@settings.difficulty" min="1" max="8">
+                        </div>
+                        <div class="form-group">
+                            <label for="reward">Kazı Ödülü</label>
+                            <input class="form-control" type="text" name="reward" id="reward" value="@settings.miningReward">
+                        </div>
+                        <div class="form-group text-center mt-2">
+                            <button id="settingsConfirmBtn" class="btn ConfirmBtn"
+                                    type="submit">
+                                Ayarla
+                            </button>
+                        </div>
+                    }
                 }
             </div>
             <div class="d-flex w-100 col-8 h-100">
@@ -91,11 +96,11 @@
                                     {
                                         <div class="col-6 d-flex flex-column" style="height: 200px; border: 1px solid;">
                                             <p class="text-center" style="margin-bottom: 0px;">@product.Name</p>
-	                                        <img class="w-100" src="~/image/@product.Image" width="146" height="125" style="object-fit: contain; margin-top: 7px;" alt="@product.Name">
-	                                        <div>
-                                                @using (Html.BeginForm("SetProductCarbon", "Settings", FormMethod.Post ,new { @class="d-flex justify-content-between position-relative", @style="bottom: -7px; background: var(--white); height: 25px; width: 100%;"}))
+                                            <img class="w-100" src="~/image/@product.Image" width="146" height="125" style="object-fit: contain; margin-top: 7px;" alt="@product.Name">
+                                            <div>
+                                                @using (Html.BeginForm("SetProductCarbon", "Settings", FormMethod.Post, new { @class = "d-flex justify-content-between position-relative", @style = "bottom: -7px; background: var(--white); height: 25px; width: 100%;" }))
                                                 {
-                                                    <input type="hidden" name="productId" value="@product.Id"/>
+                                                    <input type="hidden" name="productId" value="@product.Id" />
                                                     <input type="number" name="carbon" class="w-50" min="1" style="font-size: 16px;" value="@product.Carbon">
                                                     <p style="font-size: 17px;">(c)</p>
                                                     <div class="btn-group" role="group">
