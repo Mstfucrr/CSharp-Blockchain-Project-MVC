@@ -11,11 +11,12 @@ namespace RecycleCoinMvc.Controllers
     public class HomeController : Controller
     {
         private readonly HttpClient httpClient;
-        private readonly BlockchainApi _blockchainApi;
-        
+        private readonly BlockchainSchema _blockchainSchema;
+
         public HomeController()
         {
-            _blockchainApi = new BlockchainApi();
+            
+            _blockchainSchema = new BlockchainSchema();
         }
 
 
@@ -26,8 +27,6 @@ namespace RecycleCoinMvc.Controllers
 
         public ActionResult About()
         {
-            var j_res = _blockchainApi.Get("api/getBlockchain");
-            ViewBag.message = j_res;
             return View();
         }
 
@@ -40,22 +39,23 @@ namespace RecycleCoinMvc.Controllers
 
         public ActionResult Listener()
         {
+            BlockchainSchema blockchain = null;
             try
             {
-                var j_res = _blockchainApi.Get("api/Blockchain/getBlockchain");
-                ViewBag.blockchain = j_res;
+                blockchain = _blockchainSchema.GetBlockchain();
                 if (Session["blockByHash"] != null)
                 {
                     ViewBag.blockByHash = Session["blockByHash"];
                 }
+
             }
             catch (Exception)
             {
-                ViewBag.blockchain = null;
-
+                // ignored
             }
 
-            return PartialView("_blcoksListenerPartial");
+            return PartialView("_blcoksListenerPartial", blockchain);
+
         }
         
     }
