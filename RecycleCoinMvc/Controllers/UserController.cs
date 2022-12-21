@@ -22,6 +22,7 @@ namespace RecycleCoinMvc.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly UserRecycleItemManager _userRecycleItemManager;
         private readonly BlockchainApi _blockchainApi;
+        private BlockchainSchema _blockchainSchema;
         private readonly UserCheckManager _userCheckManager;
 
 
@@ -33,6 +34,7 @@ namespace RecycleCoinMvc.Controllers
             _userRecycleItemManager = new UserRecycleItemManager(new EfUserRecycleItemDal());
             _blockchainApi = new BlockchainApi();
             _userCheckManager = new UserCheckManager();
+            _blockchainSchema = new BlockchainSchema();
         }
 
 
@@ -55,20 +57,37 @@ namespace RecycleCoinMvc.Controllers
             {
                 address = Request.Form["address"];
                 user = _userManager.Users.FirstOrDefault(u => u.PublicKey == address);
+                if (user == null)
+                {
+                    Session["toast"] = new Toastr("Kullanıcı Bilgileri", "Bu adrese ait kullanıcı bulunamadı!", "warning");
+                }
 
 
             }
-            var balance_j_res = _blockchainApi.Post("api/User/getBalanceOfAddress", new List<JProperty> { new("Address", address) });
-            // İşlemlerin çekilceği kısım
-            var res_transactions_j = _blockchainApi.Post("api/User/getTransactionsOfAddress", new List<JProperty> { new("Address", address) });
+
+            var balance = 0;
+            List<TransactionSchema> transactionsOfUser = null;
+            try
+            {
+                _blockchainSchema = _blockchainSchema.GetBlockchain();
+                balance = _blockchainSchema.GetBalanceOfAddress(address);
+                // İşlemlerin çekilceği kısım
+                transactionsOfUser = _blockchainSchema.GetTransactionsOfAddress(address);
+
+            }
+            catch (Exception)
+            {
+                Session["toast"] = new Toastr("Kullanıcı Bilgileri", "Kullanıcı bilgilerini çekerken bir hata oluştu! Lütfen daha sonra tekrar deneyin.", "warning");
+
+            }
 
 
             ViewBag.address = address;
-            ViewBag.balance = balance_j_res;
+            ViewBag.balance = balance;
 
             ViewBag.carbon = user?.Carbon ?? 0;
             ViewBag.username = user?.UserName ?? "Bulunamadı";
-            ViewBag.transactions = res_transactions_j;
+            ViewBag.transactions = transactionsOfUser;
             return View();
         }
 
@@ -144,7 +163,7 @@ namespace RecycleCoinMvc.Controllers
                 };
                 if (!userRegisterViewModel.IsNotTcPerson) // tc vatandaşı ise
                 {
-                    if (userRegisterViewModel.TcNo == null || userRegisterViewModel.Year == null) 
+                    if (userRegisterViewModel.TcNo == null || userRegisterViewModel.Year == null)
                     {
                         Session["toast"] = new Toastr("Kayıt Ol", "Tc kimlik numarası ve Doğum yılınız boş olamaz", "danger");
                         return View();
@@ -159,7 +178,7 @@ namespace RecycleCoinMvc.Controllers
                         TcNo = user.TcNo,
                         Year = user.Year
                     };
-                        
+
                     if (!_userCheckManager.IsRealPerson(checkUserModel))    // vatandaşlık bilgileri kontrol edilir
                     {
                         Session["toast"] = new Toastr("Kayıt Ol", "Bu bilgilere ait TC vatandaşı bulunamadı", "danger");
@@ -167,7 +186,7 @@ namespace RecycleCoinMvc.Controllers
 
                     }
                 }
-                
+
                 var result = _userManager.Create(user, userRegisterViewModel.Password);
 
                 if (result.Succeeded)
@@ -198,11 +217,16 @@ namespace RecycleCoinMvc.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize]
         public ActionResult RecycleItems()
         {
             var userId = HttpContext.User.Identity.GetUserId();
-            var userRecycleItemsById = _userRecycleItemManager.GetListByUserId(userId);
-            ViewBag.RecycleItems = userRecycleItemsById;
+            if (userId != null)
+            {
+                var userRecycleItemsById = _userRecycleItemManager.GetListByUserId(userId);
+                ViewBag.RecycleItems = userRecycleItemsById;
+            }
+
             return View();
 
         }
