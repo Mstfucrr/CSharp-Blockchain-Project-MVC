@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using RecycleCoinMvc.Models;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace RecycleCoin.Test
 {
@@ -12,9 +13,9 @@ namespace RecycleCoin.Test
         [TestMethod]
         public void IsConnectionToBlockchainApi()
         {
-            //Act
-            var blockchainApi = new BlockchainApi();
             //Arange
+            var blockchainApi = new BlockchainApi();
+            //Act
             string defaultString = blockchainApi.Get("/").ToString();
 
             //Assert
@@ -24,20 +25,21 @@ namespace RecycleCoin.Test
         [TestMethod]
         public void AfterChangingTheBlockchainSettingsIsItTheSameAsBeforeItChanged()
         {
-            //Act
-            var blockchainApi = new BlockchainApi();
-
             //Arange
-            var settings = blockchainApi.Get("api/Blockchain/getDifficultyAndminingReward");
-            int difficulty = settings["difficulty"];
-            int miningReward = settings["miningReward"]; // Mevcut Ayarları çeker
+            var blockchain = new BlockchainSchema().GetBlockchain();
 
-            var dif = new JProperty("difficulty", difficulty + 1); // mevcut zorluk seviyesi (difficulty) ayarını 1 arttırır
-            var rew = new JProperty("reward", miningReward + 20); // mevcut kazı ödülünü (miningreward) 20 arttırır
-            var newSettings = blockchainApi.Post("api/Blockchain/setDifficultyAndminingReward", new List<JProperty> { dif, rew }); // sunucuya yeni ayarların güncellenmesi için istekte bulunur 
+            //Act
+            var difficulty = blockchain.difficulty;
+            var miningReward = blockchain.miningReward;
+
+            blockchain.SetDifficultyAndminingReward(difficulty -1, miningReward + 10);
+
+            var newDifficulty = blockchain.difficulty;
+            var newMiningReward = blockchain.miningReward;
 
             //Assert
-            Assert.AreNotEqual(newSettings, settings); // Mevcut ve yeni ayarlar aynı olmamalı 
+            Assert.AreNotEqual(difficulty, newDifficulty);
+            Assert.AreNotEqual(miningReward, newMiningReward);
 
 
         }
@@ -45,10 +47,10 @@ namespace RecycleCoin.Test
         [TestMethod]
         public void GenerateKeyPairForNewUser()
         {
-            //Act
+            //Arange
             var blockchainApi = new BlockchainApi();
             
-            //Arange
+            //Act
             var jRes = blockchainApi.Get("api/User/generateKeyPair");
             var publickey = jRes["publicKey"];
             var privateKey = jRes["privateKey"];
@@ -57,5 +59,38 @@ namespace RecycleCoin.Test
             Assert.IsNotNull(privateKey);
             Assert.IsNotNull(publickey);
         }
+
+        [TestMethod]
+        public void IsTransactionAddedToPendingTransactions()
+        {
+            //Arange
+            var blockchain = new BlockchainSchema().GetBlockchain();
+            //Act
+            blockchain.AddTransaction("ffcad6fca220d9fb6d36829faa13b31f7f3d218b5b1a5f96a3029aed15eeacb3", "testToAddress", "555");
+            var newBlockchain = new BlockchainSchema().GetBlockchain();
+            
+            var oldpendingTransactionsCount = blockchain.pendingTransactions.Count;
+            var newpendingTransactionsCount = newBlockchain.pendingTransactions.Count;
+
+            
+            //Assert
+            Assert.AreNotEqual(oldpendingTransactionsCount, newpendingTransactionsCount);
+        }
+
+        [TestMethod]
+        public void IsBlockAddedToChainAfterMining()
+        {
+            //Arange
+            var oldBlockchain = new BlockchainSchema().GetBlockchain();
+            var oldChainCount = oldBlockchain.chain.Count;
+            //Act
+
+            oldBlockchain.MinePendingTransactions("testAddress");
+            var newBlockchain = new BlockchainSchema().GetBlockchain();
+            var newChainCount = newBlockchain.chain.Count;
+            //Assert
+            Assert.AreEqual(oldChainCount, newChainCount);
+        }
+
     }
 }
