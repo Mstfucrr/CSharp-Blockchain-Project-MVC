@@ -9,8 +9,6 @@ using RecycleCoin.Entities.Concrete;
 using RecycleCoinMvc.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using RecycleCoin.DataAccess.Concrete.EntityFramework.Contexts;
-using System.Net.Http;
-using Newtonsoft.Json;
 
 namespace RecycleCoinMvc.Areas.Admin.Controllers
 {
@@ -113,7 +111,8 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
         {
 
 
-            var findsProducts = _productManager.GetList().FindAll(p => p.Name.Contains(response));
+            var findsProducts = _productManager.GetList()
+                .FindAll(p => p.Name.ToLower().Contains(response.ToLower()));
 
             Session["products"] = findsProducts;
             return RedirectToAction("Index", "RecycleCenter");
