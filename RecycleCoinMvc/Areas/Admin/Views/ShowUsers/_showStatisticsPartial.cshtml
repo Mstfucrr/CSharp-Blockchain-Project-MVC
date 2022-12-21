@@ -29,7 +29,7 @@
 	        </ul>
 	        <div class="w-100 text-right">
 
-				<button id="statisticPanelClose" class="btn btn-primary">Kapat</button>
+				<button id="statisticPanelCloseBtn" class="btn btn-primary">Kapat</button>
 	        </div>
         </div>
     </div>
@@ -39,21 +39,15 @@
 
 
 
-<script type="text/javascript">
-    $("#showStatisticsBtn").click(function () {
-		$("#statisticsPanel").toggleClass("activeStatisticPanel");
-		$("#showStatisticsBtn i").toggleClass("activeStatisticBtn");
-    });
-    $("#statisticPanelClose").click(function () {
-		$("#statisticsPanel").removeClass("activeStatisticPanel");
-        $("#showStatisticsBtn i").removeClass("activeStatisticBtn");
-
-    });
-
+<script>
     $("#dayInput").change(function () {
         $("#statisticsPanel").load(`/Admin/ShowUsers/GetStatistic?filterday=${parseInt(this.value)}`);
-    });
+	});
+    $("#statisticPanelCloseBtn").click(function () {
+	    $("#statisticsPanel").removeClass("activeStatisticPanel");
+	    $("#showStatisticsBtn i").removeClass("activeStatisticBtn");
 
+    });
 </script>
 
 

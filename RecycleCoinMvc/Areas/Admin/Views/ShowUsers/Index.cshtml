@@ -97,13 +97,19 @@
 
 
 <style type="text/css">
-    .activeStatisticPanel {
-        left: -1282px !important;
-	    transform: scaleX(1) !important;
-    }
+	.activeStatisticPanel {
+		left: -1282px !important;
+		transform: scaleX(1) !important;
+	}
 	.activeStatisticBtn {
 		transform: rotate(180deg);
 	}
 
 </style>
+<script type="text/javascript">
+	$("#showStatisticsBtn").click(function () {
+		$("#statisticsPanel").toggleClass("activeStatisticPanel");
+		$("#showStatisticsBtn i").toggleClass("activeStatisticBtn");
+	});
+</script>
 @*<script src="~/Scripts/UserRecycle.js"></script>*@
