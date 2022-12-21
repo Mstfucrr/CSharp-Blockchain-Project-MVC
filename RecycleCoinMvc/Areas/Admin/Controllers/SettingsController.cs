@@ -10,6 +10,7 @@ using RecycleCoin.DataAccess.Concrete.EntityFramework;
 using RecycleCoin.Entities.Concrete;
 using Microsoft.Owin.BuilderProperties;
 using System.Collections.Generic;
+using Microsoft.Ajax.Utilities;
 
 namespace RecycleCoinMvc.Areas.Admin.Controllers
 {
@@ -18,13 +19,13 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
     {
         private readonly CategoryManager categoryManager;
         private readonly ProductManager productManager;
-        private readonly BlockchainApi _blockchainApi;
+        private BlockchainSchema _blockchainSchema;
 
         public SettingsController()
         {
             categoryManager = new CategoryManager(new EfCategoryDal());
             productManager = new ProductManager(new EfProductDal());
-            _blockchainApi = new BlockchainApi();
+            _blockchainSchema = new BlockchainSchema();
         }
 
 
@@ -37,9 +38,9 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
             {
                 try
                 {
-                    var dif = new JProperty("difficulty", Request.Form["difficulty"]);
-                    var rew = new JProperty("reward", Request.Form["reward"]);
-                    _blockchainApi.Post("api/Blockchain/setDifficultyAndminingReward", new List<JProperty>{dif,rew});
+                    _blockchainSchema = _blockchainSchema.GetBlockchain();
+                    _blockchainSchema.SetDifficultyAndminingReward(Convert.ToInt32(Request.Form["difficulty"]), Convert.ToInt32(Request.Form["reward"]));
+
                     Session["toast"] = new Toastr("Ayarlar", "Ayarlama işlemi başarıyla gerçekleştirildi", "success");
 
                 }
@@ -51,9 +52,18 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
 
             }
 
-            var getSettings = _blockchainApi.Get("api/Blockchain/getDifficultyAndminingReward");
-            ViewBag.settings = getSettings;
+            try
+            {
+
+                ViewBag.settings = _blockchainSchema.GetBlockchain();
+            }
+            catch (Exception)
+            {
+                Session["toast"] = new Toastr("Ayarlar", "Blockchain ayarlarını çekerken bir hata oluştu ! Lütfen daha sonra tekrar deneyin.", "danger");
+
+            }
             ViewBag.categories = categoryManager.GetList();
+
 
             return View();
         }
