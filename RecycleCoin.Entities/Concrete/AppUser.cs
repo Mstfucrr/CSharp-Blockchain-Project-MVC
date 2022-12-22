@@ -12,6 +12,6 @@ namespace RecycleCoin.Entities.Concrete
         public string PublicKey { get; set; }
         public string PrivateKey { get; set; }
         public int Carbon { get; set; }
-         
+        public decimal ConvertedCarbon { get; set; }
     }
 }
