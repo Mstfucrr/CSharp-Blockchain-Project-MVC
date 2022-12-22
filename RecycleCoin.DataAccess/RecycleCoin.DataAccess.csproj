@@ -152,6 +152,14 @@
     <Compile Include="Migrations\202212081917261_mig_add_TcNo_and_Year_columns_to_User.designer.cs">
       <DependentUpon>202212081917261_mig_add_TcNo_and_Year_columns_to_User.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202212221536471_mig_add_column_ConvertedCarbon_to_user.cs" />
+    <Compile Include="Migrations\202212221536471_mig_add_column_ConvertedCarbon_to_user.designer.cs">
+      <DependentUpon>202212221536471_mig_add_column_ConvertedCarbon_to_user.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202212221602159_mig_update_column_ConvertedCarbon_to_user.cs" />
+    <Compile Include="Migrations\202212221602159_mig_update_column_ConvertedCarbon_to_user.designer.cs">
+      <DependentUpon>202212221602159_mig_update_column_ConvertedCarbon_to_user.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -203,6 +211,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202212081917261_mig_add_TcNo_and_Year_columns_to_User.resx">
       <DependentUpon>202212081917261_mig_add_TcNo_and_Year_columns_to_User.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212221536471_mig_add_column_ConvertedCarbon_to_user.resx">
+      <DependentUpon>202212221536471_mig_add_column_ConvertedCarbon_to_user.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212221602159_mig_update_column_ConvertedCarbon_to_user.resx">
+      <DependentUpon>202212221602159_mig_update_column_ConvertedCarbon_to_user.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
