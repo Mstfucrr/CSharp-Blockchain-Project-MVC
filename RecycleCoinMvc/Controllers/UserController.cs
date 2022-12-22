@@ -45,13 +45,14 @@ namespace RecycleCoinMvc.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult Wallet()
         {
 
-            var user = HttpContext.User.Identity.IsAuthenticated
-                ? _userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId()).Result
-                : null;
-            var address = user != null ? user.PublicKey : "";
+            var user = _userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId()).Result;
+            var currentUser = user;
+            var address = user.PublicKey;
+            ViewBag.myAddress = user.PublicKey;
 
             if (Request.HttpMethod == "POST")
             {
@@ -60,9 +61,8 @@ namespace RecycleCoinMvc.Controllers
                 if (user == null)
                 {
                     Session["toast"] = new Toastr("Kullanıcı Bilgileri", "Bu adrese ait kullanıcı bulunamadı!", "warning");
+                    return RedirectToAction("Wallet");
                 }
-
-
             }
 
             var balance = 0;
@@ -83,12 +83,12 @@ namespace RecycleCoinMvc.Controllers
 
 
             ViewBag.address = address;
-            ViewBag.balance = balance;
+            ViewBag.username = user.UserName;
+            ViewBag.carbon = user.Carbon;
 
-            ViewBag.carbon = user?.Carbon ?? 0;
-            ViewBag.username = user?.UserName ?? "Bulunamadı";
+            ViewBag.balance = balance;
             ViewBag.transactions = transactionsOfUser;
-            return View();
+            return View(user);
         }
 
         [HttpGet]
@@ -229,6 +229,30 @@ namespace RecycleCoinMvc.Controllers
 
             return View();
 
+        }
+
+        [Authorize]
+        public ActionResult ConvertCarbon(string ID)
+        {
+            var user = _userManager.Users.FirstOrDefault(x => x.Id == ID);
+            if (user != null)
+            {
+                if (user.Carbon == 0)
+                {
+                    Session["toast"] = new Toastr("Karbon dönüştürme", "RC'e dönüştürebileceğiniz karbon bulunmamakta.", "warning");
+                    return RedirectToAction("Wallet");
+                }
+
+                user.ConvertedCarbon += Convert.ToDecimal(user.Carbon)/100000000;
+                Session["toast"] = new Toastr("Karbon dönüştürme", $"{user.Carbon} karbon başarıyla RC'e dönüştürüldü.", "success");
+                user.Carbon = 0;
+                _userManager.Update(user);
+            }
+            else
+            {
+                Session["toast"] = new Toastr("Karbon dönüştürme", "Kullanıcı bilgilerini çekerken bir hata oluştu! Lütfen daha sonra tekrar deneyin.", "warning");
+            }
+            return RedirectToAction("Wallet");
         }
     }
 }
