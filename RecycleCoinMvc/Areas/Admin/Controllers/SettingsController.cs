@@ -1,20 +1,14 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.IO;
-using System.Net.Http;
 using System.Web.Mvc;
-using Newtonsoft.Json.Linq;
 using RecycleCoinMvc.Models;
 using RecycleCoin.Business.Concrete;
 using RecycleCoin.DataAccess.Concrete.EntityFramework;
 using RecycleCoin.Entities.Concrete;
-using Microsoft.Owin.BuilderProperties;
-using System.Collections.Generic;
-using Microsoft.Ajax.Utilities;
 
 namespace RecycleCoinMvc.Areas.Admin.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Users = "Admin123")]
     public class SettingsController : Controller
     {
         private readonly CategoryManager categoryManager;
