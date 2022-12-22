@@ -1,7 +1,6 @@
 ﻿#nullable enable
 using System;
 using System.Collections.Generic;
-using System.Web.Script.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -13,7 +12,8 @@ namespace RecycleCoinMvc.Models
         public int difficulty { get; set; }
         public int miningReward { get; set; }
         public List<TransactionSchema> pendingTransactions { get; set; }
-
+        public bool isChainValid { get; set; }
+        
         private static BlockchainApi? _blockchainApi;
 
         public BlockchainSchema()
@@ -29,6 +29,7 @@ namespace RecycleCoinMvc.Models
             this.difficulty = j_res["difficulty"];
             this.miningReward = j_res["miningReward"];
             this.pendingTransactions = JsonConvert.DeserializeObject<List<TransactionSchema>>(j_res["pendingTransactions"].ToString());
+            this.isChainValid = j_res["isChainValid"];
             return this;
         }
 
