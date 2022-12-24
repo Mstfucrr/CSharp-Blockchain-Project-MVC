@@ -50,7 +50,6 @@ namespace RecycleCoinMvc.Controllers
         {
 
             var user = _userManager.FindByIdAsync(HttpContext.User.Identity.GetUserId()).Result;
-            var currentUser = user;
             var address = user.PublicKey;
             ViewBag.myAddress = user.PublicKey;
 
