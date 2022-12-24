@@ -118,5 +118,11 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
             return RedirectToAction("Index", "RecycleCenter");
 
         }
+
+        public ActionResult GetUserFromAddress(string toAddress)
+        {
+            var user = _userManager.Users.FirstOrDefault(u => u.PublicKey == toAddress);
+            return PartialView("_getUserFromAddressPartial", user);
+        }
     }
 }

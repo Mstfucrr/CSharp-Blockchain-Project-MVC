@@ -38,10 +38,12 @@
             <div class="h-75">
                 <form class="form-row h-100">
                     <div class="col-7 h-100">
-                        <div class="form-group">
-                            <label for="toAddress">Alıcı Adres</label>
-                            <input class="form-control" type="text" required id="toAddress">
-                        </div>
+	                    <div class="form-group">
+		                    <label for="toAddress">Alıcı Adres</label>
+		                    <input class="form-control" type="text" required id="toAddress">
+	                    </div>
+	                    <div id="userInfoFromAddress">
+	                    </div>
                         <div class="form-row h-75" style="margin-top: 47px;">
                             <div class="col-4 h-100">
 
@@ -114,37 +116,12 @@
     }
 </style>
 
+<script type="text/javascript" src="~/Scripts/qrReadApi.js"></script>
+
 <script type="text/javascript">
-    $("#QrReadBtn").click(function () {
-        $('#recyclePanel').toggleClass("activeQrPanel");
-        $('#QrPanel').toggleClass("activeQrPanel");
-        $("#QrCamera").attr("src", "");
-
-        setTimeout(function () {
-
-            if ($("#QrPanel.activeQrPanel")[0]) {
-                $("#QrCamera").attr("src", "http://127.0.0.1:3500/video_feed");
-            } else {
-                $.ajax({
-                    type: "Post",
-                    url: "http://127.0.0.1:3500/requests",
-                    success: function (response) {
-                        console.log(response);
-                        if (response["response"] !== "No QR code detected") {
-	                        $.ajax({
-		                        type: "Get",
-                                url: "/Admin/RecycleCenter/QrCodeGetResult?response=" + response["response"]
-                                
-                            });
-                            window.location.reload();
-                        };
-                    }
-                });
-            }
-
-        }, 200);
-
-
+    $("#toAddress").on("input",function () {
+        const address = $("#toAddress").val();
+        $("#toAddress").val(address);
+        $("#userInfoFromAddress").load(`/Admin/RecycleCenter/GetUserFromAddress?toAddress=${address}`);
     });
 </script>
-
