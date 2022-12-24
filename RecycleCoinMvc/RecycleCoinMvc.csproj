@@ -265,6 +265,7 @@
     <Content Include="Areas\Admin\Views\RecycleCenter\Index.cshtml" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\ShowUsers\Index.cshtml" />
+    <Content Include="Scripts\qrScannerApi.js" />
     <Content Include="Scripts\UserRecycle.js" />
     <Content Include="Views\Shared\_userRecycleItemsPartial.cshtml" />
     <Content Include="Areas\Admin\Views\RecycleCenter\_categoriesPartial.cshtml" />
@@ -272,6 +273,7 @@
     <Content Include="Areas\Admin\Views\RecycleCenter\_cartPartial.cshtml" />
     <Content Include="Areas\Admin\Views\ShowUsers\_showStatisticsPartial.cshtml" />
     <Content Include="Areas\Admin\Views\RecycleCenter\_qrPanelParial.cshtml" />
+    <Content Include="Areas\Admin\Views\RecycleCenter\_getUserFromAddressPartial.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
