@@ -6,6 +6,7 @@ using RecycleCoin.DataAccess.Concrete.EntityFramework;
 using RecycleCoin.Entities.Concrete;
 using Microsoft.AspNet.Identity.EntityFramework;
 using RecycleCoin.DataAccess.Concrete.EntityFramework.Contexts;
+using RecycleCoinMvc.Models;
 
 namespace RecycleCoinMvc.Areas.Admin.Controllers
 {
@@ -50,7 +51,9 @@ namespace RecycleCoinMvc.Areas.Admin.Controllers
         public ActionResult GetUserInfo(string userId)
         {
             var user = _userRecycleItemManager.GetList().First(u=>u.User.Id == userId).User;
+            var userRecycleCoin = new BlockchainSchema().GetBalanceOfAddress(user.PublicKey);
             ViewBag.User = user;
+            ViewBag.userRecycleCoin = userRecycleCoin + user.ConvertedCarbon;
             return PartialView("_userInfoPartial");
         }
 

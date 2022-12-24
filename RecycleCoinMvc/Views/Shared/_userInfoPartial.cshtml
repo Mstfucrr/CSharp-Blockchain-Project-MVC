@@ -1,6 +1,7 @@
 ﻿@using RecycleCoin.Entities.Concrete
 @{
     var user = ViewBag.User as AppUser;
+	var userRecycleCoin = ViewBag.userRecycleCoin ;
 }
 
 @if (user != null)
@@ -14,7 +15,8 @@
                     <li>Ad Soyad : @user.Name @user.Lastname</li>
                     <li>Kullanıcı Adı : @user.UserName</li>
                     <li>Email : @user.Email</li>
-                    <li>Toplam karbon : @user.Carbon</li>
+	                <li>Toplam karbon : @user.Carbon</li>
+                    <li>Recycle Coin : @userRecycleCoin <img alt="RC" style="width: 30px;" src="~/image/transparent.png"/></li>
 
                 </ul>
 
