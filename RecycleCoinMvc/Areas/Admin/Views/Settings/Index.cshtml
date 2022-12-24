@@ -50,14 +50,17 @@
                             <div class="row h-100" style="overflow: auto;">
                                 @foreach (var category in categories)
                                 {
-                                    <div class="col-12 d-flex align-items-center"
-                                         style="height: 180px; text-align: center; /*background: #2980ef;*/">
-                                        <a href="/Admin/Settings/GetProductsByCategory?categoryId=@category.Id">
-                                            <img alt="@category.Name" data-bss-hover-animate="rubberBand" id="papers"
-                                                 src="~/image/@category.Image"
-                                                 style="width: 80%; height: auto;" width="156" height="156">
-                                        </a>
-                                    </div>
+	                                <div class="col-12 d-flex align-items-center category">
+		                                <a href="/Admin/Settings/GetProductsByCategory?categoryId=@category.Id">
+			                                <img alt="@category.Name" data-bss-hover-animate="rubberBand"
+			                                     src="~/image/@category.Image">
+		                                </a>
+		                                <div class="categoryName">
+			                                <h6>isim : @category.Name</h6>
+			                                <h6>ürün sayısı : @category.Products.Count</h6>
+		                                </div>
+	                                </div>
+                                    
                                 }
 
                                 <div class="col-12 d-flex flex-column justify-content-end" style="height: 180px; text-align: center; /*background: #2980ef;*/">
@@ -92,6 +95,15 @@
 
                                 @if (products != null)
                                 {
+	                                if (products[0] != null)
+	                                {
+		                                <div class="h3 w-100 text-center text-dark">
+			                                <b>
+												@products[0].Category.Name
+
+			                                </b>
+		                                </div>
+	                                }
                                     foreach (var product in products)
                                     {
                                         <div class="col-6 d-flex flex-column" style="height: 200px; border: 1px solid;">

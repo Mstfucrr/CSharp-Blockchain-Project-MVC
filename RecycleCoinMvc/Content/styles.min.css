@@ -660,10 +660,7 @@
     animation: gradient 6s ease alternate infinite;
     border-radius: 5px;
 }
-    .card.block span {
 
-
-    }
 @keyframes gradient {
     0% {
         background-position: 0% 50%;
@@ -676,4 +673,34 @@
     100% {
         background-position: 0% 50%;
     }
+}
+
+/*Settings -> category */
+.category {
+    height: 180px;
+    text-align: center;
+}
+
+    .category img {
+        width: 80%;
+        height: auto;
+    }
+
+.categoryName {
+    width: 75%;
+    position: absolute;
+    background: mediumaquamarine;
+    height: 33%;
+    opacity: 0.8;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    left: 50%;
+    transform: translate(-50%, 100%) scale(0);
+    transition: .4s;
+}
+
+.category:hover > .categoryName {
+    transform: translate(-50%, 100%) scale(1);
 }
